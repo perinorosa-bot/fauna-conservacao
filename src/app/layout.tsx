@@ -26,6 +26,7 @@ const imFell = IM_Fell_English({
   style: ['normal', 'italic'],
   variable: '--font-im-fell',
   display: 'swap',
+  adjustFontFallback: false,
 })
 
 export const metadata: Metadata = {
