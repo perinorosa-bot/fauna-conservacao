@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
 
     const origin = req.nextUrl.origin
 
-    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = items.map(item => ({
+    const line_items = items.map(item => ({
       quantity: item.qty,
       price_data: {
         currency: 'brl',
