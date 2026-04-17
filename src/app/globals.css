@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design tokens — Botanical Scientific palette ───── */
+:root {
+  --forest:    #1A3528;   /* tinta nanquim vegetal — fundo principal    */
+  --canopy:    #1E2E20;   /* fundo secundário profundo                  */
+  --leaf:      #3D4A1E;   /* ação primária                              */
+  --sage:      #7A9E7E;   /* acentos / links                            */
+  --mist:      #A89070;   /* pedra suave — elementos sutis              */
+  --cream:     #EDE5D0;   /* papel envelhecido — texto / fundo claro    */
+  --parchment: #F5EFE0;   /* pergaminho — fundos light                  */
+  --ochre:     #B5834A;   /* ocre de mapa antigo                        */
+  --warm:      #B5834A;
+  --prussian:  #2E5FA3;   /* azul prussiano — atlas botânicos / RL navy */
+  --terra:     #C4522A;   /* terracota — vida / doação                  */
+}
+
+/* ─── Base ───────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* IM Fell English only ships weight 400 — disable browser weight synthesis */
+.font-serif {
+  font-synthesis: none;
+  font-weight: 400;
+}
+
+/* ─── Hero stagger animations ────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideLeft {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+.anim-fade-up   { animation: fadeUp   0.9s cubic-bezier(0.16,1,0.3,1) both; }
+.anim-fade-in   { animation: fadeIn   0.8s ease both; }
+.anim-slide-left{ animation: slideLeft 1s  cubic-bezier(0.16,1,0.3,1) both; }
+
+/* Parallax sections need instant scroll */
+.no-scroll-behavior { scroll-behavior: auto; }
+
+/* Ensure body has the correct base background */
+body {
+  background-color: var(--forest);
+}
+
+/* ─── Paper noise overlay ────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+  opacity: 0.038;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 250px 250px;
+}
+
+/* ─── Parallax layer helper ──────────────────────────── */
+.parallax-layer {
+  position: absolute;
+  top: -15%;
+  left: -5%;
+  right: -5%;
+  bottom: -15%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+}
+
+/* ─── Progress bar ───────────────────────────────────── */
+.progress-fill {
+  transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ─── Feed thumbnail hover ───────────────────────────── */
+.feed-thumb {
+  transition: transform 500ms ease, filter 500ms ease;
+}
+
+/* ─── Component classes ──────────────────────────────── */
+@layer components {
+
+  /* Primary action button — terracota (doação / vida) */
+  .btn-primary {
+    @apply inline-flex items-center justify-center
+           px-8 py-3.5 rounded-sm
+           bg-terra text-cream
+           font-sans font-bold text-[10px] tracking-widest uppercase
+           transition-all duration-200
+           hover:bg-[#A8431C] hover:-translate-y-px
+           active:translate-y-0;
+  }
+
+  /* Alias explícito para clareza semântica */
+  .btn-terra { @apply btn-primary; }
+
+  /* Science/explore button — azul prussiano */
+  .btn-prussian {
+    @apply inline-flex items-center justify-center
+           px-8 py-3.5 rounded-sm
+           bg-prussian text-cream
+           font-sans font-bold text-[10px] tracking-widest uppercase
+           transition-all duration-200
+           hover:bg-[#264E8A] hover:-translate-y-px
+           active:translate-y-0;
+  }
+
+  /* Secondary action button — outline (dark bg) */
+  .btn-outline {
+    @apply inline-flex items-center justify-center
+           px-8 py-3.5 rounded-sm
+           border border-white/20 text-cream/60
+           font-sans font-bold text-[10px] tracking-widest uppercase
+           transition-all duration-200
+           hover:text-cream hover:border-white/45 hover:-translate-y-px
+           active:translate-y-0;
+  }
+
+  /* Secondary action button — outline (light bg) */
+  .btn-outline-dark {
+    @apply inline-flex items-center justify-center
+           px-8 py-3.5 rounded-sm
+           border border-forest/25 text-forest/60
+           font-sans font-bold text-[10px] tracking-widest uppercase
+           transition-all duration-200
+           hover:text-forest hover:border-forest/50 hover:-translate-y-px
+           active:translate-y-0;
+  }
+
+  /* Section eyebrow label */
+  .section-eyebrow {
+    @apply block text-sage text-[10px] tracking-widest uppercase mb-10;
+  }
+
+  /* Card (project / update) */
+  .card {
+    @apply bg-white/5 border border-white/[0.07] rounded-lg overflow-hidden
+           transition-all duration-300
+           hover:bg-white/[0.07] hover:border-sage/20;
+  }
+
+  /* Inline text link style for editorial body copy */
+  .prose-link {
+    @apply text-sage underline underline-offset-4 decoration-sage/30
+           hover:decoration-sage/65 transition-all;
+  }
+
+  /* Legal / editorial prose on light background */
+  .prose-fauna h2 {
+    @apply font-serif text-2xl font-light text-forest mt-10 mb-4;
+  }
+  .prose-fauna p {
+    @apply text-forest/60 text-sm leading-loose mb-5;
+  }
+  .prose-fauna ul {
+    @apply list-disc list-outside pl-5 mb-5 flex flex-col gap-2;
+  }
+  .prose-fauna li {
+    @apply text-forest/60 text-sm leading-relaxed;
+  }
+  .prose-fauna a {
+    @apply text-sage underline underline-offset-4 decoration-sage/30 hover:decoration-sage transition-all;
+  }
+  .prose-fauna strong {
+    @apply text-forest font-medium;
+  }
+  .prose-fauna code {
+    @apply text-xs bg-forest/[0.07] px-1.5 py-0.5 rounded font-mono;
+  }
+  .prose-fauna table {
+    @apply w-full text-sm border-collapse mb-5;
+  }
+  .prose-fauna th {
+    @apply text-left text-[10px] tracking-widest uppercase text-forest/40 border-b border-forest/[0.08] pb-3 pr-6;
+  }
+  .prose-fauna td {
+    @apply text-forest/60 border-b border-forest/[0.05] py-3 pr-6 text-sm;
+  }
+}

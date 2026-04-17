@@ -1,0 +1,9 @@
+.next/
+node_modules/
+.env.local
+.env
+*.log
+.DS_Store
+
+# Vídeos originais sem compressão — .mp4 otimizados para web ficam incluídos
+*.mov
