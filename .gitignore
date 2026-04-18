@@ -7,3 +7,9 @@ node_modules/
 
 # Vídeos originais sem compressão — .mp4 otimizados para web ficam incluídos
 *.mov
+
+# TypeScript incremental build cache
+tsconfig.tsbuildinfo
+
+# Playwright MCP artifacts (snapshots, console logs)
+.playwright-mcp/

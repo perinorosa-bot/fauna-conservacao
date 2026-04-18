@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
       org_id:       org.id,
       org_name:     org.name,
       donor_user_id: user?.id ?? '',
+      donor_email:  user?.email ?? '',
       donor_name:   donorName ?? '',
       message:      message ?? '',
     },

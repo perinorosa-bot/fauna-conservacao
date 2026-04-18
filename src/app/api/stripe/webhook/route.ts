@@ -17,11 +17,41 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
   }
 
-  // Donation via Checkout Session
+  const supabase = createClient()
+
+  // Real donation flow — /api/donations/create (PaymentIntent + Connect)
+  if (event.type === 'payment_intent.succeeded') {
+    const pi   = event.data.object
+    const meta = pi.metadata ?? {}
+
+    if (meta.project_id) {
+      const { data: existing } = await supabase
+        .from('donations')
+        .select('id')
+        .eq('stripe_payment_intent_id', pi.id)
+        .maybeSingle()
+
+      if (!existing) {
+        await supabase.from('donations').insert({
+          project_id:               meta.project_id,
+          user_id:                  meta.donor_user_id || null,
+          donor_name:               meta.donor_name    || 'Anônimo',
+          donor_email:              meta.donor_email   || pi.receipt_email || '',
+          amount:                   pi.amount / 100,
+          currency:                 pi.currency.toUpperCase(),
+          message:                  meta.message       || null,
+          anonymous:                meta.anonymous === 'true',
+          stripe_payment_intent_id: pi.id,
+        })
+        // raised_amount is updated by the on_donation_created SQL trigger.
+      }
+    }
+  }
+
+  // Legacy Checkout Session handler — dead code path, see issue #2
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object
     const meta    = session.metadata ?? {}
-    const supabase = createClient()
 
     if (meta.project_id) {
       await supabase.from('donations').insert({

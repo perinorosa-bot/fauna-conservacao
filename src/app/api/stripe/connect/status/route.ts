@@ -14,15 +14,37 @@ export async function GET() {
     .eq('user_id', user.id)
     .single()
 
-  if (!org?.stripe_account_id) return NextResponse.json({ connected: false })
+  if (!org?.stripe_account_id) return NextResponse.json({ connected: false, needsOnboarding: true })
 
   try {
     const account = await stripe.accounts.retrieve(org.stripe_account_id)
-    const connected = account.details_submitted && !account.requirements?.currently_due?.length
+
+    const transfersStatus    = account.capabilities?.transfers     ?? 'inactive'
+    const cardPaymentsStatus = account.capabilities?.card_payments ?? 'inactive'
+
+    // A donation via PaymentIntent + transfer_data.destination requires BOTH
+    // charges_enabled AND the transfers capability to be 'active'. Without
+    // both, Stripe returns `insufficient_capabilities_for_transfer`.
+    const connected =
+      account.charges_enabled === true &&
+      transfersStatus         === 'active'
+
+    const currentlyDue = account.requirements?.currently_due ?? []
+    const needsOnboarding = !connected && (
+      !account.details_submitted || currentlyDue.length > 0
+    )
+
     return NextResponse.json({
       connected,
+      needsOnboarding,
+      accountId:        org.stripe_account_id,
+      chargesEnabled:   account.charges_enabled,
+      payoutsEnabled:   account.payouts_enabled,
       detailsSubmitted: account.details_submitted,
-      accountId: org.stripe_account_id,
+      transfersStatus,
+      cardPaymentsStatus,
+      requirementsDue:  currentlyDue,
+      disabledReason:   account.requirements?.disabled_reason ?? null,
     })
   } catch {
     return NextResponse.json({ connected: false })

@@ -8,6 +8,14 @@ import { useLanguage } from '@/lib/i18n/LanguageContext'
 
 type Project  = { id: string; title: string; slug: string; biome: string; status: string }
 type Donation = { amount: number; currency: string; donor_name: string; created_at: string; project: { title: string } | null }
+type StripeStatus = {
+  connected:        boolean
+  needsOnboarding?: boolean
+  accountId?:       string
+  transfersStatus?: string   // 'active' | 'pending' | 'inactive'
+  requirementsDue?: string[]
+  disabledReason?:  string | null
+}
 
 export default function OrgPainelPage() {
   const { t } = useLanguage()
@@ -17,10 +25,22 @@ export default function OrgPainelPage() {
   const [projects, setProjects]   = useState<Project[]>([])
   const [donations, setDonations] = useState<Donation[]>([])
   const [verified, setVerified]   = useState(false)
-  const [stripeConnected, setStripeConnected] = useState<boolean | null>(null)
-  const [stripeLoading, setStripeLoading]     = useState(false)
-  const [stripeError, setStripeError]         = useState('')
+  const [stripeStatus, setStripeStatus]   = useState<StripeStatus | null>(null)
+  const [stripeLoading, setStripeLoading] = useState(false)
+  const [stripeError, setStripeError]     = useState('')
   const supabase = createClient()
+
+  const stripeConnected = stripeStatus?.connected ?? null
+  // Account exists but the onboarding flow isn't complete (details missing
+  // or requirements past due). Distinct from "never connected".
+  const stripeNeedsOnboarding =
+    !!stripeStatus?.accountId && stripeStatus?.needsOnboarding === true
+  // Stripe has all the data but is still running verification on its side.
+  const stripeVerifying =
+    !!stripeStatus?.accountId &&
+    stripeStatus?.connected === false &&
+    !stripeStatus?.needsOnboarding &&
+    stripeStatus?.transfersStatus === 'pending'
 
   useEffect(() => {
     ;(async () => {
@@ -52,9 +72,9 @@ export default function OrgPainelPage() {
       setDonations((dons as unknown) as Donation[] ?? [])
 
       // Check Stripe Connect status
-      const statusRes = await fetch('/api/stripe/connect/status')
-      const statusData = await statusRes.json()
-      setStripeConnected(statusData.connected)
+      const statusRes  = await fetch('/api/stripe/connect/status')
+      const statusData = (await statusRes.json()) as StripeStatus
+      setStripeStatus(statusData)
     })()
   }, [])
 
@@ -88,11 +108,23 @@ export default function OrgPainelPage() {
         )}
       </div>
 
-      {/* Stripe return feedback */}
-      {stripeParam === 'success' && (
+      {/* Stripe return feedback — only show after we know the actual state */}
+      {stripeParam === 'success' && stripeConnected === true && (
         <div className="mb-6 bg-sage/10 border border-sage/25 rounded-xl px-5 py-3 flex items-center gap-3">
           <span className="text-sage text-sm">✓</span>
           <p className="text-sage/90 text-xs">Conta Stripe conectada com sucesso! Sua organização já pode receber doações.</p>
+        </div>
+      )}
+      {stripeParam === 'success' && stripeVerifying && (
+        <div className="mb-6 bg-sage/10 border border-sage/25 rounded-xl px-5 py-3 flex items-center gap-3">
+          <span className="text-sage text-sm">⏳</span>
+          <p className="text-sage/90 text-xs">Dados enviados ao Stripe. A verificação pode levar alguns minutos — volte em instantes.</p>
+        </div>
+      )}
+      {stripeParam === 'success' && stripeNeedsOnboarding && (
+        <div className="mb-6 bg-amber-500/10 border border-amber-500/20 rounded-xl px-5 py-3 flex items-center gap-3">
+          <span className="text-amber-400 text-sm">⚠</span>
+          <p className="text-amber-300/80 text-xs">Ainda faltam informações. Continue a configuração abaixo.</p>
         </div>
       )}
       {stripeParam === 'refresh' && (
@@ -102,8 +134,43 @@ export default function OrgPainelPage() {
         </div>
       )}
 
-      {/* Stripe Connect banner */}
-      {stripeConnected === false && (
+      {/* Stripe Connect banner — 4 estados excluyentes */}
+      {stripeConnected === true && (
+        <div className="mb-8 bg-sage/5 border border-sage/20 rounded-xl px-6 py-4 flex items-center gap-3">
+          <span className="text-sage text-sm">✓</span>
+          <p className="text-sage/80 text-xs tracking-wide">Stripe conectado — sua organização pode receber doações.</p>
+        </div>
+      )}
+      {stripeVerifying && (
+        <div className="mb-8 bg-amber-500/5 border border-amber-500/20 rounded-xl px-6 py-4 flex items-center gap-3">
+          <span className="text-amber-400 text-sm">⏳</span>
+          <div>
+            <p className="text-amber-300 text-xs tracking-widest uppercase mb-0.5">Em verificação</p>
+            <p className="text-cream/60 text-xs leading-relaxed">
+              O Stripe está verificando sua conta. Quando estiver pronto, aparecerá como conectada aqui automaticamente.
+            </p>
+          </div>
+        </div>
+      )}
+      {stripeNeedsOnboarding && (
+        <div className="mb-8 bg-amber-500/5 border border-amber-500/20 rounded-xl px-6 py-5 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-amber-300 text-xs tracking-widest uppercase mb-1">Continuar configuração</p>
+            <p className="text-cream/70 text-sm leading-relaxed">
+              Sua conta Stripe existe mas faltam dados para receber doações.
+            </p>
+          </div>
+          <div className="flex-shrink-0 flex flex-col items-end gap-1">
+            <button onClick={handleConnectStripe} disabled={stripeLoading}
+                    className="bg-amber-500/80 text-cream text-xs tracking-widest uppercase
+                               px-5 py-2.5 rounded-sm hover:bg-amber-500 transition-colors disabled:opacity-50 whitespace-nowrap">
+              {stripeLoading ? 'Aguarde...' : 'Continuar →'}
+            </button>
+            {stripeError && <p className="text-red-400 text-[10px] max-w-xs text-right">{stripeError}</p>}
+          </div>
+        </div>
+      )}
+      {stripeConnected === false && !stripeNeedsOnboarding && !stripeVerifying && (
         <div className="mb-8 bg-sage/5 border border-sage/20 rounded-xl px-6 py-5 flex items-center justify-between gap-4">
           <div>
             <p className="text-sage text-xs tracking-widest uppercase mb-1">Receba doações</p>
@@ -119,12 +186,6 @@ export default function OrgPainelPage() {
             </button>
             {stripeError && <p className="text-red-400 text-[10px] max-w-xs text-right">{stripeError}</p>}
           </div>
-        </div>
-      )}
-      {stripeConnected === true && (
-        <div className="mb-8 bg-sage/5 border border-sage/20 rounded-xl px-6 py-4 flex items-center gap-3">
-          <span className="text-sage text-sm">✓</span>
-          <p className="text-sage/80 text-xs tracking-wide">Stripe conectado — sua organização pode receber doações.</p>
         </div>
       )}
 
