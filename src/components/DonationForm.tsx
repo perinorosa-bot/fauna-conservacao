@@ -1,8 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { createClient } from '@/lib/supabase/client'
+
+// Quick client-side email shape check. Server still validates.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
@@ -70,12 +74,22 @@ export default function DonationForm({
   const [amount, setAmount]             = useState(5000) // cents
   const [customAmount, setCustomAmount] = useState('')
   const [donorName, setDonorName]       = useState('')
+  const [donorEmail, setDonorEmail]     = useState('')
   const [message, setMessage]           = useState('')
   const [clientSecret, setClientSecret] = useState('')
   const [loading, setLoading]           = useState(false)
   const [error, setError]               = useState('')
 
+  // Prefill email for logged-in donors so they don't have to retype it.
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user?.email) setDonorEmail(data.user.email)
+    })
+  }, [])
+
   const displayAmount = amount / 100
+  const emailValid    = EMAIL_RE.test(donorEmail.trim())
 
   // reset to amount step whenever donation type changes
   function handleTypeChange(type: DonationType) {
@@ -86,7 +100,7 @@ export default function DonationForm({
   }
 
   async function handleProceed() {
-    if (!donorName.trim()) return
+    if (!donorName.trim() || !emailValid) return
     setLoading(true)
     setError('')
     const res = await fetch('/api/donations/create', {
@@ -97,6 +111,7 @@ export default function DonationForm({
         amount,
         currency: 'brl',
         donorName,
+        donorEmail: donorEmail.trim(),
         message,
         recurring: donationType === 'monthly',
       }),
@@ -227,6 +242,15 @@ export default function DonationForm({
                        placeholder="Como prefere ser chamada" className={inputClass} autoFocus />
               </div>
               <div>
+                <label className="text-cream/50 text-xs tracking-wide block mb-1.5">E-mail *</label>
+                <input type="email" value={donorEmail} onChange={e => setDonorEmail(e.target.value)}
+                       placeholder="voce@email.com" className={inputClass}
+                       autoComplete="email" inputMode="email" />
+                <p className="text-cream/25 text-[10px] mt-1.5">
+                  Usado para enviar seu recibo e atualizações do projeto.
+                </p>
+              </div>
+              <div>
                 <label className="text-cream/50 text-xs tracking-wide block mb-1.5">
                   Mensagem <span className="text-cream/25">(opcional)</span>
                 </label>
@@ -235,7 +259,7 @@ export default function DonationForm({
                           rows={3} className={`${inputClass} resize-none`} />
               </div>
               {error && <p className="text-red-400 text-xs">{error}</p>}
-              <button onClick={handleProceed} disabled={loading || !donorName.trim()}
+              <button onClick={handleProceed} disabled={loading || !donorName.trim() || !emailValid}
                       className="w-full bg-sage text-cream text-xs tracking-widests uppercase py-3.5 rounded-sm
                                  hover:bg-leaf transition-colors disabled:opacity-50">
                 {loading ? 'Aguarde...' : 'Continuar →'}
