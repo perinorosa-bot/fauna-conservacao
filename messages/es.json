@@ -1,0 +1,358 @@
+{
+  "nav": {
+    "projects": "Proyectos",
+    "howItWorks": "Cómo funciona",
+    "donate": "Donar ahora",
+    "forOrgs": "¿Tienes un proyecto de conservación?",
+    "sounds": "Sonidos"
+  },
+  "hero": {
+    "headline1": "Es el planeta",
+    "headline2": "de ellos también.",
+    "sub": "Conoce los proyectos. Elige una causa. Dona directo.",
+    "cta": "Explorar proyectos",
+    "ctaSecondary": "Cómo funciona",
+    "scroll": "Desliza"
+  },
+  "feed": {
+    "eyebrow": "Nuestros proyectos",
+    "title": "Encuentra el proyecto que",
+    "titleEm": "deseas apoyar",
+    "seeAll": "Ver todos",
+    "seeAllBtn": "Ver todos los proyectos",
+    "funded": "financiado"
+  },
+  "stats": {
+    "activeProjects": "Proyectos activos",
+    "countries": "Países",
+    "raised": "Recaudado",
+    "supporters": "Colaboradores"
+  },
+  "trust": {
+    "text": "Cada peso donado va directo a los investigadores en el campo — sin intermediarios, sin burocracia.",
+    "link": "Ver cómo funciona →"
+  },
+  "species": {
+    "eyebrow": "Lista Roja de la UICN · 2024",
+    "label": "especies en peligro de extinción"
+  },
+  "footer": {
+    "rights": "© 2025 Fauna Platform"
+  },
+  "howItWorks": {
+    "eyebrow": "Transparencia total",
+    "title": "Cómo funciona",
+    "learnMore": "Saber más →",
+    "steps": [
+      {
+        "title": "Las organizaciones registran sus proyectos",
+        "text": "ONGs, asociaciones de conservación y entidades ambientales de cualquier país publican proyectos, metas y resultados directamente en la plataforma. Sin intermediarios, sin filtro editorial.",
+        "detail": "Verificación de identidad y credenciales en hasta 5 días hábiles."
+      },
+      {
+        "title": "Tú descubres y sigues el trabajo",
+        "text": "El feed muestra actualizaciones reales — fotos de campo, hitos alcanzados, nuevos registros de especies. Cada proyecto tiene una historia en curso.",
+        "detail": "Notificaciones cuando el proyecto que apoyas publica novedades."
+      },
+      {
+        "title": "Tu donación tiene nombre y destino preciso",
+        "text": "Tú eliges el proyecto, ves exactamente qué financias y recibes actualizaciones a lo largo del tiempo. Impacto visible, no abstracto.",
+        "detail": "100% de tu donación va al proyecto. Tarifa de plataforma cubierta por patrocinadores."
+      }
+    ]
+  },
+  "cta": {
+    "eyebrow": "Únete a 19.400 colaboradores",
+    "headline": "Proyectos increíbles ocurren todos los días en lugares remotos. Con cualquier monto,",
+    "headlineEm": "formas parte de la historia.",
+    "cta1": "Ver proyectos ahora",
+    "cta2": "Registrar mi proyecto",
+    "cta3": "Apóyanos",
+    "footnote": "Donación desde $2 · Cancela cuando quieras · 100% va al proyecto"
+  },
+  "projetos": {
+    "eyebrow": "Conservación en curso",
+    "title": "Todos los",
+    "titleEm": "proyectos",
+    "subtitle": "Filtra por bioma, especie o país para encontrar la causa que te habla.",
+    "countSuffix": "proyectos activos",
+    "noResults": "No se encontraron proyectos para este filtro."
+  },
+  "filters": {
+    "all": "Todos",
+    "brazil": "Brasil",
+    "africa": "África",
+    "oceania": "Oceanía",
+    "asia": "Asia",
+    "marine": "Marino",
+    "forest": "Bosque",
+    "savanna": "Sabana"
+  },
+  "entrar": {
+    "title": "Entrar o",
+    "titleEm": "crear cuenta",
+    "subtitle": "Usa tu correo — enviamos un enlace de acceso. Sin contraseña.",
+    "emailLabel": "Tu correo",
+    "placeholder": "tu@correo.com",
+    "submit": "Enviar enlace de acceso",
+    "submitting": "Enviando...",
+    "sentTitle": "¡Enlace enviado!",
+    "sentDesc": "Revisa {email} y haz clic en el enlace para entrar.",
+    "useOther": "Usar otro correo",
+    "orgLink": "¿Eres una organización? Registra tu proyecto →",
+    "terms": "Al entrar, aceptas nuestros términos de uso. Tu cuenta es gratuita para siempre."
+  },
+  "comoFunciona": {
+    "eyebrow": "Cómo funciona",
+    "title": "Una plataforma para",
+    "titleEm1": "quienes hacen",
+    "titleEm2": "quienes apoyan",
+    "subtitle": "Fauna conecta organizaciones de conservación con colaboradores de todo el mundo — con transparencia total, tarifa cero y actualizaciones directas del campo.",
+    "titleConnector": "y para",
+    "forDonors": "Para colaboradores",
+    "forOrgs": "Para organizaciones",
+    "exploreBtn": "Explorar proyectos",
+    "registerBtn": "Registrar organización",
+    "feedEyebrow": "El feed de las organizaciones",
+    "feedTitle": "Cuenta la historia de tu proyecto",
+    "feedTitleEm": "en cualquier formato",
+    "feedSub": "Las organizaciones registradas publican actualizaciones directamente en la plataforma. Los colaboradores siguen el trabajo en tiempo real y reciben notificaciones con cada nueva publicación.",
+    "zeroTitle": "Tarifa cero en donaciones.",
+    "zeroTitleEm": "Para siempre.",
+    "zeroSub": "Cada centavo donado va directo al proyecto. La plataforma se sostiene a través de contribuciones voluntarias de los propios colaboradores.",
+    "donorSteps": [
+      {
+        "title": "Explora los proyectos",
+        "text": "Navega por proyectos de conservación de todo el mundo. Filtra por bioma, especie, país o causa. Cada proyecto tiene historia, metas y resultados reales."
+      },
+      {
+        "title": "Elige lo que importa para ti",
+        "text": "Tú decides a dónde va tu dinero. Ve exactamente qué hace cada proyecto, quién lo lidera y cuánto ya se ha recaudado antes de apoyar."
+      },
+      {
+        "title": "Sigue el impacto en tiempo real",
+        "text": "Las organizaciones publican actualizaciones directamente en la plataforma — fotos, videos, relatos de campo. Recibes notificaciones y formas parte de la historia."
+      }
+    ],
+    "orgSteps": [
+      {
+        "title": "Crea el perfil de tu organización",
+        "text": "Registro simple y gratuito. Completa los datos de tu ONG o asociación, agrega tu misión y elige las áreas de actuación.",
+        "detail": "Verificación de identidad y credenciales en hasta 5 días hábiles."
+      },
+      {
+        "title": "Publica tus proyectos",
+        "text": "Crea páginas completas para cada proyecto — metas de recaudación, descripción del trabajo, especies involucradas y ubicación.",
+        "detail": "Sin curaduría editorial. Cualquier proyecto legítimo de conservación es bienvenido."
+      },
+      {
+        "title": "Sube actualizaciones y conecta con colaboradores",
+        "text": "Publica fotos, videos, stories y relatos de campo directamente en la plataforma. Tus colaboradores reciben cada novedad y se mantienen comprometidos con el trabajo.",
+        "detail": "100% de la donación va al proyecto. Tarifa de plataforma cubierta por patrocinadores."
+      }
+    ],
+    "contentTypes": [
+      {
+        "icon": "▶",
+        "label": "Videos",
+        "desc": "Registros de campo, expediciones, monitoreo de especies"
+      },
+      {
+        "icon": "◻",
+        "label": "Fotos",
+        "desc": "Imágenes de campo, especies registradas, equipos en acción"
+      },
+      {
+        "icon": "◎",
+        "label": "Stories",
+        "desc": "Actualizaciones rápidas y momentos del día a día del proyecto"
+      },
+      {
+        "icon": "◈",
+        "label": "Relatos",
+        "desc": "Textos de investigadores contando lo que está pasando"
+      }
+    ]
+  },
+  "donorProfile": {
+    "myProfile": "Mi perfil",
+    "editProfile": "Editar perfil",
+    "nameLabel": "Nombre completo",
+    "namePlaceholder": "Tu nombre",
+    "save": "Guardar",
+    "saving": "Guardando...",
+    "saved": "Guardado",
+    "totalDonated": "Total donado",
+    "donationsMade": "Donaciones realizadas",
+    "projectsSupported": "Proyectos apoyados",
+    "supportTitle": "Proyectos que",
+    "supportTitleEm": "apoyás",
+    "funded": "financiado",
+    "historyTitle": "Historial de",
+    "historyTitleEm": "donaciones",
+    "colProject": "Proyecto",
+    "colAmount": "Monto",
+    "colDate": "Fecha",
+    "removedProject": "Proyecto eliminado",
+    "noDonations": "Aún no realizaste ninguna donación",
+    "exploreProjects": "Explorar proyectos",
+    "signOut": "Cerrar sesión"
+  },
+  "orgDash": {
+    "panelLabel": "Panel de la organización",
+    "overview": "Visión general",
+    "newProject": "Nuevo proyecto",
+    "newUpdate": "Nueva actualización",
+    "orgProfile": "Perfil de la organización",
+    "viewPlatform": "← Ver plataforma",
+    "signOut": "Salir",
+    "pendingVerification": "Tu organización está en revisión. Un administrador verificará tu perfil pronto. Ya puedes crear proyectos.",
+    "activeProjects": "Proyectos activos",
+    "donationsReceived": "Donaciones recibidas",
+    "yourProjects": "Tus proyectos",
+    "noProjects": "Aún no hay proyectos",
+    "createFirst": "Crear primer proyecto →",
+    "view": "Ver",
+    "recentDonations": "Donaciones recientes",
+    "colDonor": "Donante",
+    "colProject": "Proyecto",
+    "colAmount": "Monto",
+    "colDate": "Fecha",
+    "profileSubtitle": "Información pública mostrada en la plataforma.",
+    "orgName": "Nombre de la organización",
+    "country": "País de operación",
+    "description": "Descripción",
+    "website": "Sitio web",
+    "logo": "Logo de la organización",
+    "saveChanges": "Guardar cambios",
+    "saving": "Guardando...",
+    "savedSuccess": "Guardado correctamente.",
+    "uploadBtn": "Subir",
+    "logoUploaded": "✓ Logo subido — clic para reemplazar",
+    "selectLogo": "Haz clic para seleccionar el logo",
+    "uploading": "Enviando...",
+    "newProjectTitle": "Nuevo proyecto",
+    "newProjectSub": "Completa la información del proyecto de conservación.",
+    "projectTitle": "Título del proyecto",
+    "shortDesc": "Descripción corta",
+    "shortDescHint": "(aparece en las tarjetas)",
+    "fullDesc": "Descripción completa",
+    "fullDescHint": "(página del proyecto)",
+    "speciesFocus": "Especie foco",
+    "biome": "Bioma",
+    "countryLabel": "País",
+    "coverImage": "Imagen de portada",
+    "videoLinks": "Links de video",
+    "videoHint": "(YouTube, Vimeo, etc.)",
+    "tags": "Etiquetas",
+    "tagsHint": "(separadas por coma)",
+    "publish": "Publicar proyecto",
+    "publishing": "Publicando...",
+    "cancel": "Cancelar",
+    "imageUploaded": "✓ Imagen subida — clic para reemplazar",
+    "selectImage": "Haz clic para seleccionar una imagen",
+    "addVideo": "+ Agregar video",
+    "required": "*",
+    "optional": "(opcional)",
+    "newUpdateTitle": "Nueva actualización",
+    "newUpdateSub": "Comparte novedades del campo con tus colaboradores.",
+    "selectProject": "Proyecto",
+    "selectProjectPh": "Seleccionar proyecto",
+    "updateTitle": "Título de la actualización",
+    "content": "Contenido",
+    "contentPh": "Comparte qué pasó, datos recolectados, impacto...",
+    "authorName": "Tu nombre (autor)",
+    "imageLabel": "Imagen",
+    "publishUpdate": "Publicar actualización",
+    "selectErr": "Selecciona un proyecto.",
+    "sessionErr": "Sesión expirada.",
+    "orgNotFound": "Organización no encontrada."
+  },
+  "apoie": {
+    "missionEyebrow": "Nuestra misión",
+    "missionTitle": "La tecnología que la",
+    "missionTitleEm": "conservación",
+    "missionSub": "Fauna es una plataforma sin fines de lucro construida por personas que creen que la crisis de biodiversidad es el mayor desafío de nuestra generación — y que la tecnología bien hecha puede ser parte de la solución.",
+    "finTitle": "Las donaciones van",
+    "finTitleEm": "100% a los proyectos",
+    "finP1": "Cuando donas $20 a un proyecto de conservación en Fauna, $20 llegan a la organización responsable de ese proyecto. No existe tarifa de plataforma, no existe intermediario que se quede con una parte.",
+    "finP2": "Para mantener la plataforma en funcionamiento — servidores, desarrollo, verificación de organizaciones, soporte — dependemos de colaboradores que creen en la misión y contribuyen directamente a Fauna.",
+    "stats": [
+      {
+        "label": "De las donaciones va a los proyectos",
+        "value": "100%"
+      },
+      {
+        "label": "Tarifa cobrada a organizaciones",
+        "value": "$0"
+      },
+      {
+        "label": "Tarifa sobre donaciones",
+        "value": "$0"
+      }
+    ],
+    "valuesTitle": "Lo que nos",
+    "valuesTitleEm": "guía",
+    "values": [
+      {
+        "title": "Transparencia total",
+        "desc": "100% de las donaciones van directamente a los proyectos. Fauna no retiene ni un centavo de las contribuciones de los colaboradores de conservación."
+      },
+      {
+        "title": "Impacto verificado",
+        "desc": "Todas las organizaciones en la plataforma pasan por verificación manual antes de publicar proyectos. Solo llegan a ti causas legítimas."
+      },
+      {
+        "title": "Acceso global",
+        "desc": "Un proyecto en el Pantanal puede recibir apoyo de alguien en Noruega. Eliminamos las barreras burocráticas y cambiarias que aíslan la conservación."
+      },
+      {
+        "title": "Tecnología como herramienta",
+        "desc": "Construimos infraestructura digital que las organizaciones de conservación — generalmente pequeñas y sin recursos de TI — no podrían construir por sí solas."
+      }
+    ],
+    "tiersTitle": "Apoya la",
+    "tiersTitleEm": "plataforma",
+    "tiersSub": "Al apoyar a Fauna mensualmente, garantizas que la infraestructura siga funcionando y más proyectos de conservación puedan llegar a más donantes.",
+    "tiers": [
+      {
+        "name": "Guardián",
+        "price": "$5 / mes",
+        "perks": [
+          "Insignia de colaborador en el perfil",
+          "Newsletter mensual con el detrás de escena",
+          "Acceso anticipado a nuevos proyectos"
+        ]
+      },
+      {
+        "name": "Conservacionista",
+        "price": "$15 / mes",
+        "highlight": true,
+        "perks": [
+          "Todo del Guardián",
+          "Informe trimestral de impacto",
+          "Nombre en los créditos de la plataforma",
+          "Llamada semestral con el equipo"
+        ]
+      },
+      {
+        "name": "Patrono",
+        "price": "$50 / mes",
+        "perks": [
+          "Todo del Conservacionista",
+          "Acceso al panel de métricas de la plataforma",
+          "Voto consultivo en nuevas funciones",
+          "Mención especial en comunicaciones públicas"
+        ]
+      }
+    ],
+    "tierCta": "Comenzar →",
+    "corpNote": "¿Prefieres una contribución única o quieres hablar sobre patrocinio corporativo?",
+    "corpLink": "Contáctanos →",
+    "footerTitle": "Juntos llegamos",
+    "footerTitleEm": "más lejos",
+    "footerSub": "Cada colaborador de la plataforma multiplica el impacto de decenas de proyectos de conservación en todo el mundo.",
+    "footerBtn1": "Ver proyectos",
+    "footerBtn2": "Apoyar a Fauna"
+  }
+}

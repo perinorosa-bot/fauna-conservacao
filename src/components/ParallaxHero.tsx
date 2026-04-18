@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import Link from 'next/link'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 
 export default function ParallaxHero() {
   const contentRef = useRef<HTMLDivElement>(null)
-  const { t } = useLanguage()
+  const t = useTranslations('hero')
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -51,27 +51,27 @@ export default function ParallaxHero() {
             className="font-serif font-light text-cream leading-[1.05] mb-7"
             style={{ fontSize: 'clamp(44px, 7vw, 92px)', textShadow: '0 2px 32px rgba(0,0,0,0.5)' }}
           >
-            {t.hero.headline1}<br />
-            <em className="italic text-terra">{t.hero.headline2}</em>
+            {t('headline1')}<br />
+            <em className="italic text-terra">{t('headline2')}</em>
           </h1>
 
           <p className="text-cream/55 text-sm leading-relaxed mb-10 max-w-sm">
-            {t.hero.sub}
+            {t('sub')}
           </p>
 
           <div className="flex gap-3 flex-wrap">
             <Link href="/projetos" className="btn-primary">
-              {t.hero.cta}
+              {t('cta')}
             </Link>
             <Link href="/sobre" className="btn-outline">
-              {t.hero.ctaSecondary}
+              {t('ctaSecondary')}
             </Link>
           </div>
         </div>
       </div>
 
       <div className="absolute bottom-8 right-10 z-10 flex flex-col items-center gap-2 pointer-events-none">
-        <span className="text-cream/30 text-[9px] tracking-widest uppercase">{t.hero.scroll}</span>
+        <span className="text-cream/30 text-[9px] tracking-widest uppercase">{t('scroll')}</span>
         <div className="w-px h-10 overflow-hidden relative">
           <div
             className="absolute w-full h-1/2 bg-gradient-to-b from-transparent to-sage/50"

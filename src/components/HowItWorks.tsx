@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 
 const STEP_ICONS = [
   /* 01 — Escolha */ (
@@ -29,9 +29,11 @@ const STEP_ICONS = [
   ),
 ]
 
+type Step = { title: string; text: string; detail: string }
+
 export default function HowItWorks() {
-  const { t } = useLanguage()
-  const hw = t.howItWorks
+  const hw = useTranslations('howItWorks')
+  const steps = hw.raw('steps') as Step[]
 
   return (
     <section
@@ -56,10 +58,10 @@ export default function HowItWorks() {
         <div className="mb-14 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
             <p className="font-mono text-terra/65 text-[9px] tracking-[0.35em] uppercase mb-4">
-              {hw.eyebrow}
+              {hw('eyebrow')}
             </p>
             <h2 className="font-serif text-4xl md:text-5xl text-forest leading-tight">
-              {hw.title}
+              {hw('title')}
             </h2>
           </div>
           <Link
@@ -67,14 +69,14 @@ export default function HowItWorks() {
             className="font-mono text-forest/40 text-[9px] tracking-[0.25em] uppercase
                        flex items-center gap-2 hover:gap-4 hover:text-forest transition-all self-start md:self-auto group"
           >
-            {hw.learnMore}
+            {hw('learnMore')}
             <span className="w-4 h-px bg-forest/30 group-hover:bg-forest transition-all" />
           </Link>
         </div>
 
         {/* Steps */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {hw.steps.map((s, i) => (
+          {steps.map((s, i) => (
             <div
               key={i}
               className="relative bg-white border border-forest/[0.08] rounded-none px-8 py-10

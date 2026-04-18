@@ -1,12 +1,11 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations, useLocale } from 'next-intl'
+import { Link, usePathname, useRouter } from '@/i18n/navigation'
 import { useNavTheme } from './NavTheme'
-import type { Locale } from '@/lib/i18n/translations'
+import type { Locale } from '@/i18n/routing'
 import { createClient } from '@/lib/supabase/client'
 
 const LOCALES: { code: Locale; label: string; flag: string }[] = [
@@ -38,6 +37,7 @@ function useSoundscape() {
 
 export default function Nav() {
   const path                      = usePathname()
+  const router                    = useRouter()
   const [scrolled, setScrolled]   = useState(false)
   const [visible, setVisible]     = useState(false)
   const [userEmail, setUserEmail]  = useState<string | null>(null)
@@ -45,8 +45,14 @@ export default function Nav() {
   const [langOpen, setLangOpen]    = useState(false)
   const langRef                    = useRef<HTMLDivElement>(null)
   const { playing, toggle }       = useSoundscape()
-  const { locale, t, setLocale }  = useLanguage()
+  const t                         = useTranslations('nav')
+  const locale                    = useLocale() as Locale
   const navTheme                  = useNavTheme()
+
+  function setLocale(code: Locale) {
+    // URL-driven locale switch: preserves current path + history entry.
+    router.replace(path, { locale: code })
+  }
 
   useEffect(() => {
     const supabase = createClient()
@@ -143,7 +149,7 @@ export default function Nav() {
       <Link href="/projetos"
             className={clsx('text-[10px] tracking-widest uppercase transition-colors duration-200 whitespace-nowrap',
               path.startsWith('/projetos') ? 'text-sage' : linkInactive)}>
-        {t.nav.projects}
+        {t('projects')}
       </Link>
 
       <Link href="/academy"
@@ -177,14 +183,14 @@ export default function Nav() {
            className="text-[10px] tracking-widest uppercase font-medium bg-terra text-cream
                       px-5 py-2.5 rounded-sm hover:bg-[#A8431C] transition-colors duration-200
                       hidden sm:inline-flex whitespace-nowrap shadow-[0_2px_12px_rgba(196,82,42,0.4)]">
-          {t.nav.donate}
+          {t('donate')}
         </a>
       ) : (
         <Link href="/projetos"
               className="text-[10px] tracking-widest uppercase font-medium bg-terra text-cream
                          px-5 py-2.5 rounded-sm hover:bg-leaf transition-colors duration-200
                          hidden sm:inline-flex whitespace-nowrap shadow-[0_2px_12px_rgba(107,142,90,0.4)]">
-          {t.nav.donate}
+          {t('donate')}
         </Link>
       )}
 

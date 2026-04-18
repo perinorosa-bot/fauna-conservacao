@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations, useLocale } from 'next-intl'
 
 const THREATENED_SPECIES = 44_016
 
@@ -181,7 +181,8 @@ function Compass() {
 
 export default function SpeciesCounter() {
   const { value, ref } = useCountUp(THREATENED_SPECIES)
-  const { locale, t } = useLanguage()
+  const locale = useLocale()
+  const t = useTranslations('species')
   const formatted = new Intl.NumberFormat(
     locale === 'en' ? 'en-US' : locale === 'es' ? 'es-ES' : 'pt-BR'
   ).format(value)
@@ -200,7 +201,7 @@ export default function SpeciesCounter() {
         <div className="flex flex-col items-center text-center">
 
           <p className="font-mono text-cream/55 text-[11px] tracking-[0.28em] uppercase mb-8">
-            {t.species.eyebrow}
+            {t('eyebrow')}
           </p>
 
           <span
@@ -213,7 +214,7 @@ export default function SpeciesCounter() {
           <div className="w-10 h-px bg-sage/30 mb-5" />
 
           <p className="font-mono text-cream/60 text-xs tracking-[0.28em] uppercase">
-            {t.species.label}
+            {t('label')}
           </p>
 
         </div>
