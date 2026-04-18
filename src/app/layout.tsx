@@ -4,6 +4,7 @@ import { Inter, IM_Fell_English } from 'next/font/google'
 import './globals.css'
 import { LanguageProvider } from '@/lib/i18n/LanguageContext'
 import CookieBanner from '@/components/CookieBanner'
+import Footer from '@/components/layout/Footer'
 
 const vaelia = localFont({
   src: [
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-forest text-cream font-sans antialiased">
         <LanguageProvider>
           {children}
+          <Footer />
           <CookieBanner />
         </LanguageProvider>
       </body>

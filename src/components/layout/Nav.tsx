@@ -91,7 +91,11 @@ export default function Nav() {
 
   // Colour tokens
   const logoColor    = isLight ? 'text-forest'                    : 'text-cream'
-  const linkInactive = isLight ? 'text-forest/50 hover:text-forest' : 'text-cream/50 hover:text-cream'
+  // Dark theme: bumped from /50 to /80 + drop-shadow halo so links stay
+  // readable on medium-green backgrounds where the nav used to disappear.
+  const linkInactive = isLight
+    ? 'text-forest/50 hover:text-forest'
+    : 'text-cream/80 hover:text-cream drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]'
 
   const outlineBtn = isLight
     ? 'border border-forest/20 text-forest/60 hover:bg-forest/5 hover:text-forest hover:border-forest/40'
@@ -105,7 +109,13 @@ export default function Nav() {
     <nav
       className={clsx(
         'fixed top-0 left-0 right-0 z-50 px-8 py-4 flex items-center gap-5 transition-all duration-500',
-        scrolled ? 'bg-black/45 backdrop-blur-md border-b border-white/[0.06]' : 'bg-transparent',
+        scrolled
+          ? 'bg-black/45 backdrop-blur-md border-b border-white/[0.06]'
+          // Unscrolled: a soft top-down gradient guarantees contrast on any
+          // page background (issue #10 — nav invisible on green-bg pages).
+          : isLight
+            ? 'bg-transparent'
+            : 'bg-gradient-to-b from-black/35 to-transparent',
         visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2',
       )}
       style={{ transitionProperty: 'background, border-color, padding, opacity, transform' }}

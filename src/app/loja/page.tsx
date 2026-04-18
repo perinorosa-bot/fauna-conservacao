@@ -36,7 +36,7 @@ const PRODUCTS: Product[] = [
     category: 'fine-art',
     price: 149,
     badge: 'Mais vendido',
-    image: 'https://images.unsplash.com/photo-1551358492-7c8a2a8eb9e8?w=800&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=800&auto=format&fit=crop&q=80',
     description: 'Impressão giclée de alta resolução em papel algodão 300g. Cada venda reverte 15% para projetos de conservação de felinos.',
   },
   {

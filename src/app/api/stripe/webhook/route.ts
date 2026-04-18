@@ -48,41 +48,5 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Legacy Checkout Session handler — dead code path, see issue #2
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object
-    const meta    = session.metadata ?? {}
-
-    if (meta.project_id) {
-      await supabase.from('donations').insert({
-        project_id:                meta.project_id,
-        user_id:                   meta.donor_user_id || null,
-        donor_name:                meta.donor_name    || 'Anônimo',
-        donor_email:               meta.donor_email   || '',
-        amount:                    Number(meta.amount),
-        currency:                  (meta.currency    || 'BRL').toUpperCase(),
-        message:                   meta.message       || null,
-        anonymous:                 meta.anonymous === 'true',
-        stripe_payment_intent_id:  typeof session.payment_intent === 'string'
-                                     ? session.payment_intent
-                                     : null,
-      })
-
-      // Update raised_amount on the project
-      const { data: project } = await supabase
-        .from('projects')
-        .select('raised_amount')
-        .eq('id', meta.project_id)
-        .single()
-
-      if (project) {
-        await supabase
-          .from('projects')
-          .update({ raised_amount: project.raised_amount + Number(meta.amount) })
-          .eq('id', meta.project_id)
-      }
-    }
-  }
-
   return NextResponse.json({ received: true })
 }

@@ -12,7 +12,7 @@ const MOCK_PROJECTS: (Project & { organization: Organization | null })[] = [
     description: 'Rastreamento por GPS e câmeras-trap para mapear corredores ecológicos.',
     full_description: '', species: 'Panthera onca', biome: 'Pantanal',
     country: 'Brasil', lat: null, lng: null,
-    cover_image_url: 'https://images.unsplash.com/photo-1551358492-7c8a2a8eb9e8?w=600&auto=format&fit=crop&q=80',
+    cover_image_url: 'https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=600&auto=format&fit=crop&q=80',
     goal_amount: 120000, raised_amount: 87400, currency: 'BRL', status: 'active', tags: [],
     organization: { id: '', created_at: '', name: 'Instituto Onça Viva', slug: '', description: '', country: 'Brasil', website: null, logo_url: null, verified: true, user_id: '' },
   },

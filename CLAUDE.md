@@ -60,13 +60,13 @@ All tables defined in [supabase/migrations/001_schema.sql](supabase/migrations/0
 
 ### Donation flow (Stripe)
 
-Production path is **not** `POST /api/donations` (that's a legacy DB-only insert). Real donations go through Stripe Checkout:
+Donations go through a PaymentIntent with Stripe Connect (`transfer_data.destination = org.stripe_account_id`) so funds land in the organization's Connect account, not on the platform:
 
-1. `POST /api/stripe/checkout` creates a Checkout Session with the project metadata ([route.ts](src/app/api/stripe/checkout/route.ts))
-2. User pays on Stripe's hosted page
-3. `POST /api/stripe/webhook` receives `checkout.session.completed`, inserts the `donations` row using the session metadata, and updates `projects.raised_amount` ([route.ts](src/app/api/stripe/webhook/route.ts))
+1. `POST /api/donations/create` creates a PaymentIntent and returns its `client_secret` ([route.ts](src/app/api/donations/create/route.ts))
+2. The browser confirms the payment via Stripe Elements / `stripe.confirmPayment` ([DonationForm.tsx](src/components/DonationForm.tsx))
+3. `POST /api/stripe/webhook` receives `payment_intent.succeeded`, inserts the `donations` row from the intent's metadata, and the `on_donation_created` SQL trigger recomputes `projects.raised_amount` ([route.ts](src/app/api/stripe/webhook/route.ts))
 
-**Heads-up:** the SQL trigger `on_donation_created` already recomputes `raised_amount` from `sum(donations.amount)` on every insert — the webhook's manual `UPDATE projects SET raised_amount = raised_amount + amount` then double-counts. Only one of the two should run. This is a live bug, not intended behavior.
+Idempotency: the webhook looks up `donations.stripe_payment_intent_id` before inserting, and the column has a `UNIQUE` constraint ([002_schema_drift_fixes.sql](supabase/migrations/002_schema_drift_fixes.sql)) so Stripe retries don't double-post.
 
 Additional Stripe surface: `/api/stripe/connect` (onboarding org accounts for payouts) and `/api/stripe/shop-checkout` (store items).
 
