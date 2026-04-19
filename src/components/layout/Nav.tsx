@@ -1,12 +1,11 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations, useLocale } from 'next-intl'
+import { Link, usePathname, useRouter } from '@/i18n/navigation'
 import { useNavTheme } from './NavTheme'
-import type { Locale } from '@/lib/i18n/translations'
+import type { Locale } from '@/i18n/routing'
 import { createClient } from '@/lib/supabase/client'
 
 const LOCALES: { code: Locale; label: string; flag: string }[] = [
@@ -38,6 +37,7 @@ function useSoundscape() {
 
 export default function Nav() {
   const path                      = usePathname()
+  const router                    = useRouter()
   const [scrolled, setScrolled]   = useState(false)
   const [visible, setVisible]     = useState(false)
   const [userEmail, setUserEmail]  = useState<string | null>(null)
@@ -45,8 +45,14 @@ export default function Nav() {
   const [langOpen, setLangOpen]    = useState(false)
   const langRef                    = useRef<HTMLDivElement>(null)
   const { playing, toggle }       = useSoundscape()
-  const { locale, t, setLocale }  = useLanguage()
+  const t                         = useTranslations('nav')
+  const locale                    = useLocale() as Locale
   const navTheme                  = useNavTheme()
+
+  function setLocale(code: Locale) {
+    // URL-driven locale switch: preserves current path + history entry.
+    router.replace(path, { locale: code })
+  }
 
   useEffect(() => {
     const supabase = createClient()
@@ -137,24 +143,24 @@ export default function Nav() {
       <Link href="/sobre"
             className={clsx('text-[10px] tracking-widest uppercase transition-colors duration-200 whitespace-nowrap',
               path.startsWith('/sobre') ? 'text-sage' : linkInactive)}>
-        Sobre
+        {t('about')}
       </Link>
 
       <Link href="/projetos"
             className={clsx('text-[10px] tracking-widest uppercase transition-colors duration-200 whitespace-nowrap',
               path.startsWith('/projetos') ? 'text-sage' : linkInactive)}>
-        {t.nav.projects}
+        {t('projects')}
       </Link>
 
       <Link href="/academy"
             className={clsx('text-[10px] tracking-widest uppercase transition-colors duration-200 whitespace-nowrap',
               path.startsWith('/academy') ? 'text-sage' : linkInactive)}>
-        Academy
+        {t('academy')}
       </Link>
 
       <a href="https://umapenca.com/fauna-conservacao" target="_blank" rel="noopener noreferrer"
          className={clsx('text-[10px] tracking-widest uppercase transition-colors duration-200 whitespace-nowrap', linkInactive)}>
-        Nossa loja
+        {t('shop')}
       </a>
 
       {/* ── Spacer ────────────────────────────────────────────────────────── */}
@@ -168,7 +174,7 @@ export default function Nav() {
               'text-[10px] tracking-widest uppercase px-4 py-2.5 rounded-sm transition-all duration-200 whitespace-nowrap hidden lg:inline-flex',
               outlineBtn,
             )}>
-        Nos apoie
+        {t('support')}
       </Link>
 
       {/* Doe agora */}
@@ -177,14 +183,14 @@ export default function Nav() {
            className="text-[10px] tracking-widest uppercase font-medium bg-terra text-cream
                       px-5 py-2.5 rounded-sm hover:bg-[#A8431C] transition-colors duration-200
                       hidden sm:inline-flex whitespace-nowrap shadow-[0_2px_12px_rgba(196,82,42,0.4)]">
-          {t.nav.donate}
+          {t('donate')}
         </a>
       ) : (
         <Link href="/projetos"
               className="text-[10px] tracking-widest uppercase font-medium bg-terra text-cream
                          px-5 py-2.5 rounded-sm hover:bg-leaf transition-colors duration-200
                          hidden sm:inline-flex whitespace-nowrap shadow-[0_2px_12px_rgba(107,142,90,0.4)]">
-          {t.nav.donate}
+          {t('donate')}
         </Link>
       )}
 
@@ -194,7 +200,7 @@ export default function Nav() {
               'text-[10px] tracking-widest uppercase px-4 py-2.5 rounded-sm transition-all duration-200 whitespace-nowrap hidden xl:inline-flex',
               outlineBtn,
             )}>
-        Tem um projeto?
+        {t('haveProject')}
       </Link>
 
       {/* Entrar / Meu perfil */}
@@ -205,7 +211,7 @@ export default function Nav() {
                 ? 'border border-forest/20 text-forest/60 hover:bg-forest/5 hover:text-forest hover:border-forest/40'
                 : 'border border-white/20 text-cream/70 hover:bg-white/5 hover:text-cream hover:border-white/40',
             )}>
-        {userEmail ? 'Meu perfil' : 'Entrar'}
+        {userEmail ? t('myProfile') : t('signIn')}
       </Link>
 
       {/* ── Language dropdown ─────────────────────────────────────────────── */}
@@ -252,7 +258,7 @@ export default function Nav() {
       {/* ── Music toggle ──────────────────────────────────────────────────── */}
       <button
         onClick={toggle}
-        title={playing ? 'Pausar sons da natureza' : 'Tocar sons da natureza'}
+        title={playing ? t('pauseSounds') : t('playSounds')}
         className={clsx(
           'flex items-center gap-1.5 transition-all duration-200',
           playing ? 'text-sage' : isLight ? 'text-forest/40 hover:text-forest/70' : 'text-cream/40 hover:text-cream/70',

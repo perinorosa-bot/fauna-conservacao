@@ -1,9 +1,9 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import type { Update, Project, Organization } from '@/types'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
 import { SpecimenLabel } from '@/components/ui/SpecimenLabel'
 
 type UpdateWithProject = Update & {
@@ -11,7 +11,7 @@ type UpdateWithProject = Update & {
 }
 
 export default function FeedSection({ updates }: { updates: UpdateWithProject[] }) {
-  const { t } = useLanguage()
+  const t = useTranslations('feed')
 
   if (!updates.length) return null
 
@@ -22,11 +22,11 @@ export default function FeedSection({ updates }: { updates: UpdateWithProject[] 
       <div className="flex items-end justify-between mb-12">
         <div>
           <p className="font-mono text-terra/65 text-[9px] tracking-[0.35em] uppercase mb-4">
-            {t.feed.eyebrow}
+            {t('eyebrow')}
           </p>
           <h2 className="font-serif text-4xl md:text-5xl text-cream leading-tight">
-            {t.feed.title}<br />
-            <em className="italic text-terra">{t.feed.titleEm}</em>
+            {t('title')}<br />
+            <em className="italic text-terra">{t('titleEm')}</em>
           </h2>
         </div>
         <Link
@@ -35,7 +35,7 @@ export default function FeedSection({ updates }: { updates: UpdateWithProject[] 
                      font-mono text-[9px] tracking-[0.25em] uppercase px-5 py-3
                      hover:border-terra/40 hover:text-cream transition-all duration-200 flex-shrink-0 mb-1 group"
         >
-          {t.feed.seeAll}
+          {t('seeAll')}
           <span className="w-4 h-px bg-cream/30 group-hover:w-6 group-hover:bg-terra/60 transition-all duration-300" />
         </Link>
       </div>
@@ -102,7 +102,7 @@ export default function FeedSection({ updates }: { updates: UpdateWithProject[] 
                 <p className="text-cream/55 text-[11px]">
                   {org?.name ?? ''}
                   {pct > 0 && (
-                    <span className="text-terra ml-2">{pct}% {t.feed.funded}</span>
+                    <span className="text-terra ml-2">{pct}% {t('funded')}</span>
                   )}
                 </p>
               </div>
@@ -113,7 +113,7 @@ export default function FeedSection({ updates }: { updates: UpdateWithProject[] 
 
       <div className="mt-10 text-center flex flex-col items-center gap-3">
         <Link href="/projetos" className="btn-primary">
-          {t.feed.seeAllBtn}
+          {t('seeAllBtn')}
         </Link>
         <p className="font-mono text-cream/20 text-[8px] tracking-[0.3em] uppercase">
           {new Date().getFullYear()} · Fauna Conservation Platform

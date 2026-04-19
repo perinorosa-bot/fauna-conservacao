@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import type { Project, Organization } from '@/types'
 import { SpecimenLabel } from '@/components/ui/SpecimenLabel'
 
@@ -23,7 +23,8 @@ const FILTERS: { key: FilterKey; field: 'country' | 'biome' | null; value: strin
 ]
 
 export default function FilteredProjects({ projects, light }: { projects: ProjectWithOrg[]; light?: boolean }) {
-  const { t } = useLanguage()
+  const tFilters = useTranslations('filters')
+  const tProjetos = useTranslations('projetos')
   const [active, setActive] = useState<FilterKey>('all')
 
   const filtered = active === 'all'
@@ -50,7 +51,7 @@ export default function FilteredProjects({ projects, light }: { projects: Projec
                   : 'border-white/[0.12] text-cream/45 hover:border-sage/40 hover:text-cream'
             }`}
           >
-            {t.filters[key]}
+            {tFilters(key)}
           </button>
         ))}
       </div>
@@ -64,7 +65,7 @@ export default function FilteredProjects({ projects, light }: { projects: Projec
 
       {filtered.length === 0 && (
         <p className={`text-sm text-center py-24 ${light ? 'text-forest/30' : 'text-cream/30'}`}>
-          {t.projetos.noResults}
+          {tProjetos('noResults')}
         </p>
       )}
     </>

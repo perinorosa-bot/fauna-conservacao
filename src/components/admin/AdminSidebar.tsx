@@ -1,22 +1,23 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { Link, usePathname, useRouter } from '@/i18n/navigation'
 import clsx from 'clsx'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 
 const NAV = [
-  { href: '/admin',               label: 'Dashboard',      icon: '◈' },
-  { href: '/admin/organizations', label: 'Organizações',   icon: '◎' },
-  { href: '/admin/projects',      label: 'Projetos',       icon: '◻' },
-  { href: '/admin/updates',       label: 'Atualizações',   icon: '▤' },
-  { href: '/admin/donations',     label: 'Doações',        icon: '◇' },
-  { href: '/admin/users',         label: 'Usuários',       icon: '○' },
-]
+  { href: '/admin',               labelKey: 'home',          icon: '◈' },
+  { href: '/admin/organizations', labelKey: 'organizations', icon: '◎' },
+  { href: '/admin/projects',      labelKey: 'projects',      icon: '◻' },
+  { href: '/admin/updates',       labelKey: 'updates',       icon: '▤' },
+  { href: '/admin/donations',     labelKey: 'donations',     icon: '◇' },
+  { href: '/admin/users',         labelKey: 'users',         icon: '○' },
+] as const
 
 export default function AdminSidebar() {
   const path   = usePathname()
   const router = useRouter()
+  const t      = useTranslations('adminDash.sidebar')
 
   async function handleLogout() {
     const supabase = createClient()
@@ -29,12 +30,12 @@ export default function AdminSidebar() {
       {/* Logo */}
       <div className="px-6 py-7 border-b border-white/[0.06]">
         <span className="font-display text-cream tracking-[0.18em] uppercase text-lg">Fauna</span>
-        <p className="text-sage/50 text-[9px] tracking-widest uppercase mt-0.5">Admin</p>
+        <p className="text-sage/50 text-[9px] tracking-widest uppercase mt-0.5">{t('brandTag')}</p>
       </div>
 
       {/* Nav */}
       <nav className="flex-1 px-3 py-5 flex flex-col gap-0.5">
-        {NAV.map(({ href, label, icon }) => {
+        {NAV.map(({ href, labelKey, icon }) => {
           const active = href === '/admin' ? path === '/admin' : path.startsWith(href)
           return (
             <Link
@@ -48,7 +49,7 @@ export default function AdminSidebar() {
               )}
             >
               <span className="text-sage text-sm w-4 text-center">{icon}</span>
-              {label}
+              {t(labelKey)}
             </Link>
           )
         })}
@@ -61,13 +62,13 @@ export default function AdminSidebar() {
           target="_blank"
           className="flex items-center gap-3 px-3 py-2 rounded-lg text-xs text-cream/35 hover:text-cream/60 transition-colors"
         >
-          <span className="text-sm">↗</span> Ver site
+          <span className="text-sm">↗</span> {t('viewSite')}
         </Link>
         <button
           onClick={handleLogout}
           className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs text-red-400/60 hover:text-red-400 transition-colors mt-0.5"
         >
-          <span className="text-sm">→</span> Sair
+          <span className="text-sm">→</span> {t('logout')}
         </button>
       </div>
     </aside>

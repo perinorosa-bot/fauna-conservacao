@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 
 type Props = {
   projectCount: number
@@ -37,13 +37,14 @@ function BotanicalBg() {
 }
 
 export default function StatsBar({ projectCount, totalRaised }: Props) {
-  const { t } = useLanguage()
+  const tStats = useTranslations('stats')
+  const tTrust = useTranslations('trust')
 
   const stats = [
-    { n: projectCount ?? 247, l: t.stats.activeProjects, sub: 'projetos verificados' },
-    { n: 68,                   l: t.stats.countries,      sub: 'em todos os continentes' },
-    { n: `R$ ${(totalRaised / 1_000_000).toFixed(1)}M`, l: t.stats.raised, sub: 'direto ao campo' },
-    { n: '19.400',             l: t.stats.supporters,    sub: 'e crescendo' },
+    { n: projectCount ?? 247, l: tStats('activeProjects'), sub: 'projetos verificados' },
+    { n: 68,                   l: tStats('countries'),      sub: 'em todos os continentes' },
+    { n: `R$ ${(totalRaised / 1_000_000).toFixed(1)}M`, l: tStats('raised'), sub: 'direto ao campo' },
+    { n: '19.400',             l: tStats('supporters'),    sub: 'e crescendo' },
   ]
 
   return (
@@ -84,13 +85,13 @@ export default function StatsBar({ projectCount, totalRaised }: Props) {
           {/* Terra accent bar */}
           <div className="hidden sm:block w-0.5 h-8 bg-terra/40 flex-shrink-0" />
           <p className="font-serif text-cream/50 text-base md:text-lg font-light leading-relaxed">
-            {t.trust.text}{' '}
+            {tTrust('text')}{' '}
             <Link
               href="/sobre"
               className="text-sage underline underline-offset-4 decoration-sage/30
                          hover:text-cream hover:decoration-cream/40 transition-all"
             >
-              {t.trust.link}
+              {tTrust('link')}
             </Link>
           </p>
         </div>

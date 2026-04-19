@@ -2,11 +2,13 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 
 export default function OrgActions({ id, verified }: { id: string; verified: boolean }) {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const t = useTranslations('adminDash.orgActions')
 
   async function toggleVerify() {
     setLoading(true)
@@ -17,7 +19,7 @@ export default function OrgActions({ id, verified }: { id: string; verified: boo
   }
 
   async function handleDelete() {
-    if (!confirm('Excluir esta organização? Esta ação não pode ser desfeita.')) return
+    if (!confirm(t('confirmDelete'))) return
     setLoading(true)
     const supabase = createClient()
     await supabase.from('organizations').delete().eq('id', id)
@@ -36,14 +38,14 @@ export default function OrgActions({ id, verified }: { id: string; verified: boo
             : 'border-sage/30 text-sage hover:bg-sage/10'
         }`}
       >
-        {verified ? 'Revogar' : 'Verificar'}
+        {verified ? t('revoke') : t('verify')}
       </button>
       <button
         onClick={handleDelete}
         disabled={loading}
         className="text-[9px] tracking-widest uppercase px-3 py-1.5 rounded-lg border border-red-500/20 text-red-400/60 hover:bg-red-500/10 hover:text-red-400 transition-all duration-150"
       >
-        Excluir
+        {t('delete')}
       </button>
     </div>
   )
