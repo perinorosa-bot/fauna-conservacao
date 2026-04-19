@@ -1,8 +1,10 @@
+import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import UserActions from '@/components/admin/UserActions'
 
 export default async function AdminUsersPage() {
   const supabase = createClient()
+  const t = await getTranslations('adminDash.users')
 
   const { data: profiles } = await supabase
     .from('profiles')
@@ -15,24 +17,26 @@ export default async function AdminUsersPage() {
     donor:        'bg-mist/15 text-mist',
   }
   const roleLabel: Record<string, string> = {
-    admin: 'Admin', organization: 'Organização', donor: 'Doador',
+    admin:        t('roleLabels.admin'),
+    organization: t('roleLabels.organization'),
+    donor:        t('roleLabels.donor'),
   }
 
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1 className="font-serif text-3xl font-light text-cream">Usuários</h1>
-        <p className="text-cream/40 text-sm mt-1">{profiles?.length ?? 0} cadastrados</p>
+        <h1 className="font-serif text-3xl font-light text-cream">{t('title')}</h1>
+        <p className="text-cream/40 text-sm mt-1">{t('subtitle', { count: profiles?.length ?? 0 })}</p>
       </div>
 
       <div className="bg-[#0d1610] border border-white/[0.06] rounded-xl overflow-hidden">
         <table className="w-full">
           <thead>
             <tr className="border-b border-white/[0.06]">
-              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">Usuário</th>
-              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">E-mail</th>
-              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">Role</th>
-              <th className="text-right text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">Ações</th>
+              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">{t('cols.user')}</th>
+              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">{t('cols.email')}</th>
+              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">{t('cols.role')}</th>
+              <th className="text-right text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">{t('cols.actions')}</th>
             </tr>
           </thead>
           <tbody>
@@ -56,7 +60,7 @@ export default async function AdminUsersPage() {
             {!profiles?.length && (
               <tr>
                 <td colSpan={4} className="px-5 py-12 text-center text-cream/25 text-sm">
-                  Nenhum usuário cadastrado
+                  {t('empty')}
                 </td>
               </tr>
             )}

@@ -1,16 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
-import Link from 'next/link'
+import { useRouter, usePathname, Link } from '@/i18n/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations } from 'next-intl'
 
 export default function OrgLayout({ children }: { children: React.ReactNode }) {
   const router   = useRouter()
   const pathname = usePathname()
-  const { t } = useLanguage()
-  const o = t.orgDash
+  const o = useTranslations('orgDash')
   const [orgName, setOrgName] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -46,17 +44,17 @@ export default function OrgLayout({ children }: { children: React.ReactNode }) {
       <aside className="w-60 bg-canopy/60 border-r border-white/[0.06] flex flex-col py-8 px-5 flex-shrink-0">
         <div className="mb-10">
           <span className="font-display text-cream tracking-[0.18em] uppercase text-xl block mb-1">Fauna</span>
-          <span className="text-cream/30 text-[10px] tracking-widest uppercase">{o.panelLabel}</span>
+          <span className="text-cream/30 text-[10px] tracking-widest uppercase">{o('panelLabel')}</span>
         </div>
 
         <p className="text-sage text-xs tracking-wide mb-6 truncate">{orgName}</p>
 
         <nav className="flex flex-col gap-1">
           {[
-            { href: '/org/painel',            label: o.overview },
-            { href: '/org/projetos/novo',     label: o.newProject },
-            { href: '/org/atualizacoes/nova', label: o.newUpdate },
-            { href: '/org/perfil',            label: o.orgProfile },
+            { href: '/org/painel',            label: o('overview') },
+            { href: '/org/projetos/novo',     label: o('newProject') },
+            { href: '/org/atualizacoes/nova', label: o('newUpdate') },
+            { href: '/org/perfil',            label: o('orgProfile') },
           ].map(item => (
             <Link
               key={item.href}
@@ -74,7 +72,7 @@ export default function OrgLayout({ children }: { children: React.ReactNode }) {
 
         <div className="mt-auto flex flex-col gap-3">
           <Link href="/projetos" className="text-[10px] tracking-widest uppercase text-cream/25 hover:text-cream/50 transition-colors">
-            {o.viewPlatform}
+            {o('viewPlatform')}
           </Link>
           <button
             onClick={async () => {
@@ -84,7 +82,7 @@ export default function OrgLayout({ children }: { children: React.ReactNode }) {
             }}
             className="text-[10px] tracking-widest uppercase text-cream/20 hover:text-red-400 transition-colors text-left"
           >
-            {o.signOut}
+            {o('signOut')}
           </button>
         </div>
       </aside>

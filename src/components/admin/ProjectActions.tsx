@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 
 type Status = 'active' | 'paused' | 'completed'
@@ -9,6 +10,7 @@ type Status = 'active' | 'paused' | 'completed'
 export default function ProjectActions({ id, status, slug }: { id: string; status: Status; slug: string }) {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const t = useTranslations('adminDash.projects')
 
   async function setStatus(next: Status) {
     setLoading(true)
@@ -19,7 +21,7 @@ export default function ProjectActions({ id, status, slug }: { id: string; statu
   }
 
   async function handleDelete() {
-    if (!confirm('Excluir projeto? Esta ação não pode ser desfeita.')) return
+    if (!confirm(t('confirmDelete'))) return
     setLoading(true)
     const supabase = createClient()
     await supabase.from('projects').delete().eq('id', id)
@@ -28,9 +30,9 @@ export default function ProjectActions({ id, status, slug }: { id: string; statu
   }
 
   const options: { label: string; value: Status; color: string }[] = [
-    { label: 'Ativo',     value: 'active',    color: 'text-sage' },
-    { label: 'Pausar',    value: 'paused',    color: 'text-warm' },
-    { label: 'Concluído', value: 'completed', color: 'text-mist' },
+    { label: t('statusOptions.active'),    value: 'active',    color: 'text-sage' },
+    { label: t('statusOptions.paused'),    value: 'paused',    color: 'text-warm' },
+    { label: t('statusOptions.completed'), value: 'completed', color: 'text-mist' },
   ]
 
   return (
@@ -40,7 +42,7 @@ export default function ProjectActions({ id, status, slug }: { id: string; statu
         target="_blank"
         className="text-[9px] tracking-widest uppercase px-3 py-1.5 rounded-lg border border-white/10 text-cream/40 hover:text-cream hover:border-white/25 transition-all"
       >
-        Ver
+        {t('view')}
       </a>
       <select
         value={status}
@@ -57,7 +59,7 @@ export default function ProjectActions({ id, status, slug }: { id: string; statu
         disabled={loading}
         className="text-[9px] tracking-widest uppercase px-3 py-1.5 rounded-lg border border-red-500/20 text-red-400/60 hover:bg-red-500/10 hover:text-red-400 transition-all"
       >
-        Excluir
+        {t('delete')}
       </button>
     </div>
   )

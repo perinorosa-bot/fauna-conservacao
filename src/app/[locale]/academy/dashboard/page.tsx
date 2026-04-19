@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { useRouter } from '@/i18n/navigation'
+import { Link } from '@/i18n/navigation'
 import Nav from '@/components/layout/Nav'
 import { NavTheme } from '@/components/layout/NavTheme'
 import { createClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
 
 // Mock enrolled courses — replace with real DB query when purchases are wired
 const MOCK_ENROLLMENTS = [
@@ -28,6 +29,7 @@ const MOCK_ENROLLMENTS = [
 ]
 
 export default function AcademyDashboardPage() {
+  const t = useTranslations('academy.dashboard')
   const router   = useRouter()
   const supabase = createClient()
   const [userEmail, setUserEmail] = useState<string | null>(null)
@@ -64,10 +66,10 @@ export default function AcademyDashboardPage() {
           <div className="max-w-screen-lg mx-auto flex items-end justify-between">
             <div>
               <p className="text-sage/60 text-[10px] tracking-[0.25em] uppercase mb-3">
-                <Link href="/academy" className="hover:text-sage">Academy</Link> / Minha área
+                <Link href="/academy" className="hover:text-sage">{t('breadcrumb')}</Link> / {t('breadcrumbCurrent')}
               </p>
               <h1 className="font-serif text-4xl font-light text-cream">
-                Minha <em className="italic text-sage">aprendizagem</em>
+                {t('titleBefore')}<em className="italic text-sage">{t('titleEm')}</em>
               </h1>
               {userEmail && (
                 <p className="text-cream/35 text-sm mt-2">{userEmail}</p>
@@ -76,7 +78,7 @@ export default function AcademyDashboardPage() {
             <Link href="/academy/cursos"
                   className="hidden sm:block bg-sage/20 text-sage text-[10px] tracking-widests uppercase
                              px-5 py-2.5 rounded-sm hover:bg-sage/30 transition-colors">
-              + Novo curso
+              {t('newCourse')}
             </Link>
           </div>
         </section>
@@ -86,10 +88,10 @@ export default function AcademyDashboardPage() {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             {[
-              { label: 'Cursos em progresso', value: MOCK_ENROLLMENTS.length },
-              { label: 'Aulas concluídas',    value: MOCK_ENROLLMENTS.reduce((s, e) => s + e.completedLessons, 0) },
-              { label: 'Certificados',        value: 0 },
-              { label: 'Recursos baixados',   value: 3 },
+              { label: t('stats.inProgress'),         value: MOCK_ENROLLMENTS.length },
+              { label: t('stats.completedLessons'),   value: MOCK_ENROLLMENTS.reduce((s, e) => s + e.completedLessons, 0) },
+              { label: t('stats.certificates'),       value: 0 },
+              { label: t('stats.downloadedResources'), value: 3 },
             ].map(s => (
               <div key={s.label}
                    className="bg-white border border-forest/[0.08] rounded-2xl p-6 text-center shadow-sm">
@@ -100,15 +102,15 @@ export default function AcademyDashboardPage() {
           </div>
 
           {/* Enrolled courses */}
-          <h2 className="font-serif text-2xl font-light text-forest mb-6">Meus cursos</h2>
+          <h2 className="font-serif text-2xl font-light text-forest mb-6">{t('myCourses')}</h2>
 
           {MOCK_ENROLLMENTS.length === 0 ? (
             <div className="bg-white border border-forest/[0.08] rounded-2xl p-16 text-center shadow-sm">
-              <p className="text-forest/30 text-sm mb-5">Você ainda não tem cursos.</p>
+              <p className="text-forest/30 text-sm mb-5">{t('emptyCourses')}</p>
               <Link href="/academy/cursos"
                     className="bg-forest text-cream text-[10px] tracking-widests uppercase px-6 py-3 rounded-sm
                                hover:bg-leaf transition-colors">
-                Explorar cursos →
+                {t('exploreCourses')}
               </Link>
             </div>
           ) : (
@@ -134,14 +136,14 @@ export default function AcademyDashboardPage() {
                   <div className="flex-1 min-w-0">
                     <h3 className="font-serif text-lg font-light text-forest mb-1">{e.title}</h3>
                     <p className="text-forest/40 text-sm mb-3">
-                      {e.completedLessons} de {e.totalLessons} aulas concluídas
+                      {t('lessonsProgress', { done: e.completedLessons, total: e.totalLessons })}
                     </p>
                     {/* Progress bar */}
                     <div className="h-1.5 bg-forest/[0.07] rounded-full overflow-hidden max-w-sm">
                       <div className="h-full bg-leaf rounded-full" style={{ width: `${e.progress}%` }} />
                     </div>
                     <p className="text-forest/30 text-[11px] mt-2">
-                      Última aula: <span className="text-forest/50">{e.lastLesson}</span>
+                      {t('lastLesson')} <span className="text-forest/50">{e.lastLesson}</span>
                     </p>
                   </div>
 
@@ -149,7 +151,7 @@ export default function AcademyDashboardPage() {
                   <Link href={`/academy/cursos/${e.slug}`}
                         className="bg-forest text-cream text-[10px] tracking-widests uppercase px-6 py-3 rounded-lg
                                    hover:bg-leaf transition-colors whitespace-nowrap flex-shrink-0">
-                    Continuar →
+                    {t('continue')}
                   </Link>
                 </div>
               ))}
@@ -157,12 +159,12 @@ export default function AcademyDashboardPage() {
           )}
 
           {/* Workshops registered */}
-          <h2 className="font-serif text-2xl font-light text-forest mb-6">Workshops inscritos</h2>
+          <h2 className="font-serif text-2xl font-light text-forest mb-6">{t('workshopsTitle')}</h2>
           <div className="bg-white border border-forest/[0.08] rounded-2xl p-16 text-center shadow-sm">
-            <p className="text-forest/30 text-sm mb-5">Você não está inscrito em nenhum workshop.</p>
+            <p className="text-forest/30 text-sm mb-5">{t('emptyWorkshops')}</p>
             <Link href="/academy/workshops"
                   className="text-leaf text-xs tracking-widests uppercase hover:underline">
-              Ver agenda →
+              {t('seeAgenda')}
             </Link>
           </div>
         </div>

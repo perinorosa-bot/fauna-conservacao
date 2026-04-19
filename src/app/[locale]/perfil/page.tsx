@@ -1,19 +1,18 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations } from 'next-intl'
 import Nav from '@/components/layout/Nav'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import Image from 'next/image'
 
 type Profile  = { id: string; full_name: string | null }
 type Donation = { id: string; amount: number; currency: string; message: string | null; created_at: string; project: { title: string; slug: string; cover_image_url: string | null; biome: string | null } | null }
 
 export default function PerfilPage() {
-  const { t } = useLanguage()
-  const d = t.donorProfile
+  const d = useTranslations('donorProfile')
   const router = useRouter()
   const supabase = createClient()
 
@@ -90,7 +89,7 @@ export default function PerfilPage() {
           </div>
           <div>
             <h1 className="font-serif text-3xl font-light text-cream">
-              {name || d.myProfile}
+              {name || d('myProfile')}
             </h1>
             <p className="text-cream/40 text-sm">{email}</p>
           </div>
@@ -98,20 +97,20 @@ export default function PerfilPage() {
 
         {/* Edit profile */}
         <div className="mb-14 bg-canopy/30 border border-white/[0.06] rounded-xl p-6">
-          <h2 className="font-serif text-xl font-light text-cream mb-5">{d.editProfile}</h2>
+          <h2 className="font-serif text-xl font-light text-cream mb-5">{d('editProfile')}</h2>
           <form onSubmit={handleSave} className="flex items-end gap-4">
             <div className="flex-1">
-              <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{d.nameLabel}</label>
+              <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{d('nameLabel')}</label>
               <input type="text" value={name} onChange={e => setName(e.target.value)}
-                     placeholder={d.namePlaceholder} className={inputClass} />
+                     placeholder={d('namePlaceholder')} className={inputClass} />
             </div>
             <div className="flex flex-col gap-1 items-start">
               <button type="submit" disabled={saving}
                       className="bg-leaf text-cream text-xs tracking-widests uppercase px-6 py-3 rounded-sm
                                  hover:bg-sage transition-colors disabled:opacity-50">
-                {saving ? d.saving : d.save}
+                {saving ? d('saving') : d('save')}
               </button>
-              {saved     && <span className="text-sage text-[10px]">{d.saved}</span>}
+              {saved     && <span className="text-sage text-[10px]">{d('saved')}</span>}
               {saveError && <span className="text-red-400 text-[10px]">{saveError}</span>}
             </div>
           </form>
@@ -120,9 +119,9 @@ export default function PerfilPage() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-14">
           {[
-            { label: d.totalDonated,      value: `R$ ${totalDonated.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` },
-            { label: d.donationsMade,     value: donations.length },
-            { label: d.projectsSupported, value: projectsSupported.size },
+            { label: d('totalDonated'),      value: `R$ ${totalDonated.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` },
+            { label: d('donationsMade'),     value: donations.length },
+            { label: d('projectsSupported'), value: projectsSupported.size },
           ].map(s => (
             <div key={s.label} className="bg-canopy/40 border border-white/[0.06] rounded-xl p-5 text-center">
               <p className="font-serif text-3xl font-light text-sage mb-1">{s.value}</p>
@@ -135,7 +134,7 @@ export default function PerfilPage() {
         {projectsSupported.size > 0 && (
           <div className="mb-14">
             <h2 className="font-serif text-2xl font-light text-cream mb-6">
-              {d.supportTitle} <em className="italic text-sage">{d.supportTitleEm}</em>
+              {d('supportTitle')} <em className="italic text-sage">{d('supportTitleEm')}</em>
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {Array.from(projectsSupported.values()).map(p => (
@@ -159,7 +158,7 @@ export default function PerfilPage() {
         {/* Donation history */}
         <div>
           <h2 className="font-serif text-2xl font-light text-cream mb-6">
-            {d.historyTitle} <em className="italic text-sage">{d.historyTitleEm}</em>
+            {d('historyTitle')} <em className="italic text-sage">{d('historyTitleEm')}</em>
           </h2>
 
           {donations.length ? (
@@ -167,9 +166,9 @@ export default function PerfilPage() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-white/[0.06]">
-                    <th className="text-left text-[10px] tracking-widests uppercase text-cream/30 px-6 py-4">{d.colProject}</th>
-                    <th className="text-left text-[10px] tracking-widests uppercase text-cream/30 px-6 py-4">{d.colAmount}</th>
-                    <th className="text-left text-[10px] tracking-widests uppercase text-cream/30 px-6 py-4">{d.colDate}</th>
+                    <th className="text-left text-[10px] tracking-widests uppercase text-cream/30 px-6 py-4">{d('colProject')}</th>
+                    <th className="text-left text-[10px] tracking-widests uppercase text-cream/30 px-6 py-4">{d('colAmount')}</th>
+                    <th className="text-left text-[10px] tracking-widests uppercase text-cream/30 px-6 py-4">{d('colDate')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -182,7 +181,7 @@ export default function PerfilPage() {
                             {don.project.title}
                           </Link>
                         ) : (
-                          <span className="text-cream/30 text-sm">{d.removedProject}</span>
+                          <span className="text-cream/30 text-sm">{d('removedProject')}</span>
                         )}
                         {don.message && <p className="text-cream/30 text-xs mt-0.5 italic">"{don.message}"</p>}
                       </td>
@@ -199,8 +198,8 @@ export default function PerfilPage() {
             </div>
           ) : (
             <div className="bg-canopy/30 border border-white/[0.06] rounded-xl p-12 text-center">
-              <p className="text-cream/30 text-sm mb-4">{d.noDonations}</p>
-              <Link href="/projetos" className="btn-primary inline-flex">{d.exploreProjects}</Link>
+              <p className="text-cream/30 text-sm mb-4">{d('noDonations')}</p>
+              <Link href="/projetos" className="btn-primary inline-flex">{d('exploreProjects')}</Link>
             </div>
           )}
         </div>
@@ -209,7 +208,7 @@ export default function PerfilPage() {
         <div className="mt-14 pt-8 border-t border-white/[0.05] text-center">
           <button onClick={handleLogout}
                   className="text-cream/25 text-xs tracking-widests uppercase hover:text-red-400 transition-colors">
-            {d.signOut}
+            {d('signOut')}
           </button>
         </div>
 

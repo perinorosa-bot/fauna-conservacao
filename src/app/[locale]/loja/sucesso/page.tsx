@@ -1,11 +1,14 @@
 'use client'
 
-import Link from 'next/link'
 import Nav from '@/components/layout/Nav'
 import { NavTheme } from '@/components/layout/NavTheme'
+import { Link } from '@/i18n/navigation'
 import { useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 
 export default function LojaSucessoPage() {
+  const t = useTranslations('loja.success')
+
   // clear cart from localStorage after successful purchase
   useEffect(() => {
     localStorage.removeItem('fauna-cart')
@@ -21,26 +24,26 @@ export default function LojaSucessoPage() {
               <span className="text-leaf text-3xl">✓</span>
             </div>
             <h1 className="font-serif text-4xl font-light text-forest mb-3">
-              Pedido confirmado
+              {t('title')}
             </h1>
             <p className="text-forest/50 text-sm leading-relaxed mb-2">
-              Você vai receber um e-mail com os detalhes do pedido e o rastreamento assim que o envio for feito.
+              {t('description')}
             </p>
             <p className="text-leaf text-sm font-medium mb-10">
-              15% do valor foi destinado para projetos de conservação. Obrigado!
+              {t('impact')}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
                 href="/loja"
                 className="bg-forest text-cream text-[10px] tracking-widests uppercase px-6 py-3 rounded-sm hover:bg-leaf transition-colors"
               >
-                Continuar comprando
+                {t('continueShopping')}
               </Link>
               <Link
                 href="/projetos"
                 className="border border-forest/20 text-forest/60 text-[10px] tracking-widests uppercase px-6 py-3 rounded-sm hover:border-forest/40 hover:text-forest transition-colors"
               >
-                Ver projetos de conservação
+                {t('seeProjects')}
               </Link>
             </div>
           </div>

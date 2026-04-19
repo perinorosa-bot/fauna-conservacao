@@ -5,6 +5,7 @@ import Nav from '@/components/layout/Nav'
 import { NavTheme } from '@/components/layout/NavTheme'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -184,6 +185,7 @@ const CATEGORIES: { id: Category; label: string }[] = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function LojaPage() {
+  const t = useTranslations('loja')
   const [category, setCategory] = useState<Category>('todos')
   const [cart, setCart]         = useState<CartItem[]>([])
   const [cartOpen, setCartOpen] = useState(false)
@@ -258,14 +260,13 @@ export default function LojaPage() {
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <section className="pt-40 pb-16 px-10 max-w-screen-xl mx-auto">
           <p className="text-[10px] tracking-widest uppercase text-forest/40 mb-3">
-            Loja Fauna
+            {t('hero.eyebrow')}
           </p>
           <h1 className="font-serif text-5xl md:text-6xl font-light text-forest leading-tight mb-4">
-            Produtos com <em className="italic text-leaf">propósito</em>
+            {t('hero.titleBefore')}<em className="italic text-leaf">{t('hero.titleEm')}</em>
           </h1>
           <p className="text-forest/50 text-base max-w-lg leading-relaxed">
-            Cada compra reverte uma parte diretamente para projetos de conservação.
-            Design exclusivo. Produção responsável.
+            {t('hero.subtitle')}
           </p>
         </section>
 
@@ -336,7 +337,7 @@ export default function LojaPage() {
                       }}
                       className="bg-cream text-forest text-[10px] tracking-widests uppercase px-5 py-2.5 rounded-full shadow-lg hover:bg-leaf hover:text-cream transition-colors"
                     >
-                      {product.sizes ? 'Escolher tamanho' : 'Adicionar'}
+                      {product.sizes ? t('chooseSize') : t('addQuick')}
                     </button>
                   </div>
                 </div>
@@ -523,7 +524,7 @@ export default function LojaPage() {
                     className="w-full bg-forest text-cream text-[11px] tracking-widests uppercase py-4 rounded-xl
                                hover:bg-leaf transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                   >
-                    Adicionar ao carrinho
+                    {t('addToCart')}
                   </button>
                   <p className="text-center text-[10px] text-forest/30 mt-3">
                     15% desta compra vai para conservação
@@ -548,7 +549,7 @@ export default function LojaPage() {
               <path d="M16 10a4 4 0 01-8 0"/>
             </svg>
             <span className="text-sm font-medium">{cartCount}</span>
-            <span className="text-[10px] tracking-widests uppercase">Carrinho</span>
+            <span className="text-[10px] tracking-widests uppercase">{t('cartLabel')}</span>
             <span className="font-serif text-sm">
               R$ {cartTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
             </span>
@@ -567,7 +568,7 @@ export default function LojaPage() {
             <div className="w-full max-w-sm bg-cream h-full flex flex-col shadow-2xl">
               {/* Header */}
               <div className="flex items-center justify-between px-6 py-5 border-b border-forest/10">
-                <h2 className="font-serif text-xl font-light text-forest">Carrinho</h2>
+                <h2 className="font-serif text-xl font-light text-forest">{t('cartLabel')}</h2>
                 <button
                   onClick={() => setCartOpen(false)}
                   className="text-forest/30 hover:text-forest text-xl leading-none"
@@ -655,7 +656,7 @@ export default function LojaPage() {
                     className="w-full bg-forest text-cream text-[11px] tracking-widests uppercase py-4 rounded-xl
                                hover:bg-leaf transition-colors disabled:opacity-50"
                   >
-                    {checkoutLoading ? 'Aguarde...' : 'Finalizar compra →'}
+                    {checkoutLoading ? t('checkoutLoading') : t('checkout')}
                   </button>
                   <p className="text-center text-[10px] text-forest/25 mt-3">
                     Pagamento seguro via Stripe

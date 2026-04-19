@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useLocale, useTranslations } from 'next-intl'
 
 type Project  = { id: string; title: string; slug: string; biome: string; status: string }
 type Donation = { amount: number; currency: string; donor_name: string; created_at: string; project: { title: string } | null }
@@ -18,8 +18,10 @@ type StripeStatus = {
 }
 
 export default function OrgPainelPage() {
-  const { t } = useLanguage()
-  const o = t.orgDash
+  const o  = useTranslations('orgDash')
+  const ts = useTranslations('orgDash.stripe')
+  const locale = useLocale()
+  const bcp47 = locale === 'pt' ? 'pt-BR' : locale === 'es' ? 'es-ES' : 'en-US'
   const searchParams = useSearchParams()
   const stripeParam  = searchParams.get('stripe')
   const [projects, setProjects]   = useState<Project[]>([])
@@ -87,11 +89,11 @@ export default function OrgPainelPage() {
       if (data.url) {
         window.location.href = data.url
       } else {
-        setStripeError(data.error ?? 'Erro ao conectar Stripe.')
+        setStripeError(data.error ?? ts('connectError'))
         setStripeLoading(false)
       }
     } catch {
-      setStripeError('Erro de rede. Tente novamente.')
+      setStripeError(ts('networkError'))
       setStripeLoading(false)
     }
   }
@@ -99,11 +101,11 @@ export default function OrgPainelPage() {
   return (
     <div className="max-w-4xl">
       <div className="mb-10">
-        <h1 className="font-serif text-4xl font-light text-cream mb-2">{o.overview}</h1>
+        <h1 className="font-serif text-4xl font-light text-cream mb-2">{o('overview')}</h1>
         {!verified && (
           <div className="mt-4 bg-amber-500/10 border border-amber-500/20 rounded-lg px-5 py-3 flex items-center gap-3">
             <span className="text-amber-400 text-sm">⚠</span>
-            <p className="text-amber-300/80 text-xs leading-relaxed">{o.pendingVerification}</p>
+            <p className="text-amber-300/80 text-xs leading-relaxed">{o('pendingVerification')}</p>
           </div>
         )}
       </div>
@@ -112,25 +114,25 @@ export default function OrgPainelPage() {
       {stripeParam === 'success' && stripeConnected === true && (
         <div className="mb-6 bg-sage/10 border border-sage/25 rounded-xl px-5 py-3 flex items-center gap-3">
           <span className="text-sage text-sm">✓</span>
-          <p className="text-sage/90 text-xs">Conta Stripe conectada com sucesso! Sua organização já pode receber doações.</p>
+          <p className="text-sage/90 text-xs">{ts('successConnected')}</p>
         </div>
       )}
       {stripeParam === 'success' && stripeVerifying && (
         <div className="mb-6 bg-sage/10 border border-sage/25 rounded-xl px-5 py-3 flex items-center gap-3">
           <span className="text-sage text-sm">⏳</span>
-          <p className="text-sage/90 text-xs">Dados enviados ao Stripe. A verificação pode levar alguns minutos — volte em instantes.</p>
+          <p className="text-sage/90 text-xs">{ts('successVerifying')}</p>
         </div>
       )}
       {stripeParam === 'success' && stripeNeedsOnboarding && (
         <div className="mb-6 bg-amber-500/10 border border-amber-500/20 rounded-xl px-5 py-3 flex items-center gap-3">
           <span className="text-amber-400 text-sm">⚠</span>
-          <p className="text-amber-300/80 text-xs">Ainda faltam informações. Continue a configuração abaixo.</p>
+          <p className="text-amber-300/80 text-xs">{ts('successNeedsOnboarding')}</p>
         </div>
       )}
       {stripeParam === 'refresh' && (
         <div className="mb-6 bg-amber-500/10 border border-amber-500/20 rounded-xl px-5 py-3 flex items-center gap-3">
           <span className="text-amber-400 text-sm">↻</span>
-          <p className="text-amber-300/80 text-xs">O link do Stripe expirou. Clique em "Conectar Stripe" abaixo para gerar um novo.</p>
+          <p className="text-amber-300/80 text-xs">{ts('refreshExpired')}</p>
         </div>
       )}
 
@@ -138,16 +140,16 @@ export default function OrgPainelPage() {
       {stripeConnected === true && (
         <div className="mb-8 bg-sage/5 border border-sage/20 rounded-xl px-6 py-4 flex items-center gap-3">
           <span className="text-sage text-sm">✓</span>
-          <p className="text-sage/80 text-xs tracking-wide">Stripe conectado — sua organização pode receber doações.</p>
+          <p className="text-sage/80 text-xs tracking-wide">{ts('connectedBanner')}</p>
         </div>
       )}
       {stripeVerifying && (
         <div className="mb-8 bg-amber-500/5 border border-amber-500/20 rounded-xl px-6 py-4 flex items-center gap-3">
           <span className="text-amber-400 text-sm">⏳</span>
           <div>
-            <p className="text-amber-300 text-xs tracking-widest uppercase mb-0.5">Em verificação</p>
+            <p className="text-amber-300 text-xs tracking-widest uppercase mb-0.5">{ts('verifyingTitle')}</p>
             <p className="text-cream/60 text-xs leading-relaxed">
-              O Stripe está verificando sua conta. Quando estiver pronto, aparecerá como conectada aqui automaticamente.
+              {ts('verifyingDesc')}
             </p>
           </div>
         </div>
@@ -155,16 +157,16 @@ export default function OrgPainelPage() {
       {stripeNeedsOnboarding && (
         <div className="mb-8 bg-amber-500/5 border border-amber-500/20 rounded-xl px-6 py-5 flex items-center justify-between gap-4">
           <div>
-            <p className="text-amber-300 text-xs tracking-widest uppercase mb-1">Continuar configuração</p>
+            <p className="text-amber-300 text-xs tracking-widest uppercase mb-1">{ts('onboardingTitle')}</p>
             <p className="text-cream/70 text-sm leading-relaxed">
-              Sua conta Stripe existe mas faltam dados para receber doações.
+              {ts('onboardingDesc')}
             </p>
           </div>
           <div className="flex-shrink-0 flex flex-col items-end gap-1">
             <button onClick={handleConnectStripe} disabled={stripeLoading}
                     className="bg-amber-500/80 text-cream text-xs tracking-widest uppercase
                                px-5 py-2.5 rounded-sm hover:bg-amber-500 transition-colors disabled:opacity-50 whitespace-nowrap">
-              {stripeLoading ? 'Aguarde...' : 'Continuar →'}
+              {stripeLoading ? ts('wait') : ts('onboardingCta')}
             </button>
             {stripeError && <p className="text-red-400 text-[10px] max-w-xs text-right">{stripeError}</p>}
           </div>
@@ -173,16 +175,16 @@ export default function OrgPainelPage() {
       {stripeConnected === false && !stripeNeedsOnboarding && !stripeVerifying && (
         <div className="mb-8 bg-sage/5 border border-sage/20 rounded-xl px-6 py-5 flex items-center justify-between gap-4">
           <div>
-            <p className="text-sage text-xs tracking-widest uppercase mb-1">Receba doações</p>
+            <p className="text-sage text-xs tracking-widest uppercase mb-1">{ts('notConnectedTitle')}</p>
             <p className="text-cream/70 text-sm leading-relaxed">
-              Conecte sua conta Stripe para começar a receber doações diretamente.
+              {ts('notConnectedDesc')}
             </p>
           </div>
           <div className="flex-shrink-0 flex flex-col items-end gap-1">
             <button onClick={handleConnectStripe} disabled={stripeLoading}
                     className="bg-sage text-cream text-xs tracking-widest uppercase
                                px-5 py-2.5 rounded-sm hover:bg-leaf transition-colors disabled:opacity-50 whitespace-nowrap">
-              {stripeLoading ? 'Aguarde...' : 'Conectar Stripe →'}
+              {stripeLoading ? ts('wait') : ts('notConnectedCta')}
             </button>
             {stripeError && <p className="text-red-400 text-[10px] max-w-xs text-right">{stripeError}</p>}
           </div>
@@ -192,8 +194,8 @@ export default function OrgPainelPage() {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 mb-10">
         {[
-          { label: o.activeProjects,   value: projects.filter(p => p.status === 'active').length },
-          { label: o.donationsReceived, value: donations.length },
+          { label: o('activeProjects'),   value: projects.filter(p => p.status === 'active').length },
+          { label: o('donationsReceived'), value: donations.length },
         ].map(s => (
           <div key={s.label} className="bg-canopy/40 border border-white/[0.06] rounded-xl p-5 text-center">
             <p className="font-serif text-3xl font-light text-sage mb-1">{s.value}</p>
@@ -205,19 +207,19 @@ export default function OrgPainelPage() {
       {/* Projects */}
       <div className="mb-10">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="font-serif text-2xl font-light text-cream">{o.yourProjects}</h2>
+          <h2 className="font-serif text-2xl font-light text-cream">{o('yourProjects')}</h2>
           <Link href="/org/projetos/novo"
                 className="text-[10px] tracking-widest uppercase bg-leaf text-cream px-4 py-2 rounded-sm hover:bg-sage transition-colors">
-            + {o.newProject}
+            + {o('newProject')}
           </Link>
         </div>
 
         {projects.length === 0 ? (
           <div className="bg-canopy/20 border border-white/[0.06] rounded-xl p-10 text-center">
-            <p className="text-cream/30 text-sm mb-4">{o.noProjects}</p>
+            <p className="text-cream/30 text-sm mb-4">{o('noProjects')}</p>
             <Link href="/org/projetos/novo"
                   className="text-sage text-xs tracking-widest uppercase hover:underline">
-              {o.createFirst}
+              {o('createFirst')}
             </Link>
           </div>
         ) : (
@@ -237,11 +239,11 @@ export default function OrgPainelPage() {
                 <div className="flex items-center gap-3">
                   <Link href={`/projetos/${p.slug}`}
                         className="text-cream/30 text-[10px] tracking-widest uppercase hover:text-cream transition-colors">
-                    {o.view}
+                    {o('view')}
                   </Link>
                   <Link href={`/org/atualizacoes/nova?projeto=${p.id}`}
                         className="text-sage/50 text-[10px] tracking-widest uppercase hover:text-sage transition-colors">
-                    + Update
+                    {o('addUpdateShortcut')}
                   </Link>
                 </div>
               </div>
@@ -253,15 +255,15 @@ export default function OrgPainelPage() {
       {/* Recent donations */}
       {donations.length > 0 && (
         <div>
-          <h2 className="font-serif text-2xl font-light text-cream mb-5">{o.recentDonations}</h2>
+          <h2 className="font-serif text-2xl font-light text-cream mb-5">{o('recentDonations')}</h2>
           <div className="bg-canopy/30 border border-white/[0.06] rounded-xl overflow-hidden">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/[0.06]">
-                  <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-6 py-3">{o.colDonor}</th>
-                  <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-6 py-3">{o.colProject}</th>
-                  <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-6 py-3">{o.colAmount}</th>
-                  <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-6 py-3">{o.colDate}</th>
+                  <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-6 py-3">{o('colDonor')}</th>
+                  <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-6 py-3">{o('colProject')}</th>
+                  <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-6 py-3">{o('colAmount')}</th>
+                  <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-6 py-3">{o('colDate')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -269,8 +271,8 @@ export default function OrgPainelPage() {
                   <tr key={i} className="border-b border-white/[0.03] hover:bg-white/[0.02]">
                     <td className="px-6 py-3 text-cream/70 text-sm">{d.donor_name}</td>
                     <td className="px-6 py-3 text-cream/40 text-xs">{(d.project as any)?.title ?? '—'}</td>
-                    <td className="px-6 py-3 text-sage text-sm">{d.currency} {Number(d.amount).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
-                    <td className="px-6 py-3 text-cream/30 text-xs">{new Date(d.created_at).toLocaleDateString('pt-BR')}</td>
+                    <td className="px-6 py-3 text-sage text-sm">{d.currency} {Number(d.amount).toLocaleString(bcp47, { minimumFractionDigits: 2 })}</td>
+                    <td className="px-6 py-3 text-cream/30 text-xs">{new Date(d.created_at).toLocaleDateString(bcp47)}</td>
                   </tr>
                 ))}
               </tbody>

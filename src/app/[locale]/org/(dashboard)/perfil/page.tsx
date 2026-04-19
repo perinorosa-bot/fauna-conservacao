@@ -3,11 +3,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { COUNTRIES } from '@/lib/countries'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations } from 'next-intl'
 
 export default function OrgPerfilPage() {
-  const { t } = useLanguage()
-  const o = t.orgDash
+  const o = useTranslations('orgDash')
   const supabase = createClient()
   const fileRef  = useRef<HTMLInputElement>(null)
 
@@ -47,7 +46,7 @@ export default function OrgPerfilPage() {
       .from('project-images')
       .upload(path, file, { upsert: true })
     setUploading(false)
-    if (upErr) { setError(o.uploading + ' ' + upErr.message); return }
+    if (upErr) { setError(o('uploading') + ' ' + upErr.message); return }
     const { data: { publicUrl } } = supabase.storage.from('project-images').getPublicUrl(data.path)
     setLogoUrl(publicUrl)
   }
@@ -76,18 +75,18 @@ export default function OrgPerfilPage() {
   return (
     <div className="max-w-xl">
       <div className="mb-10">
-        <h1 className="font-serif text-4xl font-light text-cream mb-2">{o.orgProfile}</h1>
-        <p className="text-cream/40 text-sm">{o.profileSubtitle}</p>
+        <h1 className="font-serif text-4xl font-light text-cream mb-2">{o('orgProfile')}</h1>
+        <p className="text-cream/40 text-sm">{o('profileSubtitle')}</p>
       </div>
 
       <form onSubmit={handleSave} className="flex flex-col gap-5">
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.orgName}</label>
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('orgName')}</label>
           <input className={inputClass} type="text" value={orgName}
                  onChange={e => setOrgName(e.target.value)} required />
         </div>
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.country}</label>
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('country')}</label>
           <select className={inputClass} value={orgCountry}
                   onChange={e => setOrgCountry(e.target.value)} required>
             <option value="" disabled>Selecione um país</option>
@@ -95,18 +94,18 @@ export default function OrgPerfilPage() {
           </select>
         </div>
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.description}</label>
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('description')}</label>
           <textarea className={`${inputClass} resize-none`} rows={4}
                     value={orgDesc} onChange={e => setOrgDesc(e.target.value)} required />
         </div>
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.website}</label>
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('website')}</label>
           <input className={inputClass} type="url" placeholder="https://suaorg.org"
                  value={orgWebsite} onChange={e => setOrgWebsite(e.target.value)} />
         </div>
 
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.logo}</label>
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('logo')}</label>
           <div className="flex gap-2 mb-2">
             <button type="button" onClick={() => setLogoTab('url')}
                     className={`text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-sm transition-colors ${
@@ -116,7 +115,7 @@ export default function OrgPerfilPage() {
             <button type="button" onClick={() => setLogoTab('upload')}
                     className={`text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-sm transition-colors ${
                       logoTab === 'upload' ? 'bg-sage/20 text-sage' : 'text-cream/30 hover:text-cream'}`}>
-              {o.uploadBtn}
+              {o('uploadBtn')}
             </button>
           </div>
           {logoTab === 'url' ? (
@@ -130,7 +129,7 @@ export default function OrgPerfilPage() {
                       className="w-full border border-dashed border-white/[0.15] rounded-sm px-4 py-5
                                  text-cream/30 text-xs tracking-wide hover:border-sage/40 hover:text-sage/60
                                  transition-colors disabled:opacity-50 text-center">
-                {uploading ? o.uploading : logoUrl ? o.logoUploaded : o.selectLogo}
+                {uploading ? o('uploading') : logoUrl ? o('logoUploaded') : o('selectLogo')}
               </button>
               {logoUrl && !uploading && (
                 <p className="text-sage text-[10px] mt-1.5 truncate">{logoUrl}</p>
@@ -140,12 +139,12 @@ export default function OrgPerfilPage() {
         </div>
 
         {error && <p className="text-red-400 text-xs">{error}</p>}
-        {saved && <p className="text-sage text-xs">{o.savedSuccess}</p>}
+        {saved && <p className="text-sage text-xs">{o('savedSuccess')}</p>}
 
         <button type="submit" disabled={loading}
                 className="bg-leaf text-cream text-xs tracking-widest uppercase px-8 py-3 rounded-sm
                            hover:bg-sage transition-colors disabled:opacity-50 w-fit">
-          {loading ? o.saving : o.saveChanges}
+          {loading ? o('saving') : o('saveChanges')}
         </button>
       </form>
     </div>

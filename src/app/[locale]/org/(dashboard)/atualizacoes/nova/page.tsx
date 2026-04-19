@@ -1,16 +1,16 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
+import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations } from 'next-intl'
 import { Suspense } from 'react'
 
 type Project = { id: string; title: string }
 
 function NovaAtualizacaoForm() {
-  const { t } = useLanguage()
-  const o = t.orgDash
+  const o = useTranslations('orgDash')
   const router       = useRouter()
   const searchParams = useSearchParams()
   const supabase     = createClient()
@@ -71,7 +71,7 @@ function NovaAtualizacaoForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!projectId) { setError(o.selectErr); return }
+    if (!projectId) { setError(o('selectErr')); return }
     setLoading(true)
     setError('')
 
@@ -97,34 +97,34 @@ function NovaAtualizacaoForm() {
   return (
     <div className="max-w-2xl">
       <div className="mb-10">
-        <h1 className="font-serif text-4xl font-light text-cream mb-2">{o.newUpdateTitle}</h1>
-        <p className="text-cream/40 text-sm">{o.newUpdateSub}</p>
+        <h1 className="font-serif text-4xl font-light text-cream mb-2">{o('newUpdateTitle')}</h1>
+        <p className="text-cream/40 text-sm">{o('newUpdateSub')}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.selectProject} {o.required}</label>
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('selectProject')} {o('required')}</label>
           <select className={inputClass} value={projectId} onChange={e => setProjectId(e.target.value)} required>
-            <option value="">{o.selectProjectPh}</option>
+            <option value="">{o('selectProjectPh')}</option>
             {projects.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
           </select>
         </div>
 
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.updateTitle} {o.required}</label>
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('updateTitle')} {o('required')}</label>
           <input className={inputClass} type="text" placeholder="Ex: Onça filmada no corredor norte"
                  value={title} onChange={e => setTitle(e.target.value)} required />
         </div>
 
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.content} {o.required}</label>
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('content')} {o('required')}</label>
           <textarea className={`${inputClass} resize-none`} rows={6}
-                    placeholder={o.contentPh}
+                    placeholder={o('contentPh')}
                     value={content} onChange={e => setContent(e.target.value)} required />
         </div>
 
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.authorName} {o.required}</label>
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('authorName')} {o('required')}</label>
           <input className={inputClass} type="text" placeholder="Dr. Maria Silva"
                  value={authorName} onChange={e => setAuthorName(e.target.value)} required />
         </div>
@@ -132,7 +132,7 @@ function NovaAtualizacaoForm() {
         {/* Image */}
         <div>
           <label className="text-cream/50 text-xs tracking-wide block mb-1.5">
-            {o.imageLabel} <span className="text-cream/25">{o.optional}</span>
+            {o('imageLabel')} <span className="text-cream/25">{o('optional')}</span>
           </label>
           <div className="flex gap-2 mb-2">
             <button type="button" onClick={() => setImageTab('url')}
@@ -157,7 +157,7 @@ function NovaAtualizacaoForm() {
                       className="w-full border border-dashed border-white/[0.15] rounded-sm px-4 py-6
                                  text-cream/30 text-xs tracking-wide hover:border-sage/40 hover:text-sage/60
                                  transition-colors disabled:opacity-50 text-center">
-                {uploading ? o.uploading : imageUrl ? o.imageUploaded : o.selectImage}
+                {uploading ? o('uploading') : imageUrl ? o('imageUploaded') : o('selectImage')}
               </button>
               {imageUrl && !uploading && (
                 <p className="text-sage text-[10px] mt-1.5 truncate">{imageUrl}</p>
@@ -169,7 +169,7 @@ function NovaAtualizacaoForm() {
         {/* Video links */}
         <div>
           <label className="text-cream/50 text-xs tracking-wide block mb-1.5">
-            {o.videoLinks} <span className="text-cream/25">{o.videoHint} — {o.optional}</span>
+            {o('videoLinks')} <span className="text-cream/25">{o('videoHint')} — {o('optional')}</span>
           </label>
           <div className="flex flex-col gap-2">
             {videoLinks.map((v, i) => (
@@ -187,7 +187,7 @@ function NovaAtualizacaoForm() {
             ))}
             <button type="button" onClick={addVideoLink}
                     className="text-sage/50 text-[10px] tracking-widest uppercase hover:text-sage transition-colors text-left">
-              {o.addVideo}
+              {o('addVideo')}
             </button>
           </div>
         </div>
@@ -198,11 +198,11 @@ function NovaAtualizacaoForm() {
           <button type="submit" disabled={loading || uploading}
                   className="bg-leaf text-cream text-xs tracking-widest uppercase px-8 py-3 rounded-sm
                              hover:bg-sage transition-colors disabled:opacity-50">
-            {loading ? o.publishing : o.publishUpdate}
+            {loading ? o('publishing') : o('publishUpdate')}
           </button>
           <button type="button" onClick={() => router.back()}
                   className="text-cream/30 text-xs tracking-widest uppercase hover:text-cream transition-colors">
-            {o.cancel}
+            {o('cancel')}
           </button>
         </div>
       </form>

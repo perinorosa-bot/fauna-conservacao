@@ -1,16 +1,10 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import Nav from '@/components/layout/Nav'
 import { NavTheme } from '@/components/layout/NavTheme'
+import { getTranslations } from 'next-intl/server'
 
+// Resources are fixture data — titles/descriptions stay in pt until a real DB wires up.
 type ResourceType = 'template' | 'guia' | 'checklist' | 'planilha' | 'ebook'
-
-const TYPE_LABELS: Record<ResourceType, string> = {
-  template:  'Template',
-  guia:      'Guia',
-  checklist: 'Checklist',
-  planilha:  'Planilha',
-  ebook:     'E-book',
-}
 
 const TYPE_COLORS: Record<ResourceType, string> = {
   template:  'bg-blue-50 text-blue-700 border-blue-200',
@@ -20,73 +14,31 @@ const TYPE_COLORS: Record<ResourceType, string> = {
   ebook:     'bg-forest/8 text-forest border-forest/20',
 }
 
-const RESOURCES = [
-  {
-    type: 'template' as ResourceType,
-    title: 'Template: Email de Captação',
-    description: 'Estrutura de email para primeira abordagem a novos doadores. Inclui 3 variações por perfil.',
-    downloads: 1240,
-    new: false,
-  },
-  {
-    type: 'guia' as ResourceType,
-    title: 'Guia: Como Escrever um Projeto para Editais',
-    description: 'Passo a passo completo com exemplos reais de projetos aprovados em fundações nacionais e internacionais.',
-    downloads: 2180,
-    new: false,
-  },
-  {
-    type: 'checklist' as ResourceType,
-    title: 'Checklist: Lançamento de Campanha',
-    description: '47 pontos de verificação antes de lançar qualquer campanha de captação. Nunca esqueça nada importante.',
-    downloads: 890,
-    new: true,
-  },
-  {
-    type: 'planilha' as ResourceType,
-    title: 'Planilha: Gestão de Doadores',
-    description: 'Controle todos os seus doadores, histórico de doações, próximos passos e lembretes de contato.',
-    downloads: 1650,
-    new: false,
-  },
-  {
-    type: 'ebook' as ResourceType,
-    title: 'E-book: 50 Ideias de Captação para Conservação',
-    description: 'Coletânea de estratégias testadas por organizações de conservação ao redor do mundo. 68 páginas.',
-    downloads: 3400,
-    new: false,
-  },
-  {
-    type: 'template' as ResourceType,
-    title: 'Template: Relatório de Impacto Anual',
-    description: 'Layout editável em Canva para seu relatório anual. Profissional e fácil de preencher.',
-    downloads: 780,
-    new: true,
-  },
-  {
-    type: 'guia' as ResourceType,
-    title: 'Guia: Doação Recorrente — Como Ativar',
-    description: 'Como estruturar, comunicar e manter um programa de doação mensal na sua organização.',
-    downloads: 1100,
-    new: false,
-  },
-  {
-    type: 'checklist' as ResourceType,
-    title: 'Checklist: Verificação de Documentos para Cadastro',
-    description: 'Lista completa de documentos necessários para cadastrar sua organização em plataformas de captação.',
-    downloads: 560,
-    new: true,
-  },
-  {
-    type: 'planilha' as ResourceType,
-    title: 'Planilha: Orçamento de Projeto de Conservação',
-    description: 'Modelo de orçamento detalhado para projetos de campo, com categorias pré-definidas e fórmulas automáticas.',
-    downloads: 920,
-    new: false,
-  },
+type Resource = {
+  type: ResourceType
+  title: string
+  description: string
+  downloads: number
+  new: boolean
+}
+
+const RESOURCES: Resource[] = [
+  { type: 'template', title: 'Template: Email de Captação', description: 'Estrutura de email para primeira abordagem a novos doadores. Inclui 3 variações por perfil.', downloads: 1240, new: false },
+  { type: 'guia', title: 'Guia: Como Escrever um Projeto para Editais', description: 'Passo a passo completo com exemplos reais de projetos aprovados em fundações nacionais e internacionais.', downloads: 2180, new: false },
+  { type: 'checklist', title: 'Checklist: Lançamento de Campanha', description: '47 pontos de verificação antes de lançar qualquer campanha de captação. Nunca esqueça nada importante.', downloads: 890, new: true },
+  { type: 'planilha', title: 'Planilha: Gestão de Doadores', description: 'Controle todos os seus doadores, histórico de doações, próximos passos e lembretes de contato.', downloads: 1650, new: false },
+  { type: 'ebook', title: 'E-book: 50 Ideias de Captação para Conservação', description: 'Coletânea de estratégias testadas por organizações de conservação ao redor do mundo. 68 páginas.', downloads: 3400, new: false },
+  { type: 'template', title: 'Template: Relatório de Impacto Anual', description: 'Layout editável em Canva para seu relatório anual. Profissional e fácil de preencher.', downloads: 780, new: true },
+  { type: 'guia', title: 'Guia: Doação Recorrente — Como Ativar', description: 'Como estruturar, comunicar e manter um programa de doação mensal na sua organização.', downloads: 1100, new: false },
+  { type: 'checklist', title: 'Checklist: Verificação de Documentos para Cadastro', description: 'Lista completa de documentos necessários para cadastrar sua organização em plataformas de captação.', downloads: 560, new: true },
+  { type: 'planilha', title: 'Planilha: Orçamento de Projeto de Conservação', description: 'Modelo de orçamento detalhado para projetos de campo, com categorias pré-definidas e fórmulas automáticas.', downloads: 920, new: false },
 ]
 
-export default function RecursosPage() {
+export default async function RecursosPage() {
+  const t = await getTranslations('academy.resources')
+
+  const typeLabel = (type: ResourceType) => t(`filterLabels.${type}`)
+
   return (
     <NavTheme theme="light">
       <main className="min-h-screen bg-[#f5f4f0]">
@@ -96,13 +48,13 @@ export default function RecursosPage() {
         <section className="bg-forest pt-40 pb-16 px-10">
           <div className="max-w-screen-lg mx-auto">
             <p className="text-sage/60 text-[10px] tracking-[0.25em] uppercase mb-4">
-              <Link href="/academy" className="hover:text-sage">Academy</Link> / Recursos
+              <Link href="/academy" className="hover:text-sage">{t('breadcrumb')}</Link> / {t('breadcrumbCurrent')}
             </p>
             <h1 className="font-serif text-5xl font-light text-cream mb-4">
-              Biblioteca <em className="italic text-sage">gratuita</em>
+              {t('titleBefore')}<em className="italic text-sage">{t('titleEm')}</em>
             </h1>
             <p className="text-cream/45 text-base max-w-lg">
-              Templates, guias, planilhas e materiais prontos para baixar e usar na sua organização — sem custo.
+              {t('subtitle')}
             </p>
           </div>
         </section>
@@ -110,12 +62,12 @@ export default function RecursosPage() {
         {/* Filters */}
         <div className="px-10 pt-10 pb-2 max-w-screen-lg mx-auto">
           <div className="flex flex-wrap gap-2">
-            {(['todos', ...Object.keys(TYPE_LABELS)] as const).map(t => (
-              <span key={t}
+            {(['todos', 'template', 'guia', 'checklist', 'planilha', 'ebook'] as const).map(filter => (
+              <span key={filter}
                     className="text-[10px] tracking-widests uppercase px-4 py-2 rounded-full border
                                bg-white border-forest/15 text-forest/50 cursor-pointer
                                hover:border-forest/35 hover:text-forest transition-colors">
-                {t === 'todos' ? 'Todos' : TYPE_LABELS[t as ResourceType]}
+                {filter === 'todos' ? t('filterAll') : typeLabel(filter as ResourceType)}
               </span>
             ))}
           </div>
@@ -131,11 +83,11 @@ export default function RecursosPage() {
                               flex flex-col">
                 <div className="flex items-start justify-between mb-5">
                   <span className={`text-[9px] tracking-widests uppercase px-2.5 py-1 rounded-full border ${TYPE_COLORS[r.type]}`}>
-                    {TYPE_LABELS[r.type]}
+                    {typeLabel(r.type)}
                   </span>
                   {r.new && (
                     <span className="text-[9px] tracking-widests uppercase text-sage bg-sage/10 px-2.5 py-1 rounded-full">
-                      Novo
+                      {t('tagNew')}
                     </span>
                   )}
                 </div>
@@ -149,7 +101,7 @@ export default function RecursosPage() {
 
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-forest/[0.06]">
                   <span className="text-forest/30 text-[11px]">
-                    {r.downloads.toLocaleString('pt-BR')} downloads
+                    {r.downloads.toLocaleString()} {t('downloadsSuffix')}
                   </span>
                   <button className="flex items-center gap-1.5 text-leaf text-[10px] tracking-widests uppercase
                                      hover:gap-2.5 transition-all group-hover:text-forest">
@@ -158,7 +110,7 @@ export default function RecursosPage() {
                       <polyline points="7 10 12 15 17 10"/>
                       <line x1="12" y1="15" x2="12" y2="3"/>
                     </svg>
-                    Baixar grátis
+                    {t('downloadFree')}
                   </button>
                 </div>
               </div>
@@ -169,17 +121,17 @@ export default function RecursosPage() {
         {/* CTA */}
         <section className="px-10 pb-24 max-w-screen-lg mx-auto">
           <div className="bg-forest rounded-2xl px-10 py-12 text-center">
-            <p className="text-sage/70 text-[10px] tracking-[0.2em] uppercase mb-3">Quer aprender mais?</p>
+            <p className="text-sage/70 text-[10px] tracking-[0.2em] uppercase mb-3">{t('cta.eyebrow')}</p>
             <h2 className="font-serif text-3xl font-light text-cream mb-4">
-              Explore os cursos completos
+              {t('cta.title')}
             </h2>
             <p className="text-cream/40 text-sm mb-8 max-w-md mx-auto">
-              Os recursos são um ponto de partida. Nos cursos você aprende com profundidade e recebe certificado.
+              {t('cta.subtitle')}
             </p>
             <Link href="/academy/cursos"
                   className="bg-sage text-cream text-[10px] tracking-widests uppercase px-8 py-3.5 rounded-sm
                              hover:bg-leaf transition-colors">
-              Ver todos os cursos →
+              {t('cta.button')}
             </Link>
           </div>
         </section>

@@ -4,7 +4,16 @@
     "howItWorks": "Como funciona",
     "donate": "Doe agora",
     "forOrgs": "Tem um projeto de conservação?",
-    "sounds": "Sons"
+    "sounds": "Sons",
+    "about": "Sobre",
+    "academy": "Academy",
+    "shop": "Nossa loja",
+    "support": "Nos apoie",
+    "haveProject": "Tem um projeto?",
+    "myProfile": "Meu perfil",
+    "signIn": "Entrar",
+    "pauseSounds": "Pausar sons da natureza",
+    "playSounds": "Tocar sons da natureza"
   },
   "hero": {
     "headline1": "É o planeta",
@@ -37,7 +46,31 @@
     "label": "espécies ameaçadas de extinção"
   },
   "footer": {
-    "rights": "© 2025 Fauna Platform"
+    "rights": "© 2025 Fauna Platform",
+    "zeroFee": "Taxa zero sobre doações",
+    "sections": {
+      "platform": "Plataforma",
+      "account": "Conta",
+      "help": "Ajuda"
+    },
+    "platform": {
+      "projects": "Projetos",
+      "howItWorks": "Como funciona",
+      "academy": "Academy",
+      "forOrgs": "Para organizações",
+      "shop": "Nossa loja",
+      "support": "Nos apoie"
+    },
+    "account": {
+      "signIn": "Entrar",
+      "myProfile": "Meu perfil"
+    },
+    "help": {
+      "faq": "FAQ",
+      "contact": "Contato",
+      "privacy": "Privacidade",
+      "cookies": "Cookies"
+    }
   },
   "howItWorks": {
     "eyebrow": "Transparência total",
@@ -266,7 +299,162 @@
     "publishUpdate": "Publicar atualização",
     "selectErr": "Selecione um projeto.",
     "sessionErr": "Sessão expirada.",
-    "orgNotFound": "Organização não encontrada."
+    "orgNotFound": "Organização não encontrada.",
+    "addUpdateShortcut": "+ Atualização",
+    "stripe": {
+      "successConnected": "Conta Stripe conectada com sucesso! Sua organização já pode receber doações.",
+      "successVerifying": "Dados enviados ao Stripe. A verificação pode levar alguns minutos — volte em instantes.",
+      "successNeedsOnboarding": "Ainda faltam informações. Continue a configuração abaixo.",
+      "refreshExpired": "O link do Stripe expirou. Clique em \"Conectar Stripe\" abaixo para gerar um novo.",
+      "connectedBanner": "Stripe conectado — sua organização pode receber doações.",
+      "verifyingTitle": "Em verificação",
+      "verifyingDesc": "O Stripe está verificando sua conta. Quando estiver pronto, aparecerá como conectada aqui automaticamente.",
+      "onboardingTitle": "Continuar configuração",
+      "onboardingDesc": "Sua conta Stripe existe mas faltam dados para receber doações.",
+      "onboardingCta": "Continuar →",
+      "notConnectedTitle": "Receba doações",
+      "notConnectedDesc": "Conecte sua conta Stripe para começar a receber doações diretamente.",
+      "notConnectedCta": "Conectar Stripe →",
+      "wait": "Aguarde...",
+      "connectError": "Erro ao conectar Stripe.",
+      "networkError": "Erro de rede. Tente novamente."
+    }
+  },
+  "adminDash": {
+    "sidebar": {
+      "home": "Dashboard",
+      "organizations": "Organizações",
+      "projects": "Projetos",
+      "updates": "Atualizações",
+      "donations": "Doações",
+      "users": "Usuários",
+      "brandTag": "Admin",
+      "viewSite": "Ver site",
+      "logout": "Sair"
+    },
+    "home": {
+      "title": "Dashboard",
+      "subtitle": "Visão geral da plataforma",
+      "stats": {
+        "organizations": "Organizações",
+        "pendingSuffix": "pendentes",
+        "activeProjects": "Projetos ativos",
+        "inProgress": "em andamento",
+        "donationsReceived": "Doações recebidas",
+        "totalSuffix": "total",
+        "users": "Usuários",
+        "registered": "cadastrados"
+      },
+      "pendingOne": "{count} organização aguardando verificação",
+      "pendingOther": "{count} organizações aguardando verificação",
+      "review": "Revisar →",
+      "recentDonations": "Doações recentes",
+      "recentOrgs": "Organizações recentes",
+      "seeAll": "Ver todas",
+      "noDonationsYet": "Nenhuma doação ainda",
+      "noOrgsYet": "Nenhuma organização ainda",
+      "verified": "Verificada",
+      "pending": "Pendente"
+    },
+    "orgs": {
+      "title": "Organizações",
+      "subtitle": "{count} cadastradas",
+      "cols": {
+        "organization": "Organização",
+        "country": "País",
+        "projects": "Projetos",
+        "status": "Status",
+        "createdAt": "Cadastro",
+        "actions": "Ações"
+      },
+      "verified": "Verificada",
+      "pending": "Pendente",
+      "empty": "Nenhuma organização cadastrada"
+    },
+    "donations": {
+      "title": "Doações",
+      "subtitle": "{count} registradas",
+      "totalRaised": "Total arrecadado",
+      "anonymous": "Anônimo",
+      "cols": {
+        "donor": "Doador",
+        "email": "E-mail",
+        "project": "Projeto",
+        "amount": "Valor",
+        "message": "Mensagem",
+        "date": "Data"
+      },
+      "empty": "Nenhuma doação registrada"
+    },
+    "projects": {
+      "title": "Projetos",
+      "subtitle": "{count} cadastrados",
+      "cols": {
+        "project": "Projeto",
+        "organization": "Organização",
+        "biomeCountry": "Bioma / País",
+        "goal": "Meta",
+        "raised": "Arrecadado",
+        "status": "Status",
+        "actions": "Ações"
+      },
+      "statusLabels": {
+        "active": "Ativo",
+        "paused": "Pausado",
+        "completed": "Concluído"
+      },
+      "statusOptions": {
+        "active": "Ativo",
+        "paused": "Pausar",
+        "completed": "Concluído"
+      },
+      "view": "Ver",
+      "delete": "Excluir",
+      "confirmDelete": "Excluir projeto? Esta ação não pode ser desfeita.",
+      "empty": "Nenhum projeto cadastrado"
+    },
+    "updates": {
+      "title": "Atualizações do feed",
+      "subtitle": "{count} publicadas",
+      "by": "por {author}",
+      "delete": "Excluir",
+      "deleting": "Excluindo...",
+      "confirmDelete": "Excluir esta atualização?",
+      "empty": "Nenhuma atualização publicada"
+    },
+    "users": {
+      "title": "Usuários",
+      "subtitle": "{count} cadastrados",
+      "cols": {
+        "user": "Usuário",
+        "email": "E-mail",
+        "role": "Role",
+        "actions": "Ações"
+      },
+      "roleLabels": {
+        "admin": "Admin",
+        "organization": "Organização",
+        "donor": "Doador"
+      },
+      "empty": "Nenhum usuário cadastrado"
+    },
+    "login": {
+      "brand": "Fauna",
+      "subtitle": "Painel administrativo",
+      "email": "E-mail",
+      "emailPlaceholder": "seu@email.com",
+      "password": "Senha",
+      "submit": "Entrar",
+      "submitting": "Entrando...",
+      "invalidCredentials": "E-mail ou senha incorretos.",
+      "onlyAdmins": "Somente administradores têm acesso"
+    },
+    "orgActions": {
+      "verify": "Verificar",
+      "revoke": "Revogar",
+      "delete": "Excluir",
+      "confirmDelete": "Excluir esta organização? Esta ação não pode ser desfeita."
+    }
   },
   "apoie": {
     "missionEyebrow": "Nossa missão",
@@ -354,5 +542,610 @@
     "footerSub": "Cada apoiador da plataforma multiplica o impacto de dezenas de projetos de conservação ao redor do mundo.",
     "footerBtn1": "Ver projetos",
     "footerBtn2": "Apoiar a Fauna"
+  },
+  "common": {
+    "back": "← Voltar",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "saving": "Salvando...",
+    "loading": "Carregando...",
+    "continue": "Continuar →",
+    "send": "Enviar",
+    "sending": "Enviando...",
+    "required": "*",
+    "optional": "(opcional)",
+    "email": "E-mail",
+    "password": "Senha",
+    "name": "Nome",
+    "close": "Fechar"
+  },
+  "authForms": {
+    "enter": {
+      "welcomeTitle": "Bem-vinda de volta",
+      "welcomeSub": "Como você quer entrar?",
+      "donorEyebrow": "Apoiador / Doador",
+      "donorTitle": "Quero apoiar projetos",
+      "donorDesc": "Acesse sua conta de apoiador ou crie uma nova para começar a doar para projetos de conservação.",
+      "donorCta": "Entrar como apoiador →",
+      "orgEyebrow": "Organização",
+      "orgTitle": "Tenho um projeto de conservação",
+      "orgDesc": "Acesse o painel da sua organização ou cadastre um novo projeto na plataforma.",
+      "orgCta": "Entrar como organização →",
+      "donorStepTitle": "Entrar ou criar conta",
+      "donorStepSub": "Use seu e-mail — enviamos um link de acesso. Sem senha.",
+      "sentTitle": "Link enviado!",
+      "sentDesc": "Verifique sua caixa de entrada em {email} e clique no link para acessar.",
+      "useOther": "Usar outro e-mail",
+      "emailLabel": "Seu e-mail",
+      "emailPlaceholder": "voce@email.com",
+      "submit": "Enviar link de acesso",
+      "terms": "Ao entrar, você concorda com nossos termos de uso. Sua conta é gratuita para sempre.",
+      "orgStepTitle": "Acessar painel",
+      "orgStepSub": "Entre com o e-mail e senha da sua organização.",
+      "orgEmailLabel": "E-mail",
+      "orgEmailPlaceholder": "org@email.com",
+      "orgPasswordLabel": "Senha",
+      "orgPasswordPlaceholder": "••••••••",
+      "orgSubmit": "Entrar",
+      "orgSubmitting": "Entrando...",
+      "invalidCredentials": "E-mail ou senha incorretos.",
+      "noAccount": "Ainda não tem conta?",
+      "registerOrg": "Cadastrar organização →"
+    },
+    "orgLogin": {
+      "brand": "Fauna",
+      "subtitle": "Painel da organização",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "org@email.com",
+      "passwordLabel": "Senha",
+      "passwordPlaceholder": "••••••••",
+      "submit": "Entrar",
+      "submitting": "Entrando...",
+      "invalidCredentials": "E-mail ou senha incorretos.",
+      "createAccount": "Criar conta →",
+      "backToSite": "Voltar ao site"
+    },
+    "orgRegister": {
+      "pitch": {
+        "eyebrow": "Para organizações",
+        "titleLine1": "Alcance doadores que",
+        "titleLine2Em": "já querem apoiar",
+        "titleLine3": "sua causa",
+        "subtitle": "A Fauna conecta projetos de conservação a uma audiência global de apoiadores. Cadastre-se gratuitamente e comece a publicar atualizações do seu trabalho.",
+        "formTitle": "Criar perfil da organização",
+        "bullets": [
+          {
+            "title": "Taxa zero sobre doações",
+            "desc": "Fique com 100% do que arrecadar. A plataforma se sustenta de outra forma — não às suas custas."
+          },
+          {
+            "title": "Doações internacionais",
+            "desc": "Receba apoio de qualquer país sem burocracia de câmbio ou compliance."
+          },
+          {
+            "title": "Rede de sinergias",
+            "desc": "Descubra projetos complementares e crie colaborações que ampliam o impacto."
+          },
+          {
+            "title": "Relatórios automáticos",
+            "desc": "A plataforma envia atualizações aos seus doadores automaticamente."
+          }
+        ]
+      },
+      "form": {
+        "confirmTitle": "Confirme seu e-mail",
+        "confirmDesc": "Enviamos um link de confirmação para {email}. Clique no link e depois volte aqui para continuar.",
+        "confirmCta": "Já confirmei →",
+        "fullNameLabel": "Nome completo",
+        "fullNamePlaceholder": "Seu nome",
+        "emailLabel": "E-mail",
+        "emailPlaceholder": "email@organizacao.org",
+        "passwordLabel": "Senha",
+        "passwordPlaceholder": "Mínimo 8 caracteres",
+        "createAccount": "Criar conta →",
+        "creatingAccount": "Criando conta...",
+        "alreadyHaveAccount": "Já tem conta?",
+        "signIn": "Entrar",
+        "accountCreated": "✓ Conta criada — agora, sua organização",
+        "orgNameLabel": "Nome da organização",
+        "orgNamePlaceholder": "Ex: Instituto Onça-Pintada",
+        "slugLabel": "URL pública — fauna.org/org/",
+        "slugFallback": "sua-org",
+        "slugPlaceholder": "instituto-onca-pintada",
+        "countryLabel": "País de atuação",
+        "countryPlaceholder": "Selecione um país",
+        "descLabel": "Descrição",
+        "descPlaceholder": "O que sua organização faz e por que importa...",
+        "websiteLabel": "Website (opcional)",
+        "websitePlaceholder": "https://suaorg.org",
+        "logoLabel": "Logo da organização (opcional)",
+        "logoTabUrl": "URL",
+        "logoTabUpload": "Upload",
+        "logoUrlPlaceholder": "https://suaorg.org/logo.png",
+        "logoUploaded": "✓ Logo enviado — clique para trocar",
+        "logoSelect": "Clique para selecionar o logo",
+        "logoUploading": "Enviando...",
+        "uploadError": "Erro no upload: {message}",
+        "sessionExpired": "Sessão expirada. Faça login novamente.",
+        "submit": "Criar perfil da organização →",
+        "submitting": "Salvando..."
+      }
+    }
+  },
+  "donationForm": {
+    "unavailable": "Doações para este projeto estarão disponíveis em breve.",
+    "thanksTitle": "Obrigada pelo apoio!",
+    "thanksMonthly": "Doação mensal de R$ {amount} ativada com sucesso.",
+    "thanksOnce": "Sua doação de R$ {amount} foi processada com sucesso.",
+    "tabOnce": "Doação pontual",
+    "tabMonthly": "Doação mensal",
+    "monthlyBadge": "Doações mensais garantem suporte contínuo ao projeto. Cancele quando quiser.",
+    "confirmMonthly": "Confirmar R$ {amount}/mês",
+    "confirmOnce": "Confirmar doação de R$ {amount}",
+    "processing": "Processando...",
+    "paymentError": "Erro ao processar pagamento.",
+    "stepPayHeaderMonthly": "Doação mensal · R$ {amount}/mês",
+    "stepPayHeaderOnce": "Doação · R$ {amount}",
+    "stepInfoHeaderMonthly": "Mensal · R$ {amount}/mês",
+    "stepInfoHeaderOnce": "Pontual · R$ {amount}",
+    "nameLabel": "Seu nome *",
+    "namePlaceholder": "Como prefere ser chamada",
+    "emailLabel": "E-mail *",
+    "emailPlaceholder": "voce@email.com",
+    "emailHint": "Usado para enviar seu recibo e atualizações do projeto.",
+    "messageLabel": "Mensagem",
+    "messageOptional": "(opcional)",
+    "messagePlaceholder": "Deixe uma mensagem para a organização...",
+    "startError": "Erro ao iniciar pagamento.",
+    "waiting": "Aguarde...",
+    "amountMonthly": "Valor mensal",
+    "amountChoose": "Escolha um valor",
+    "customPlaceholder": "Outro",
+    "minAmount": "Valor mínimo R$ 5",
+    "supportMonthly": "Apoiar com R$ {amount}/mês →",
+    "supportOnce": "Apoiar com R$ {amount} →",
+    "secureNote": "100% vai para o projeto · Pagamento seguro via Stripe",
+    "success": {
+      "titleBefore": "Obrigado pela sua ",
+      "titleEm": "doação",
+      "description": "Seu apoio chegou. Você receberá atualizações do projeto por e-mail conforme o trabalho avança no campo.",
+      "viewProject": "Ver projeto",
+      "exploreOthers": "Explorar outros projetos"
+    }
+  },
+  "cookieBanner": {
+    "ariaLabel": "Consentimento de cookies",
+    "message": "Usamos cookies essenciais para autenticação e para lembrar suas preferências de idioma. Não usamos rastreamento ou publicidade.",
+    "learnMore": "Saiba mais",
+    "decline": "Recusar",
+    "accept": "Aceitar"
+  },
+  "faq": {
+    "hero": {
+      "eyebrow": "Central de ajuda",
+      "titleBefore": "Como podemos ",
+      "titleEm": "ajudar?",
+      "subtitle": "Busque uma dúvida ou explore as categorias abaixo."
+    },
+    "search": {
+      "placeholder": "Ex: como recebo doações, taxa de cadastro...",
+      "clearAria": "Limpar busca"
+    },
+    "resultsOne": "{count} resultado para ",
+    "resultsOther": "{count} resultados para ",
+    "noResultsPrefix": "Nenhum resultado para ",
+    "noResultsTitle": "Não encontramos nada com esse termo.",
+    "noResultsHint": "Tente palavras diferentes ou ",
+    "noResultsHintLink": "entre em contato",
+    "popular": "Perguntas populares",
+    "categoryHint": "Clique em uma categoria acima para ver todas as perguntas",
+    "questionsCount": "{count} perguntas",
+    "questionsCountArrow": "{count} perguntas →",
+    "cta": {
+      "title": "Ainda tem dúvidas?",
+      "subtitle": "Nossa equipe está aqui para ajudar.",
+      "button": "Enviar uma mensagem"
+    },
+    "sections": [
+      {
+        "id": "geral",
+        "label": "Perguntas gerais",
+        "description": "O que é a Fauna, como funciona, idiomas e transparência financeira.",
+        "items": [
+          { "q": "O que é a Fauna?", "a": "A Fauna é um hub global de conservação animal. Conectamos organizações que trabalham com proteção à fauna selvagem a doadores e apoiadores — individuais e institucionais — de todo o mundo, oferecendo uma plataforma de conteúdo, descoberta de novos projetos e doação direta." },
+          { "q": "A Fauna é uma ONG?", "a": "A Fauna é uma plataforma digital, não uma ONG. Não gerenciamos projetos de conservação diretamente — somos a infraestrutura que conecta quem faz o trabalho de campo a quem quer apoiá-lo." },
+          { "q": "A Fauna fica com parte das doações?", "a": "Não. As doações vão diretamente da conta do doador para a conta Stripe da organização escolhida. A Fauna não gerencia o dinheiro e ele não passa pela nossa conta. Eventuais taxas de processamento são cobradas pelo Stripe." },
+          { "q": "Como a Fauna se sustenta financeiramente?", "a": "Através de contribuições voluntárias diretas à plataforma e da venda de produtos na nossa loja. Nossa existência não depende de comissão sobre doações." },
+          { "q": "A plataforma está disponível em quais idiomas?", "a": "A Fauna está disponível em português, inglês e espanhol. Aceitamos organizações e doadores de qualquer país do mundo." },
+          { "q": "A Fauna é responsável pelo uso das doações pelas organizações?", "a": "A Fauna realiza um processo de verificação de todas as organizações cadastradas, mas não audita o uso dos recursos após as doações serem realizadas. As doações vão diretamente da conta do doador para a conta Stripe da organização, sem intermediação da Fauna. A responsabilidade pelo uso dos recursos é integralmente da organização que os recebe. Caso identifique irregularidades em algum projeto, entre em contato conosco em contatofauna@proton.me." }
+        ]
+      },
+      {
+        "id": "organizacoes",
+        "label": "Para organizações",
+        "description": "Cadastro, documentos, projetos, recebimento de doações e conta Stripe.",
+        "items": [
+          { "q": "Qualquer organização pode se cadastrar?", "a": "Sim, desde que trabalhe com projetos de conservação de fauna selvagem. Toda organização passa por um processo de avaliação antes de ser publicada na plataforma e recebe um selo de verificação." },
+          { "q": "Qual a vantagem de cadastrar um projeto na Fauna?", "a": "A Fauna oferece visibilidade global para projetos de conservação animal, conectando organizações a uma rede de doadores e apoiadores engajados. Além disso, a plataforma é gratuita para cadastro, as doações chegam diretamente à organização sem intermediação financeira, e cada projeto ganha uma página dedicada com recursos visuais e atualizações." },
+          { "q": "Se a organização já faz captação de recursos com seus próprios meios, ela pode inscrever projetos na Fauna mesmo assim?", "a": "Sim, pode. A Fauna não é excludente em relação a outras formas de captação. A plataforma funciona como um canal adicional de visibilidade e doação, complementando as estratégias que a organização já utiliza." },
+          { "q": "A Fauna cobra alguma taxa para cadastro?", "a": "Não. O cadastro é totalmente gratuito. A Fauna não cobra taxa de adesão, mensalidade nem comissão sobre doações. Nos financiamos por meio de contribuições voluntárias diretas à plataforma e da nossa loja de produtos — o que significa que 100% do valor doado a um projeto vai diretamente à organização responsável." },
+          { "q": "Organizações internacionais podem se cadastrar?", "a": "Sim. A Fauna é uma plataforma global e aceita organizações de qualquer país do mundo. Para o cadastro, é necessário apresentar documentação legal válida no país de origem da organização. O processo de verificação é o mesmo independentemente da localização." },
+          { "q": "Em que idiomas posso publicar meu projeto?", "a": "Os projetos podem ser publicados em português e/ou inglês. Como a Fauna é uma plataforma global, recomendamos publicar nas duas línguas para ampliar o alcance e aumentar as chances de o projeto ser encontrado por doadores de diferentes países." },
+          { "q": "A Fauna divulga minha organização nas redes sociais?", "a": "Sim, desde que sua organização tenha o selo de validação da Fauna e projetos ativos cadastrados na plataforma. Para solicitar divulgação, envie um e-mail para contatofauna@proton.me com as informações da organização e os materiais de marketing que deseja compartilhar. Nossa equipe avaliará e entrará em contato." },
+          { "q": "Quais documentos são necessários para o cadastro?", "a": "Para garantir a segurança dos doadores, a Fauna exige que todas as organizações possuam alguma forma de registro legal válido no seu país de origem — como CNPJ, associação registrada, fundação ou equivalente internacional — e evidências de projetos ativos. Podemos solicitar relatórios de atividades ou materiais que demonstrem o trabalho realizado. Projetos completamente informais, sem nenhuma formalização jurídica, não são aceitos na plataforma no momento. Se sua iniciativa está em processo de formalização, entre em contato conosco em contatofauna@proton.me para avaliarmos seu caso." },
+          { "q": "Quanto tempo demora a avaliação?", "a": "O prazo médio é de 5 a 10 dias úteis após o envio completo da documentação." },
+          { "q": "Posso cadastrar mais de um projeto?", "a": "Sim. Não há limite de projetos por organização. Recomendamos que cada projeto tenha informações completas e atualizadas." },
+          { "q": "Como recebo as doações?", "a": "Diretamente na sua conta Stripe. A Fauna não intermedia o pagamento — a conexão é feita diretamente entre o doador e a sua conta." },
+          { "q": "Minha organização precisa ter uma conta Stripe para receber doações?", "a": "Sim. Como as doações são processadas diretamente pelo Stripe, a organização precisa ter uma conta Stripe ativa e válida no seu país para receber contribuições. O Stripe está disponível em mais de 40 países. Caso sua organização esteja em um país onde o Stripe ainda não opera, entre em contato conosco em contatofauna@proton.me para avaliarmos alternativas." },
+          { "q": "Posso editar ou encerrar um projeto depois de publicado?", "a": "Sim. Projetos podem ser editados ou encerrados a qualquer momento pela dashboard da organização. Ao encerrar um projeto, ele deixa de aparecer publicamente na plataforma e não recebe novas contribuições. Todas as edições e o histórico do projeto ficam salvos na dashboard." },
+          { "q": "A Fauna pode suspender minha organização?", "a": "Sim. Reservamo-nos o direito de suspender organizações que não atendam aos nossos critérios de verificação, que forneçam informações falsas, ou que violem nossos Termos e Condições." }
+        ]
+      },
+      {
+        "id": "doadores",
+        "label": "Para doadores",
+        "description": "Segurança, formas de pagamento, recibos, deduções e doações recorrentes.",
+        "items": [
+          { "q": "Minha doação é segura?", "a": "Sim. Todos os pagamentos são processados pelo Stripe, uma das plataformas de pagamento mais seguras do mundo. A Fauna não armazena dados financeiros dos doadores." },
+          { "q": "Através de quais modalidades de pagamento posso realizar uma doação?", "a": "As doações são processadas pelo Stripe e aceitam cartão de crédito, cartão de débito e outros métodos disponíveis na sua região. O PIX ainda não está disponível como modalidade de pagamento, mas estamos trabalhando para incluí-lo em breve." },
+          { "q": "A partir de que valor posso realizar uma doação?", "a": "Não há valor mínimo estabelecido pela Fauna. O Stripe pode aplicar um valor mínimo de processamento, que pode variar. Qualquer contribuição, por menor que seja, é bem-vinda e vai diretamente ao projeto escolhido." },
+          { "q": "Posso escolher para qual projeto específico quero doar?", "a": "Sim. Você navega pelos projetos disponíveis e escolhe exatamente para onde sua contribuição vai." },
+          { "q": "Vou receber comprovante da minha doação?", "a": "O Stripe envia um comprovante de pagamento automaticamente. Para recibos fiscais ou comprovantes específicos, entre em contato diretamente com a organização beneficiada." },
+          { "q": "Posso cancelar uma doação recorrente?", "a": "Sim. Doações recorrentes podem ser canceladas a qualquer momento diretamente na sua conta na plataforma ou via Stripe." },
+          { "q": "Como sei que o projeto é legítimo?", "a": "Todas as organizações passam por verificação antes de serem publicadas. Exigimos documentação legal e evidências de projetos ativos." },
+          { "q": "Minha doação é dedutível do imposto de renda?", "a": "A Fauna é uma plataforma de conexão e não emite recibos fiscais. As doações realizadas através da Fauna não são dedutíveis do imposto de renda por meio da plataforma. Caso precise de documentação para fins fiscais, entre em contato diretamente com a organização beneficiada — algumas organizações possuem qualificação legal para emitir recibos dedutíveis no seu país de origem." },
+          { "q": "Sou uma organização ou fundação e gostaria de apoiar financeiramente um projeto cadastrado na Fauna. Posso realizar a doação pelo site?", "a": "Doações institucionais — realizadas por organizações, fundações ou empresas — não são processadas diretamente pelo site. Nesse caso, entre em contato conosco em contatofauna@proton.me informando qual projeto deseja apoiar e os detalhes da sua organização. Faremos a conexão diretamente entre as duas partes." }
+        ]
+      }
+    ]
+  },
+  "legal": {
+    "privacy": {
+      "eyebrow": "Legal",
+      "titleBefore": "Política de ",
+      "titleEm": "Privacidade",
+      "lastUpdated": "Última atualização: abril de 2025",
+      "disclaimer": "",
+      "sections": [
+        { "heading": "1. Quem somos", "body": "A Fauna é uma plataforma de financiamento coletivo para projetos de conservação da biodiversidade. Nosso compromisso é proteger os dados pessoais de quem nos confia informações para apoiar causas ambientais." },
+        { "heading": "2. Dados que coletamos", "body": "Coletamos apenas o necessário para operar a plataforma:", "list": [
+          "**Dados de cadastro:** nome completo e endereço de e-mail.",
+          "**Dados de doação:** valor, moeda e mensagem opcional. Os dados de pagamento são processados diretamente pelo Stripe e não ficam em nossos servidores.",
+          "**Dados de navegação:** logs de acesso, endereço IP e cookies técnicos essenciais ao funcionamento do site."
+        ]},
+        { "heading": "3. Como usamos seus dados", "body": "", "list": [
+          "Autenticar sua conta e proteger o acesso.",
+          "Processar e registrar doações.",
+          "Enviar atualizações dos projetos que você apoia (você pode cancelar a qualquer momento).",
+          "Cumprir obrigações legais e fiscais."
+        ]},
+        { "heading": "4. Base legal (LGPD)", "body": "Tratamos seus dados com base em: (a) execução de contrato, quando você realiza uma doação; (b) consentimento, para comunicações por e-mail; e (c) cumprimento de obrigação legal." },
+        { "heading": "5. Compartilhamento de dados", "body": "Não vendemos nem alugamos seus dados. Compartilhamos apenas com:", "list": [
+          "**Stripe** — processamento de pagamentos.",
+          "**Supabase** — armazenamento seguro de dados na infraestrutura de banco de dados."
+        ], "footer": "Ambos os fornecedores operam em conformidade com o GDPR e a LGPD." },
+        { "heading": "6. Retenção de dados", "body": "Mantemos seus dados enquanto sua conta estiver ativa ou pelo prazo exigido por lei (geralmente 5 anos para registros financeiros). Você pode solicitar a exclusão a qualquer momento." },
+        { "heading": "7. Seus direitos", "body": "Nos termos da LGPD, você tem direito a: acesso, correção, exclusão, portabilidade e revogação do consentimento. Envie sua solicitação para privacidade@fauna.org." },
+        { "heading": "8. Cookies", "body": "Usamos cookies técnicos essenciais e cookies de preferência (idioma). Consulte nossa Política de Cookies para mais detalhes.", "cookiesLink": "Política de Cookies" },
+        { "heading": "9. Segurança", "body": "Adotamos criptografia em trânsito (TLS) e em repouso, controle de acesso por funções e autenticação por link mágico — sem armazenamento de senhas." },
+        { "heading": "10. Contato", "body": "Dúvidas ou solicitações: privacidade@fauna.org" }
+      ]
+    },
+    "cookies": {
+      "eyebrow": "Legal",
+      "titleBefore": "Política de ",
+      "titleEm": "Cookies",
+      "lastUpdated": "Última atualização: abril de 2025",
+      "disclaimer": "",
+      "whatTitle": "O que são cookies",
+      "whatBody": "Cookies são pequenos arquivos de texto armazenados no seu navegador quando você visita um site. Eles permitem que o site lembre suas preferências e mantenha você autenticado entre visitas.",
+      "weUseTitle": "Cookies que usamos",
+      "table": {
+        "headers": { "cookie": "Cookie", "type": "Tipo", "purpose": "Finalidade", "duration": "Validade" },
+        "rows": [
+          { "cookie": "sb-*", "type": "Essencial", "purpose": "Sessão de autenticação Supabase", "duration": "7 dias" },
+          { "cookie": "fauna-lang", "type": "Preferência", "purpose": "Idioma selecionado (PT/EN/ES)", "duration": "1 ano" }
+        ]
+      },
+      "thirdPartyTitle": "Cookies de terceiros",
+      "thirdPartyBody": "O Stripe pode definir cookies durante o processo de pagamento para fins de segurança antifraude. Esses cookies são controlados pelo Stripe e seguem a política de privacidade da Stripe.",
+      "thirdPartyLink": "política de privacidade da Stripe",
+      "dontUseTitle": "Não usamos",
+      "dontUseList": [
+        "Cookies de rastreamento ou análise de comportamento (Google Analytics, Meta Pixel etc.)",
+        "Cookies de publicidade",
+        "Cookies de redes sociais (exceto se você clicar em links externos)"
+      ],
+      "controlTitle": "Como controlar cookies",
+      "controlBody": "Você pode configurar seu navegador para bloquear ou excluir cookies. Note que bloquear cookies essenciais (sb-*) impedirá o login na plataforma.",
+      "doubtsTitle": "Dúvidas",
+      "doubtsBody": "Entre em contato via formulário de contato ou pelo e-mail privacidade@fauna.org.",
+      "doubtsContactLink": "formulário de contato"
+    }
+  },
+  "contato": {
+    "hero": {
+      "eyebrow": "Fale conosco",
+      "titleBefore": "Entre em ",
+      "titleEm": "contato",
+      "subtitle": "Seja para perguntas sobre doações, parcerias com organizações, imprensa ou qualquer outra coisa — estamos aqui."
+    },
+    "emails": [
+      { "label": "E-mail geral", "value": "ola@fauna.org" },
+      { "label": "Imprensa", "value": "imprensa@fauna.org" },
+      { "label": "Organizações", "value": "organizacoes@fauna.org" }
+    ],
+    "form": {
+      "nameLabel": "Nome *",
+      "namePlaceholder": "Seu nome",
+      "emailLabel": "E-mail *",
+      "emailPlaceholder": "voce@email.com",
+      "subjectLabel": "Assunto *",
+      "subjectPlaceholderDefault": "Selecionar",
+      "messageLabel": "Mensagem *",
+      "messagePlaceholder": "Como podemos ajudar?",
+      "submit": "Enviar mensagem",
+      "submitting": "Enviando...",
+      "sla": "Respondemos em até 2 dias úteis",
+      "sentTitle": "Mensagem enviada",
+      "sentDesc": "Respondemos em até 2 dias úteis."
+    },
+    "subjects": {
+      "donation": "Dúvida sobre doação",
+      "orgRegister": "Cadastrar organização",
+      "press": "Imprensa e mídia",
+      "partnership": "Parceria",
+      "other": "Outro"
+    }
+  },
+  "sobre": {
+    "hero": {
+      "eyebrowLabel": "Plataforma",
+      "subtitle": "Hub global de conservação animal"
+    },
+    "tabs": {
+      "about": "Sobre nós",
+      "howItWorks": "Como funciona",
+      "whoWeAre": "Quem somos"
+    },
+    "about": {
+      "missionEyebrow": "Nossa missão",
+      "missionTitleBefore": "A tecnologia que a ",
+      "missionTitleEm": "conservação",
+      "missionTitleAfter": " precisa",
+      "missionP1": "A Fauna é uma plataforma digital sem fins lucrativos construída por pessoas que acreditam que a crise da biodiversidade é o maior desafio da nossa geração — e que tecnologia bem feita pode ser parte da solução.",
+      "missionP2": "Conectamos organizações de conservação a apoiadores de todo o mundo, com transparência total e zero taxas sobre doações.",
+      "stats": [
+        { "value": "100%", "label": "Das doações vão para os projetos" },
+        { "value": "R$ 0", "label": "Taxa cobrada das organizações" },
+        { "value": "R$ 0", "label": "Taxa sobre doações" }
+      ],
+      "valuesEyebrow": "O que nos guia",
+      "valuesTitle": "Nossos valores",
+      "values": [
+        { "title": "Transparência total", "desc": "100% das doações vão diretamente para os projetos. A Fauna não retém nem um centavo das contribuições dos apoiadores de conservação." },
+        { "title": "Impacto verificado", "desc": "Todas as organizações na plataforma passam por verificação manual antes de publicar projetos. Só chegam até você causas legítimas." },
+        { "title": "Acesso global", "desc": "Um projeto no Pantanal pode receber apoio de alguém na Noruega. Removemos as barreiras burocráticas e cambiais que isolam a conservação." },
+        { "title": "Tecnologia como ferramenta", "desc": "Construímos infraestrutura digital que organizações de conservação — geralmente pequenas e sem recursos de TI — não teriam como construir sozinhas." }
+      ],
+      "ctaExplore": "Explorar projetos →",
+      "ctaSupport": "Apoiar a Fauna"
+    },
+    "team": {
+      "storyEyebrow": "Nossa história",
+      "storyTitleBefore": "Nascida da ",
+      "storyTitleEm": "urgência",
+      "storyP1": "A Fauna nasceu da percepção de que organizações incríveis de conservação estavam invisíveis para o mundo — não por falta de trabalho ou propósito, mas por falta de infraestrutura digital.",
+      "storyP2": "Pesquisadores de campo sem acesso a ferramentas de captação. Projetos urgentes sem visibilidade. Doadores sem como encontrar causas legítimas. A Fauna surgiu para resolver exatamente isso.",
+      "storyP3": "Somos uma equipe pequena com uma crença grande: que tecnologia bem feita pode multiplicar o impacto de quem já está fazendo a diferença.",
+      "teamEyebrow": "A equipe",
+      "members": [
+        { "name": "Victoria", "role": "Fundadora & Produto", "bio": "Apaixonada por conservação e tecnologia. Construiu a Fauna para conectar projetos extraordinários a apoiadores do mundo inteiro." },
+        { "name": "Equipe", "role": "Desenvolvimento & Design", "bio": "Designers e engenheiros que acreditam que a melhor tecnologia é aquela a serviço de causas que realmente importam." },
+        { "name": "Você?", "role": "Colaborador open", "bio": "A Fauna é um projeto em construção. Se você acredita na missão, entre em contato — sempre há espaço para quem quer contribuir." }
+      ],
+      "joinEyebrow": "Faça parte",
+      "joinTitleBefore": "Juntos chegamos ",
+      "joinTitleEm": "mais longe",
+      "joinSubtitle": "Cada apoiador da plataforma multiplica o impacto de dezenas de projetos de conservação ao redor do mundo.",
+      "joinCtaProjects": "Ver projetos",
+      "joinCtaContact": "Entrar em contato"
+    }
+  },
+  "academy": {
+    "home": {
+      "hero": {
+        "badgeNew": "Novo",
+        "badgeText": "Turma de abril aberta — vagas limitadas",
+        "titleBefore": "Fauna ",
+        "titleEm": "Academy",
+        "subtitle": "Treinamentos especializados para organizações de conservação aprenderem a captar recursos, comunicar impacto e escalar projetos.",
+        "ctaCourses": "Ver cursos →",
+        "ctaResources": "Recursos gratuitos"
+      },
+      "stats": [
+        { "value": "12+", "label": "cursos disponíveis" },
+        { "value": "800+", "label": "organizações formadas" },
+        { "value": "40+", "label": "países representados" },
+        { "value": "100%", "label": "online e acessível" }
+      ],
+      "features": {
+        "eyebrow": "O que oferecemos",
+        "titleBefore": "Tudo que sua organização precisa para ",
+        "titleEm": "captar mais e melhor",
+        "items": [
+          { "title": "Cursos práticos", "desc": "Módulos gravados sobre captação de recursos, comunicação com doadores e gestão de projetos." },
+          { "title": "Workshops ao vivo", "desc": "Sessões interativas com especialistas. Tire dúvidas em tempo real e faça networking com outras organizações." },
+          { "title": "Biblioteca gratuita", "desc": "Templates, guias e materiais de referência para baixar e usar imediatamente." },
+          { "title": "Certificados", "desc": "Comprove seu aprendizado com certificados digitais reconhecidos pela comunidade de conservação." }
+        ]
+      },
+      "featured": {
+        "eyebrow": "Em destaque",
+        "title": "Cursos mais procurados",
+        "seeAll": "Ver todos →",
+        "courses": [
+          { "slug": "captacao-recursos-iniciantes", "title": "Captação de Recursos para Iniciantes", "level": "Iniciante", "duration": "4h", "price": "Gratuito", "tag": "Mais popular" },
+          { "slug": "narrativa-impacto", "title": "Narrativa de Impacto para Doadores", "level": "Intermediário", "duration": "6h", "price": "R$ 197", "tag": "" },
+          { "slug": "grandes-doacoes", "title": "Estratégias para Grandes Doações", "level": "Avançado", "duration": "8h", "price": "R$ 297", "tag": "Novo" }
+        ]
+      },
+      "nextWorkshop": {
+        "eyebrow": "Próximo workshop ao vivo",
+        "title": "Como montar sua primeira campanha de captação",
+        "when": "29 de abril · 19h (horário de Brasília) · 2 horas",
+        "spotsLeft": "vagas restantes",
+        "ctaRegister": "Garantir minha vaga →",
+        "ctaAgenda": "Ver agenda completa"
+      },
+      "forWho": {
+        "eyebrow": "Para quem é",
+        "titleBefore": "Para organizações que querem ir ",
+        "titleEm": "além",
+        "items": [
+          { "title": "ONGs e associações", "desc": "Que buscam diversificar fontes de receita e reduzir dependência de um único financiador." },
+          { "title": "Projetos em formalização", "desc": "Que ainda não têm um setor de captação estruturado e precisam de um ponto de partida." },
+          { "title": "Líderes de conservação", "desc": "Que querem aprender a contar histórias de impacto que convertam apoiadores em doadores." }
+        ]
+      },
+      "cta": {
+        "eyebrow": "Comece agora",
+        "titleBefore": "Pronta para captar mais ",
+        "titleEm": "com propósito?",
+        "subtitle": "Explore os cursos, assista workshops ao vivo ou comece com os recursos gratuitos.",
+        "exploreCourses": "Explorar cursos →",
+        "freeResources": "Recursos gratuitos"
+      }
+    },
+    "courses": {
+      "breadcrumb": "Academy",
+      "breadcrumbCurrent": "Cursos",
+      "titleBefore": "Catálogo de ",
+      "titleEm": "cursos",
+      "subtitle": "{count} cursos · do iniciante ao avançado · aprenda no seu ritmo",
+      "modulesSuffix": "módulos",
+      "priceFree": "Gratuito",
+      "tagFree": "Gratuito",
+      "tagMostPopular": "Mais popular",
+      "tagNew": "Novo",
+      "levels": {
+        "beginner": "Iniciante",
+        "intermediate": "Intermediário",
+        "advanced": "Avançado"
+      }
+    },
+    "workshops": {
+      "breadcrumb": "Academy",
+      "breadcrumbCurrent": "Workshops",
+      "titleBefore": "Workshops ",
+      "titleEm": "ao vivo",
+      "subtitle": "Sessões interativas com especialistas. Tire dúvidas em tempo real e pratique com outros participantes.",
+      "upcoming": "Próximos workshops",
+      "past": "Workshops realizados",
+      "spotsLeft": "vagas restantes",
+      "free": "Gratuito",
+      "register": "Inscrever-se →",
+      "closed": "Encerrado",
+      "levels": {
+        "beginner": "Iniciante",
+        "intermediate": "Intermediário",
+        "advanced": "Avançado"
+      }
+    },
+    "resources": {
+      "breadcrumb": "Academy",
+      "breadcrumbCurrent": "Recursos",
+      "titleBefore": "Biblioteca ",
+      "titleEm": "gratuita",
+      "subtitle": "Templates, guias, planilhas e materiais prontos para baixar e usar na sua organização — sem custo.",
+      "filterAll": "Todos",
+      "filterLabels": {
+        "template": "Template",
+        "guia": "Guia",
+        "checklist": "Checklist",
+        "planilha": "Planilha",
+        "ebook": "E-book"
+      },
+      "downloadsSuffix": "downloads",
+      "tagNew": "Novo",
+      "downloadFree": "Baixar grátis",
+      "cta": {
+        "eyebrow": "Quer aprender mais?",
+        "title": "Explore os cursos completos",
+        "subtitle": "Os recursos são um ponto de partida. Nos cursos você aprende com profundidade e recebe certificado.",
+        "button": "Ver todos os cursos →"
+      }
+    },
+    "dashboard": {
+      "breadcrumb": "Academy",
+      "breadcrumbCurrent": "Minha área",
+      "titleBefore": "Minha ",
+      "titleEm": "aprendizagem",
+      "newCourse": "+ Novo curso",
+      "stats": {
+        "inProgress": "Cursos em progresso",
+        "completedLessons": "Aulas concluídas",
+        "certificates": "Certificados",
+        "downloadedResources": "Recursos baixados"
+      },
+      "myCourses": "Meus cursos",
+      "emptyCourses": "Você ainda não tem cursos.",
+      "exploreCourses": "Explorar cursos →",
+      "lessonsProgress": "{done} de {total} aulas concluídas",
+      "lastLesson": "Última aula:",
+      "continue": "Continuar →",
+      "workshopsTitle": "Workshops inscritos",
+      "emptyWorkshops": "Você não está inscrito em nenhum workshop.",
+      "seeAgenda": "Ver agenda →"
+    }
+  },
+  "loja": {
+    "hero": {
+      "eyebrow": "Loja Fauna",
+      "titleBefore": "Produtos com ",
+      "titleEm": "propósito",
+      "subtitle": "Cada compra reverte uma parte diretamente para projetos de conservação. Design exclusivo. Produção responsável."
+    },
+    "cartLabel": "Carrinho",
+    "checkout": "Finalizar compra →",
+    "checkoutLoading": "Aguarde...",
+    "addToCart": "Adicionar ao carrinho",
+    "addQuick": "Adicionar",
+    "chooseSize": "Escolher tamanho",
+    "success": {
+      "title": "Pedido confirmado",
+      "description": "Você vai receber um e-mail com os detalhes do pedido e o rastreamento assim que o envio for feito.",
+      "impact": "15% do valor foi destinado para projetos de conservação. Obrigado!",
+      "continueShopping": "Continuar comprando",
+      "seeProjects": "Ver projetos de conservação"
+    },
+    "exchange": {
+      "eyebrow": "Loja · Legal",
+      "titleBefore": "Política de ",
+      "titleEm": "Troca",
+      "lastUpdated": "Última atualização: abril de 2025",
+      "sections": [
+        { "heading": "Prazo para troca ou devolução", "body": "Você tem até **7 dias corridos** após o recebimento do pedido para solicitar troca ou devolução, conforme o Código de Defesa do Consumidor (Art. 49).\nPara produtos com defeito de fabricação, o prazo é de **30 dias** a partir do recebimento." },
+        { "heading": "Condições para troca", "list": [
+          "Produto sem uso, lavagem ou dano causado pelo consumidor",
+          "Embalagem original preservada (quando aplicável)",
+          "Nota fiscal ou comprovante de compra"
+        ]},
+        { "heading": "Produtos não sujeitos a troca", "list": [
+          "Adesivos e papelaria após abertos (por higiene)",
+          "Produtos personalizados ou feitos sob encomenda",
+          "Produtos com danos causados por mau uso"
+        ]},
+        { "heading": "Como solicitar", "orderedList": [
+          "Entre em contato pelo e-mail loja@fauna.org com o número do pedido",
+          "Descreva o motivo da troca e, se possível, envie fotos do produto",
+          "Aguarde a confirmação da nossa equipe (até 2 dias úteis)",
+          "Envie o produto pelo correio — fornecemos a etiqueta de postagem para devoluções por defeito"
+        ]},
+        { "heading": "Reembolso", "body": "Após recebermos e verificarmos o produto, o reembolso é processado em até **5 dias úteis** para o cartão original ou via Pix. Para trocas por outro tamanho ou produto, o novo envio ocorre em até **3 dias úteis**." },
+        { "heading": "Frete de devolução", "body": "Devolução por **defeito ou erro nosso**: frete por nossa conta. Devolução por **arrependimento**: frete por conta do cliente." },
+        { "heading": "Dúvidas", "body": "Fale com a gente pelo formulário de contato ou por loja@fauna.org.", "contactLink": "formulário de contato" }
+      ]
+    }
   }
 }

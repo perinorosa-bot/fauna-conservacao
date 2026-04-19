@@ -2,12 +2,14 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { COUNTRIES } from '@/lib/countries'
 
 export default function OrgRegisterForm() {
   const router = useRouter()
   const supabase = createClient()
+  const t = useTranslations('authForms.orgRegister.form')
 
   const [step, setStep]     = useState<'account' | 'confirm' | 'org'>('account')
   const [loading, setLoading] = useState(false)
@@ -50,7 +52,7 @@ export default function OrgRegisterForm() {
       .from('project-images')
       .upload(path, file, { upsert: true })
     setUploading(false)
-    if (upErr) { setError('Erro no upload: ' + upErr.message); return }
+    if (upErr) { setError(t('uploadError', { message: upErr.message })); return }
     const { data: { publicUrl } } = supabase.storage.from('project-images').getPublicUrl(data.path)
     setLogoUrl(publicUrl)
   }
@@ -80,7 +82,7 @@ export default function OrgRegisterForm() {
     if (authError) { setError(authError.message); return }
 
     if (!data.session) {
-      // Supabase requiere confirmación de email antes de crear sesión
+      // Supabase requires email confirmation before creating session
       setStep('confirm')
       return
     }
@@ -95,7 +97,7 @@ export default function OrgRegisterForm() {
     setError('')
 
     const uid = userId ?? (await supabase.auth.getUser()).data.user?.id
-    if (!uid) { setError('Sessão expirada. Faça login novamente.'); setLoading(false); return }
+    if (!uid) { setError(t('sessionExpired')); setLoading(false); return }
 
     const { error: dbError } = await supabase.from('organizations').insert({
       user_id:     uid,
@@ -124,15 +126,14 @@ export default function OrgRegisterForm() {
     return (
       <div className="text-center py-8">
         <div className="text-sage text-4xl mb-4">✉</div>
-        <h3 className="font-serif text-xl text-cream mb-2">Confirme seu e-mail</h3>
+        <h3 className="font-serif text-xl text-cream mb-2">{t('confirmTitle')}</h3>
         <p className="text-cream/50 text-sm leading-relaxed">
-          Enviamos um link de confirmação para <span className="text-cream/80">{email}</span>.
-          Clique no link e depois volte aqui para continuar.
+          {t('confirmDesc', { email })}
         </p>
         <button
           onClick={() => setStep('org')}
           className="btn-outline mt-8 text-xs">
-          Já confirmei →
+          {t('confirmCta')}
         </button>
       </div>
     )
@@ -142,30 +143,30 @@ export default function OrgRegisterForm() {
     return (
       <form onSubmit={handleAccount} className="flex flex-col gap-4">
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Nome completo</label>
-          <input className={inputClass} type="text" placeholder="Seu nome"
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('fullNameLabel')}</label>
+          <input className={inputClass} type="text" placeholder={t('fullNamePlaceholder')}
                  value={fullName} onChange={e => setFullName(e.target.value)} required/>
         </div>
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">E-mail</label>
-          <input className={inputClass} type="email" placeholder="email@organizacao.org"
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('emailLabel')}</label>
+          <input className={inputClass} type="email" placeholder={t('emailPlaceholder')}
                  value={email} onChange={e => setEmail(e.target.value)} required/>
         </div>
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Senha</label>
-          <input className={inputClass} type="password" placeholder="Mínimo 8 caracteres"
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('passwordLabel')}</label>
+          <input className={inputClass} type="password" placeholder={t('passwordPlaceholder')}
                  value={password} onChange={e => setPassword(e.target.value)} required minLength={8}/>
         </div>
 
         {error && <p className="text-red-400 text-xs">{error}</p>}
 
         <button type="submit" disabled={loading} className="btn-primary w-full justify-center mt-2">
-          {loading ? 'Criando conta...' : 'Criar conta →'}
+          {loading ? t('creatingAccount') : t('createAccount')}
         </button>
 
         <p className="text-center text-cream/30 text-xs">
-          Já tem conta?{' '}
-          <a href="/org/login" className="text-sage hover:underline">Entrar</a>
+          {t('alreadyHaveAccount')}{' '}
+          <a href="/org/login" className="text-sage hover:underline">{t('signIn')}</a>
         </p>
       </form>
     )
@@ -174,64 +175,64 @@ export default function OrgRegisterForm() {
   return (
     <form onSubmit={handleOrg} className="flex flex-col gap-4">
       <p className="text-sage text-xs tracking-wide mb-2">
-        ✓ Conta criada — agora, sua organização
+        {t('accountCreated')}
       </p>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Nome da organização</label>
-        <input className={inputClass} type="text" placeholder="Ex: Instituto Onça-Pintada"
+        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('orgNameLabel')}</label>
+        <input className={inputClass} type="text" placeholder={t('orgNamePlaceholder')}
                value={orgName}
                onChange={e => { setOrgName(e.target.value); setOrgSlug(slugify(e.target.value)) }}
                required/>
       </div>
       <div>
         <label className="text-cream/50 text-xs tracking-wide block mb-1.5">
-          URL pública — fauna.org/org/<span className="text-sage">{orgSlug || 'sua-org'}</span>
+          {t('slugLabel')}<span className="text-sage">{orgSlug || t('slugFallback')}</span>
         </label>
-        <input className={inputClass} type="text" placeholder="instituto-onca-pintada"
+        <input className={inputClass} type="text" placeholder={t('slugPlaceholder')}
                value={orgSlug} onChange={e => setOrgSlug(slugify(e.target.value))} required/>
       </div>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">País de atuação</label>
+        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('countryLabel')}</label>
         <select
           className={`${inputClass} appearance-none`}
           value={orgCountry}
           onChange={e => setOrgCountry(e.target.value)}
           required
         >
-          <option value="" disabled>Selecione um país</option>
+          <option value="" disabled>{t('countryPlaceholder')}</option>
           {COUNTRIES.map(c => (
             <option key={c} value={c}>{c}</option>
           ))}
         </select>
       </div>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Descrição</label>
+        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('descLabel')}</label>
         <textarea className={`${inputClass} resize-none`} rows={3}
-                  placeholder="O que sua organização faz e por que importa..."
+                  placeholder={t('descPlaceholder')}
                   value={orgDesc} onChange={e => setOrgDesc(e.target.value)} required/>
       </div>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Website (opcional)</label>
-        <input className={inputClass} type="url" placeholder="https://suaorg.org"
+        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('websiteLabel')}</label>
+        <input className={inputClass} type="url" placeholder={t('websitePlaceholder')}
                value={orgWebsite} onChange={e => setOrgWebsite(e.target.value)}/>
       </div>
 
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Logo da organização (opcional)</label>
+        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('logoLabel')}</label>
         <div className="flex gap-2 mb-2">
           <button type="button" onClick={() => setLogoTab('url')}
                   className={`text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-sm transition-colors ${
                     logoTab === 'url' ? 'bg-sage/20 text-sage' : 'text-cream/30 hover:text-cream'}`}>
-            URL
+            {t('logoTabUrl')}
           </button>
           <button type="button" onClick={() => setLogoTab('upload')}
                   className={`text-[10px] tracking-widests uppercase px-3 py-1.5 rounded-sm transition-colors ${
                     logoTab === 'upload' ? 'bg-sage/20 text-sage' : 'text-cream/30 hover:text-cream'}`}>
-            Upload
+            {t('logoTabUpload')}
           </button>
         </div>
         {logoTab === 'url' ? (
-          <input className={inputClass} type="url" placeholder="https://suaorg.org/logo.png"
+          <input className={inputClass} type="url" placeholder={t('logoUrlPlaceholder')}
                  value={logoUrl} onChange={e => setLogoUrl(e.target.value)}/>
         ) : (
           <div>
@@ -241,7 +242,7 @@ export default function OrgRegisterForm() {
                     className="w-full border border-dashed border-white/[0.15] rounded-sm px-4 py-5
                                text-cream/30 text-xs tracking-wide hover:border-sage/40 hover:text-sage/60
                                transition-colors disabled:opacity-50 text-center">
-              {uploading ? 'Enviando...' : logoUrl ? '✓ Logo enviado — clique para trocar' : 'Clique para selecionar o logo'}
+              {uploading ? t('logoUploading') : logoUrl ? t('logoUploaded') : t('logoSelect')}
             </button>
             {logoUrl && !uploading && (
               <p className="text-sage text-[10px] mt-1.5 truncate">{logoUrl}</p>
@@ -253,7 +254,7 @@ export default function OrgRegisterForm() {
       {error && <p className="text-red-400 text-xs">{error}</p>}
 
       <button type="submit" disabled={loading} className="btn-primary w-full justify-center mt-2">
-        {loading ? 'Salvando...' : 'Criar perfil da organização →'}
+        {loading ? t('submitting') : t('submit')}
       </button>
     </form>
   )

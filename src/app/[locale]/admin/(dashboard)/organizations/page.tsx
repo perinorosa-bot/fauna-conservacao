@@ -1,8 +1,18 @@
+import { getTranslations, getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import OrgActions from '@/components/admin/OrgActions'
 
+function localeToBcp47(locale: string): string {
+  if (locale === 'pt') return 'pt-BR'
+  if (locale === 'es') return 'es-ES'
+  return 'en-US'
+}
+
 export default async function AdminOrganizationsPage() {
   const supabase = createClient()
+  const t      = await getTranslations('adminDash.orgs')
+  const locale = await getLocale()
+  const bcp47  = localeToBcp47(locale)
 
   const { data: orgs } = await supabase
     .from('organizations')
@@ -12,20 +22,20 @@ export default async function AdminOrganizationsPage() {
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1 className="font-serif text-3xl font-light text-cream">Organizações</h1>
-        <p className="text-cream/40 text-sm mt-1">{orgs?.length ?? 0} cadastradas</p>
+        <h1 className="font-serif text-3xl font-light text-cream">{t('title')}</h1>
+        <p className="text-cream/40 text-sm mt-1">{t('subtitle', { count: orgs?.length ?? 0 })}</p>
       </div>
 
       <div className="bg-[#0d1610] border border-white/[0.06] rounded-xl overflow-hidden">
         <table className="w-full">
           <thead>
             <tr className="border-b border-white/[0.06]">
-              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">Organização</th>
-              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">País</th>
-              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">Projetos</th>
-              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">Status</th>
-              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">Cadastro</th>
-              <th className="text-right text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">Ações</th>
+              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">{t('cols.organization')}</th>
+              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">{t('cols.country')}</th>
+              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">{t('cols.projects')}</th>
+              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">{t('cols.status')}</th>
+              <th className="text-left text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">{t('cols.createdAt')}</th>
+              <th className="text-right text-[10px] tracking-widest uppercase text-cream/30 px-5 py-4">{t('cols.actions')}</th>
             </tr>
           </thead>
           <tbody>
@@ -45,11 +55,11 @@ export default async function AdminOrganizationsPage() {
                 </td>
                 <td className="px-5 py-4">
                   <span className={`text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full ${org.verified ? 'bg-sage/15 text-sage' : 'bg-warm/15 text-warm'}`}>
-                    {org.verified ? 'Verificada' : 'Pendente'}
+                    {org.verified ? t('verified') : t('pending')}
                   </span>
                 </td>
                 <td className="px-5 py-4 text-cream/35 text-xs">
-                  {new Date(org.created_at).toLocaleDateString('pt-BR')}
+                  {new Date(org.created_at).toLocaleDateString(bcp47)}
                 </td>
                 <td className="px-5 py-4 text-right">
                   <OrgActions id={org.id} verified={org.verified} />
@@ -59,7 +69,7 @@ export default async function AdminOrganizationsPage() {
             {!orgs?.length && (
               <tr>
                 <td colSpan={6} className="px-5 py-12 text-center text-cream/25 text-sm">
-                  Nenhuma organização cadastrada
+                  {t('empty')}
                 </td>
               </tr>
             )}

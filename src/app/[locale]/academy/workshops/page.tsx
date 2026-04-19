@@ -1,8 +1,28 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import Nav from '@/components/layout/Nav'
 import { NavTheme } from '@/components/layout/NavTheme'
+import { getTranslations } from 'next-intl/server'
 
-const WORKSHOPS = [
+// Workshops are fixture data — title/description stay in pt until a real DB wires up.
+type LevelKey = 'beginner' | 'intermediate' | 'advanced'
+
+type Workshop = {
+  id: string
+  title: string
+  date: string
+  time: string
+  duration: string
+  host: string
+  spots: number
+  totalSpots: number
+  price: number
+  levelKey: LevelKey
+  description: string
+  topics: string[]
+  past: boolean
+}
+
+const WORKSHOPS: Workshop[] = [
   {
     id: 'w1',
     title: 'Como montar sua primeira campanha de captação',
@@ -13,7 +33,7 @@ const WORKSHOPS = [
     spots: 32,
     totalSpots: 80,
     price: 0,
-    level: 'Iniciante',
+    levelKey: 'beginner',
     description: 'Workshop prático em que vamos construir juntos uma mini-campanha do zero. Você sai com um rascunho real para implementar.',
     topics: ['Definição de meta', 'Mensagem da campanha', 'Canais de distribuição', 'Cronograma prático'],
     past: false,
@@ -28,7 +48,7 @@ const WORKSHOPS = [
     spots: 48,
     totalSpots: 80,
     price: 97,
-    level: 'Intermediário',
+    levelKey: 'intermediate',
     description: 'Como estruturar relatórios de impacto que doadores realmente leem — e que geram renovações de doação.',
     topics: ['Estrutura do relatório', 'Dados + emoção', 'Design simples', 'Distribuição e follow-up'],
     past: false,
@@ -43,7 +63,7 @@ const WORKSHOPS = [
     spots: 15,
     totalSpots: 40,
     price: 147,
-    level: 'Avançado',
+    levelKey: 'advanced',
     description: 'Simulações de reuniões de captação com feedback ao vivo. Aprenda a pedir a doação sem desconforto.',
     topics: ['Pesquisa pré-reunião', 'Script de abordagem', 'Como pedir', 'Roleplay e feedback'],
     past: false,
@@ -58,20 +78,21 @@ const WORKSHOPS = [
     spots: 0,
     totalSpots: 80,
     price: 0,
-    level: 'Iniciante',
+    levelKey: 'beginner',
     description: 'Sequências de email para nutrição e captação. Como escrever assuntos que abrem e conteúdo que converte.',
     topics: ['Sequência de boas-vindas', 'Newsletter mensal', 'Email de captação', 'Análise de métricas'],
     past: true,
   },
 ]
 
-const LEVEL_COLORS: Record<string, string> = {
-  'Iniciante':     'text-leaf bg-leaf/10 border-leaf/25',
-  'Intermediário': 'text-amber-700 bg-amber-50 border-amber-200',
-  'Avançado':      'text-forest bg-forest/8 border-forest/20',
+const LEVEL_COLORS: Record<LevelKey, string> = {
+  beginner:     'text-leaf bg-leaf/10 border-leaf/25',
+  intermediate: 'text-amber-700 bg-amber-50 border-amber-200',
+  advanced:     'text-forest bg-forest/8 border-forest/20',
 }
 
-export default function WorkshopsPage() {
+export default async function WorkshopsPage() {
+  const t = await getTranslations('academy.workshops')
   const upcoming = WORKSHOPS.filter(w => !w.past)
   const past     = WORKSHOPS.filter(w => w.past)
 
@@ -84,25 +105,26 @@ export default function WorkshopsPage() {
         <section className="bg-forest pt-40 pb-16 px-10">
           <div className="max-w-screen-lg mx-auto">
             <p className="text-sage/60 text-[10px] tracking-[0.25em] uppercase mb-4">
-              <Link href="/academy" className="hover:text-sage">Academy</Link> / Workshops
+              <Link href="/academy" className="hover:text-sage">{t('breadcrumb')}</Link> / {t('breadcrumbCurrent')}
             </p>
             <h1 className="font-serif text-5xl font-light text-cream mb-4">
-              Workshops <em className="italic text-sage">ao vivo</em>
+              {t('titleBefore')}<em className="italic text-sage">{t('titleEm')}</em>
             </h1>
             <p className="text-cream/45 text-base max-w-lg">
-              Sessões interativas com especialistas. Tire dúvidas em tempo real e pratique com outros participantes.
+              {t('subtitle')}
             </p>
           </div>
         </section>
 
         {/* Upcoming */}
         <section className="px-10 py-14 max-w-screen-lg mx-auto">
-          <h2 className="font-serif text-2xl font-light text-forest mb-8">Próximos workshops</h2>
+          <h2 className="font-serif text-2xl font-light text-forest mb-8">{t('upcoming')}</h2>
 
           <div className="flex flex-col gap-5">
             {upcoming.map(w => {
               const pct = Math.round(((w.totalSpots - w.spots) / w.totalSpots) * 100)
               const urgent = w.spots < 20
+              const levelLabel = t(`levels.${w.levelKey}`)
 
               return (
                 <div key={w.id}
@@ -125,8 +147,8 @@ export default function WorkshopsPage() {
                   {/* Info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap gap-2 mb-3">
-                      <span className={`text-[9px] tracking-widests uppercase px-2.5 py-1 rounded-full border ${LEVEL_COLORS[w.level]}`}>
-                        {w.level}
+                      <span className={`text-[9px] tracking-widests uppercase px-2.5 py-1 rounded-full border ${LEVEL_COLORS[w.levelKey]}`}>
+                        {levelLabel}
                       </span>
                       <span className="text-[9px] tracking-widests uppercase px-2.5 py-1 rounded-full border border-forest/15 text-forest/40">
                         {w.time}
@@ -140,9 +162,9 @@ export default function WorkshopsPage() {
                     <p className="text-forest/50 text-sm leading-relaxed mb-4">{w.description}</p>
 
                     <div className="flex flex-wrap gap-1.5 mb-4">
-                      {w.topics.map(t => (
-                        <span key={t} className="text-[10px] text-forest/40 bg-forest/[0.05] px-2 py-0.5 rounded-full">
-                          {t}
+                      {w.topics.map(topic => (
+                        <span key={topic} className="text-[10px] text-forest/40 bg-forest/[0.05] px-2 py-0.5 rounded-full">
+                          {topic}
                         </span>
                       ))}
                     </div>
@@ -156,7 +178,7 @@ export default function WorkshopsPage() {
                         />
                       </div>
                       <p className={`text-[11px] whitespace-nowrap ${urgent ? 'text-amber-600 font-medium' : 'text-forest/35'}`}>
-                        {w.spots} vagas restantes
+                        {w.spots} {t('spotsLeft')}
                       </p>
                     </div>
                   </div>
@@ -164,11 +186,11 @@ export default function WorkshopsPage() {
                   {/* CTA */}
                   <div className="flex flex-col justify-center gap-2 flex-shrink-0 min-w-[140px]">
                     <p className={`font-serif text-2xl font-light text-center mb-1 ${w.price === 0 ? 'text-leaf' : 'text-forest'}`}>
-                      {w.price === 0 ? 'Gratuito' : `R$ ${w.price}`}
+                      {w.price === 0 ? t('free') : `R$ ${w.price}`}
                     </p>
                     <button className="bg-forest text-cream text-[10px] tracking-widests uppercase px-6 py-3 rounded-lg
                                        hover:bg-leaf transition-colors whitespace-nowrap">
-                      Inscrever-se →
+                      {t('register')}
                     </button>
                   </div>
                 </div>
@@ -180,7 +202,7 @@ export default function WorkshopsPage() {
         {/* Past */}
         {past.length > 0 && (
           <section className="px-10 pb-20 max-w-screen-lg mx-auto">
-            <h2 className="font-serif text-xl font-light text-forest/40 mb-6">Workshops realizados</h2>
+            <h2 className="font-serif text-xl font-light text-forest/40 mb-6">{t('past')}</h2>
             <div className="flex flex-col gap-3">
               {past.map(w => (
                 <div key={w.id}
@@ -190,7 +212,7 @@ export default function WorkshopsPage() {
                     <p className="text-forest/40 text-xs mt-0.5">{w.date} · {w.time}</p>
                   </div>
                   <span className="text-[9px] tracking-widests uppercase text-forest/30 border border-forest/15 px-2.5 py-1 rounded-full whitespace-nowrap">
-                    Encerrado
+                    {t('closed')}
                   </span>
                 </div>
               ))}

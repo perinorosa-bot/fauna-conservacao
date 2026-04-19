@@ -3,22 +3,30 @@
 import { useState, useEffect, useRef } from 'react'
 import Nav from '@/components/layout/Nav'
 import { NavTheme } from '@/components/layout/NavTheme'
-import Link from 'next/link'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 
-const TABS = [
-  { id: 'sobre',    label: 'Sobre nós'       },
-  { id: 'funciona', label: 'Como funciona'   },
-  { id: 'quem',     label: 'Quem somos'      },
-]
+type StatItem = { value: string; label: string }
+type ValueItem = { title: string; desc: string }
+type TeamMember = { name: string; role: string; bio: string }
 
 export default function SobrePage() {
-  const { t } = useLanguage()
-  const cf = t.comoFunciona
+  const cf = useTranslations('comoFunciona')
+  const s  = useTranslations('sobre')
   const [activeTab, setActiveTab] = useState('sobre')
   const [tabBarSticky, setTabBarSticky] = useState(false)
   const tabBarRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLDivElement>(null)
+
+  const TABS = [
+    { id: 'sobre',    label: s('tabs.about')      },
+    { id: 'funciona', label: s('tabs.howItWorks') },
+    { id: 'quem',     label: s('tabs.whoWeAre')   },
+  ]
+
+  const aboutStats = s.raw('about.stats') as StatItem[]
+  const aboutValues = s.raw('about.values') as ValueItem[]
+  const teamMembers = s.raw('team.members') as TeamMember[]
 
   useEffect(() => {
     const el = triggerRef.current
@@ -45,12 +53,12 @@ export default function SobrePage() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/50" />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-            <p className="text-cream/60 text-[10px] tracking-[0.3em] uppercase mb-3">Plataforma</p>
+            <p className="text-cream/60 text-[10px] tracking-[0.3em] uppercase mb-3">{s('hero.eyebrowLabel')}</p>
             <h1 className="font-serif text-5xl md:text-6xl font-light text-cream leading-tight">
               Fauna
             </h1>
             <p className="text-cream/55 text-base mt-3 max-w-md">
-              Hub global de conservação animal
+              {s('hero.subtitle')}
             </p>
           </div>
         </div>
@@ -92,26 +100,21 @@ export default function SobrePage() {
             {/* Mission */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20 items-center">
               <div>
-                <p className="text-[10px] tracking-[0.25em] uppercase text-forest/35 mb-4">Nossa missão</p>
+                <p className="text-[10px] tracking-[0.25em] uppercase text-forest/35 mb-4">{s('about.missionEyebrow')}</p>
                 <h2 className="font-serif text-4xl font-light text-forest leading-tight mb-6">
-                  A tecnologia que a{' '}
-                  <em className="italic text-leaf">conservação</em>{' '}
-                  precisa
+                  {s('about.missionTitleBefore')}<em className="italic text-leaf">{s('about.missionTitleEm')}</em>{s('about.missionTitleAfter')}
                 </h2>
                 <p className="text-forest/60 text-base leading-relaxed mb-4">
-                  A Fauna é uma plataforma digital sem fins lucrativos construída por pessoas que acreditam
-                  que a crise da biodiversidade é o maior desafio da nossa geração — e que tecnologia
-                  bem feita pode ser parte da solução.
+                  {s('about.missionP1')}
                 </p>
                 <p className="text-forest/60 text-base leading-relaxed">
-                  Conectamos organizações de conservação a apoiadores de todo o mundo, com transparência
-                  total e zero taxas sobre doações.
+                  {s('about.missionP2')}
                 </p>
               </div>
               <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
                 <img
                   src="https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=800&auto=format&fit=crop&q=80"
-                  alt="Fauna — conservação"
+                  alt="Fauna"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -119,29 +122,20 @@ export default function SobrePage() {
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 mb-20">
-              {[
-                { value: '100%', label: 'Das doações vão para os projetos' },
-                { value: 'R$ 0', label: 'Taxa cobrada das organizações'    },
-                { value: 'R$ 0', label: 'Taxa sobre doações'               },
-              ].map(s => (
-                <div key={s.label}
+              {aboutStats.map(stat => (
+                <div key={stat.label}
                      className="bg-white border border-forest/[0.08] rounded-2xl p-8 text-center shadow-sm">
-                  <p className="font-serif text-4xl font-light text-leaf mb-2">{s.value}</p>
-                  <p className="text-forest/45 text-sm leading-tight">{s.label}</p>
+                  <p className="font-serif text-4xl font-light text-leaf mb-2">{stat.value}</p>
+                  <p className="text-forest/45 text-sm leading-tight">{stat.label}</p>
                 </div>
               ))}
             </div>
 
             {/* Values */}
-            <p className="text-[10px] tracking-[0.25em] uppercase text-forest/35 mb-4">O que nos guia</p>
-            <h2 className="font-serif text-3xl font-light text-forest mb-10">Nossos valores</h2>
+            <p className="text-[10px] tracking-[0.25em] uppercase text-forest/35 mb-4">{s('about.valuesEyebrow')}</p>
+            <h2 className="font-serif text-3xl font-light text-forest mb-10">{s('about.valuesTitle')}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-16">
-              {[
-                { title: 'Transparência total',        desc: '100% das doações vão diretamente para os projetos. A Fauna não retém nem um centavo das contribuições dos apoiadores de conservação.' },
-                { title: 'Impacto verificado',         desc: 'Todas as organizações na plataforma passam por verificação manual antes de publicar projetos. Só chegam até você causas legítimas.' },
-                { title: 'Acesso global',              desc: 'Um projeto no Pantanal pode receber apoio de alguém na Noruega. Removemos as barreiras burocráticas e cambiais que isolam a conservação.' },
-                { title: 'Tecnologia como ferramenta', desc: 'Construímos infraestrutura digital que organizações de conservação — geralmente pequenas e sem recursos de TI — não teriam como construir sozinhas.' },
-              ].map(v => (
+              {aboutValues.map(v => (
                 <div key={v.title}
                      className="bg-white border border-forest/[0.08] rounded-2xl p-8 shadow-sm">
                   <div className="w-2 h-2 rounded-full bg-leaf mb-5" />
@@ -156,12 +150,12 @@ export default function SobrePage() {
               <Link href="/projetos"
                     className="bg-forest text-cream text-[10px] tracking-widests uppercase px-8 py-4 rounded-sm
                                hover:bg-leaf transition-colors">
-                Explorar projetos →
+                {s('about.ctaExplore')}
               </Link>
               <Link href="/apoie"
                     className="border border-forest/20 text-forest/60 text-[10px] tracking-widests uppercase
                                px-8 py-4 rounded-sm hover:border-forest/40 hover:text-forest transition-colors">
-                Apoiar a Fauna
+                {s('about.ctaSupport')}
               </Link>
             </div>
           </section>
@@ -171,32 +165,32 @@ export default function SobrePage() {
         {activeTab === 'funciona' && (
           <section className="px-10 py-20 max-w-screen-lg mx-auto">
             <p className="text-[10px] tracking-[0.25em] uppercase text-forest/35 mb-4">
-              {cf.eyebrow}
+              {cf('eyebrow')}
             </p>
             <h2 className="font-serif text-4xl font-light text-forest leading-tight mb-4">
-              {cf.title}{' '}
-              <em className="italic text-leaf">{cf.titleEm1}</em>{' '}
-              {cf.titleConnector}{' '}
-              <em className="italic text-leaf">{cf.titleEm2}</em>
+              {cf('title')}{' '}
+              <em className="italic text-leaf">{cf('titleEm1')}</em>{' '}
+              {cf('titleConnector')}{' '}
+              <em className="italic text-leaf">{cf('titleEm2')}</em>
             </h2>
             <p className="text-forest/50 text-base leading-relaxed max-w-xl mb-16">
-              {cf.subtitle}
+              {cf('subtitle')}
             </p>
 
             {/* Two tracks */}
             <div className="grid md:grid-cols-2 gap-6 mb-20">
               {/* Donors */}
               <div className="bg-white border border-forest/[0.08] rounded-2xl p-10 shadow-sm">
-                <p className="text-leaf text-[10px] tracking-widests uppercase mb-8">{cf.forDonors}</p>
+                <p className="text-leaf text-[10px] tracking-widests uppercase mb-8">{cf('forDonors')}</p>
                 <div className="flex flex-col gap-10 mb-12">
-                  {cf.donorSteps.map((s, i) => (
+                  {(cf.raw('donorSteps') as Array<{title: string, text: string}>).map((st, i) => (
                     <div key={i} className="flex gap-5">
                       <span className="font-serif text-4xl font-light italic text-leaf/20 leading-none flex-shrink-0 w-10 select-none">
                         {String(i + 1).padStart(2, '0')}
                       </span>
                       <div>
-                        <h3 className="font-serif text-lg font-normal text-forest mb-2">{s.title}</h3>
-                        <p className="text-forest/50 text-sm leading-relaxed">{s.text}</p>
+                        <h3 className="font-serif text-lg font-normal text-forest mb-2">{st.title}</h3>
+                        <p className="text-forest/50 text-sm leading-relaxed">{st.text}</p>
                       </div>
                     </div>
                   ))}
@@ -204,24 +198,24 @@ export default function SobrePage() {
                 <Link href="/projetos"
                       className="bg-forest text-cream text-[10px] tracking-widests uppercase px-6 py-3 rounded-sm
                                  hover:bg-leaf transition-colors inline-flex">
-                  {cf.exploreBtn}
+                  {cf('exploreBtn')}
                 </Link>
               </div>
 
               {/* Organizations */}
               <div className="bg-white border border-forest/[0.08] rounded-2xl p-10 shadow-sm">
-                <p className="text-amber-600 text-[10px] tracking-widests uppercase mb-8">{cf.forOrgs}</p>
+                <p className="text-amber-600 text-[10px] tracking-widests uppercase mb-8">{cf('forOrgs')}</p>
                 <div className="flex flex-col gap-10 mb-12">
-                  {cf.orgSteps.map((s, i) => (
+                  {(cf.raw('orgSteps') as Array<{title: string, text: string, detail?: string}>).map((st, i) => (
                     <div key={i} className="flex gap-5">
                       <span className="font-serif text-4xl font-light italic text-amber-300/40 leading-none flex-shrink-0 w-10 select-none">
                         {String(i + 1).padStart(2, '0')}
                       </span>
                       <div>
-                        <h3 className="font-serif text-lg font-normal text-forest mb-2">{s.title}</h3>
-                        <p className="text-forest/50 text-sm leading-relaxed">{s.text}</p>
-                        {s.detail && (
-                          <p className="text-[10px] text-leaf mt-2 tracking-wide">{s.detail}</p>
+                        <h3 className="font-serif text-lg font-normal text-forest mb-2">{st.title}</h3>
+                        <p className="text-forest/50 text-sm leading-relaxed">{st.text}</p>
+                        {st.detail && (
+                          <p className="text-[10px] text-leaf mt-2 tracking-wide">{st.detail}</p>
                         )}
                       </div>
                     </div>
@@ -230,21 +224,21 @@ export default function SobrePage() {
                 <Link href="/organizacoes/cadastro"
                       className="border border-forest/20 text-forest/60 text-[10px] tracking-widests uppercase
                                  px-6 py-3 rounded-sm hover:border-forest/40 hover:text-forest transition-colors inline-flex">
-                  {cf.registerBtn}
+                  {cf('registerBtn')}
                 </Link>
               </div>
             </div>
 
             {/* Content types */}
             <div className="border-t border-forest/[0.08] pt-16 mb-16">
-              <p className="text-[10px] tracking-[0.25em] uppercase text-forest/35 mb-4">{cf.feedEyebrow}</p>
+              <p className="text-[10px] tracking-[0.25em] uppercase text-forest/35 mb-4">{cf('feedEyebrow')}</p>
               <h2 className="font-serif text-3xl font-light text-forest mb-4">
-                {cf.feedTitle}{' '}
-                <em className="italic text-leaf">{cf.feedTitleEm}</em>
+                {cf('feedTitle')}{' '}
+                <em className="italic text-leaf">{cf('feedTitleEm')}</em>
               </h2>
-              <p className="text-forest/45 text-sm leading-relaxed max-w-xl mb-10">{cf.feedSub}</p>
+              <p className="text-forest/45 text-sm leading-relaxed max-w-xl mb-10">{cf('feedSub')}</p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {cf.contentTypes.map(c => (
+                {(cf.raw('contentTypes') as Array<{icon: string, label: string, desc: string}>).map(c => (
                   <div key={c.label}
                        className="bg-white border border-forest/[0.07] rounded-xl p-6 shadow-sm">
                     <span className="text-leaf text-xl block mb-3">{c.icon}</span>
@@ -258,22 +252,22 @@ export default function SobrePage() {
             {/* Zero fee */}
             <div className="bg-forest rounded-2xl p-14 text-center">
               <h2 className="font-serif text-4xl font-light text-cream mb-4">
-                {cf.zeroTitle}{' '}
-                <em className="italic text-sage">{cf.zeroTitleEm}</em>
+                {cf('zeroTitle')}{' '}
+                <em className="italic text-sage">{cf('zeroTitleEm')}</em>
               </h2>
               <p className="text-cream/45 text-base leading-relaxed max-w-xl mx-auto mb-10">
-                {cf.zeroSub}
+                {cf('zeroSub')}
               </p>
               <div className="flex gap-3 justify-center flex-wrap">
                 <Link href="/projetos"
                       className="bg-sage text-cream text-[10px] tracking-widests uppercase px-7 py-3.5 rounded-sm
                                  hover:bg-leaf transition-colors">
-                  {cf.exploreBtn}
+                  {cf('exploreBtn')}
                 </Link>
                 <Link href="/organizacoes/cadastro"
                       className="border border-white/25 text-cream/70 text-[10px] tracking-widests uppercase
                                  px-7 py-3.5 rounded-sm hover:border-white/50 hover:text-cream transition-colors">
-                  {cf.registerBtn}
+                  {cf('registerBtn')}
                 </Link>
               </div>
             </div>
@@ -286,33 +280,25 @@ export default function SobrePage() {
 
             {/* Origin story */}
             <div className="max-w-2xl mb-20">
-              <p className="text-[10px] tracking-[0.25em] uppercase text-forest/35 mb-4">Nossa história</p>
+              <p className="text-[10px] tracking-[0.25em] uppercase text-forest/35 mb-4">{s('team.storyEyebrow')}</p>
               <h2 className="font-serif text-4xl font-light text-forest leading-tight mb-6">
-                Nascida da{' '}
-                <em className="italic text-leaf">urgência</em>
+                {s('team.storyTitleBefore')}<em className="italic text-leaf">{s('team.storyTitleEm')}</em>
               </h2>
               <p className="text-forest/60 text-base leading-relaxed mb-4">
-                A Fauna nasceu da percepção de que organizações incríveis de conservação estavam invisíveis
-                para o mundo — não por falta de trabalho ou propósito, mas por falta de infraestrutura digital.
+                {s('team.storyP1')}
               </p>
               <p className="text-forest/60 text-base leading-relaxed mb-4">
-                Pesquisadores de campo sem acesso a ferramentas de captação. Projetos urgentes sem visibilidade.
-                Doadores sem como encontrar causas legítimas. A Fauna surgiu para resolver exatamente isso.
+                {s('team.storyP2')}
               </p>
               <p className="text-forest/60 text-base leading-relaxed">
-                Somos uma equipe pequena com uma crença grande: que tecnologia bem feita pode multiplicar
-                o impacto de quem já está fazendo a diferença.
+                {s('team.storyP3')}
               </p>
             </div>
 
             {/* Team */}
-            <p className="text-[10px] tracking-[0.25em] uppercase text-forest/35 mb-8">A equipe</p>
+            <p className="text-[10px] tracking-[0.25em] uppercase text-forest/35 mb-8">{s('team.teamEyebrow')}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-20">
-              {[
-                { name: 'Victoria',     role: 'Fundadora & Produto',     bio: 'Apaixonada por conservação e tecnologia. Construiu a Fauna para conectar projetos extraordinários a apoiadores do mundo inteiro.' },
-                { name: 'Equipe',       role: 'Desenvolvimento & Design', bio: 'Designers e engenheiros que acreditam que a melhor tecnologia é aquela a serviço de causas que realmente importam.' },
-                { name: 'Você?',        role: 'Colaborador open',         bio: 'A Fauna é um projeto em construção. Se você acredita na missão, entre em contato — sempre há espaço para quem quer contribuir.' },
-              ].map(p => (
+              {teamMembers.map(p => (
                 <div key={p.name}
                      className="bg-white border border-forest/[0.08] rounded-2xl p-8 shadow-sm">
                   <div className="w-14 h-14 rounded-full bg-forest/8 flex items-center justify-center mb-5">
@@ -327,24 +313,23 @@ export default function SobrePage() {
 
             {/* Join */}
             <div className="bg-forest rounded-2xl p-14 text-center">
-              <p className="text-sage/70 text-[10px] tracking-[0.2em] uppercase mb-3">Faça parte</p>
+              <p className="text-sage/70 text-[10px] tracking-[0.2em] uppercase mb-3">{s('team.joinEyebrow')}</p>
               <h2 className="font-serif text-4xl font-light text-cream mb-4">
-                Juntos chegamos{' '}
-                <em className="italic text-sage">mais longe</em>
+                {s('team.joinTitleBefore')}<em className="italic text-sage">{s('team.joinTitleEm')}</em>
               </h2>
               <p className="text-cream/40 text-base mb-10 max-w-md mx-auto">
-                Cada apoiador da plataforma multiplica o impacto de dezenas de projetos de conservação ao redor do mundo.
+                {s('team.joinSubtitle')}
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <Link href="/projetos"
                       className="bg-sage text-cream text-[10px] tracking-widests uppercase px-7 py-3.5 rounded-sm
                                  hover:bg-leaf transition-colors">
-                  Ver projetos
+                  {s('team.joinCtaProjects')}
                 </Link>
                 <Link href="/contato"
                       className="border border-white/25 text-cream/70 text-[10px] tracking-widests uppercase
                                  px-7 py-3.5 rounded-sm hover:border-white/50 hover:text-cream transition-colors">
-                  Entrar em contato
+                  {s('team.joinCtaContact')}
                 </Link>
               </div>
             </div>

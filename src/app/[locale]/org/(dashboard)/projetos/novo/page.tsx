@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { COUNTRIES } from '@/lib/countries'
 import { BIOMES } from '@/lib/biomes'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations } from 'next-intl'
 
 function slugify(str: string) {
   return str.toLowerCase()
@@ -15,8 +15,7 @@ function slugify(str: string) {
 }
 
 export default function NovoProjetoPage() {
-  const { t } = useLanguage()
-  const o = t.orgDash
+  const o = useTranslations('orgDash')
   const router   = useRouter()
   const supabase = createClient()
   const fileRef  = useRef<HTMLInputElement>(null)
@@ -114,14 +113,14 @@ export default function NovoProjetoPage() {
   return (
     <div className="max-w-2xl">
       <div className="mb-10">
-        <h1 className="font-serif text-4xl font-light text-cream mb-2">{o.newProjectTitle}</h1>
-        <p className="text-cream/40 text-sm">{o.newProjectSub}</p>
+        <h1 className="font-serif text-4xl font-light text-cream mb-2">{o('newProjectTitle')}</h1>
+        <p className="text-cream/40 text-sm">{o('newProjectSub')}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         {/* Title */}
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.projectTitle} {o.required}</label>
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('projectTitle')} {o('required')}</label>
           <input className={inputClass} type="text" placeholder="Ex: Monitoramento de Onças no Pantanal"
                  value={title}
                  onChange={e => { setTitle(e.target.value); setSlug(slugify(e.target.value)) }}
@@ -140,7 +139,7 @@ export default function NovoProjetoPage() {
         {/* Description */}
         <div>
           <label className="text-cream/50 text-xs tracking-wide block mb-1.5">
-            {o.shortDesc} {o.required} <span className="text-cream/25">{o.shortDescHint}</span>
+            {o('shortDesc')} {o('required')} <span className="text-cream/25">{o('shortDescHint')}</span>
           </label>
           <textarea className={`${inputClass} resize-none`} rows={2}
                     placeholder="Uma frase que resume o projeto..."
@@ -150,7 +149,7 @@ export default function NovoProjetoPage() {
         {/* Full description */}
         <div>
           <label className="text-cream/50 text-xs tracking-wide block mb-1.5">
-            {o.fullDesc} <span className="text-cream/25">{o.fullDescHint}</span>
+            {o('fullDesc')} <span className="text-cream/25">{o('fullDescHint')}</span>
           </label>
           <textarea className={`${inputClass} resize-none`} rows={5}
                     placeholder="Contexto, metodologia, impacto esperado..."
@@ -160,19 +159,19 @@ export default function NovoProjetoPage() {
         {/* Species + Biome + Country */}
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.speciesFocus}</label>
+            <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('speciesFocus')}</label>
             <input className={inputClass} type="text" placeholder="Panthera onca"
                    value={species} onChange={e => setSpecies(e.target.value)} />
           </div>
           <div>
-            <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.biome} {o.required}</label>
+            <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('biome')} {o('required')}</label>
             <select className={inputClass} value={biome} onChange={e => setBiome(e.target.value)} required>
               <option value="">—</option>
               {BIOMES.map(b => <option key={b} value={b}>{b}</option>)}
             </select>
           </div>
           <div>
-            <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.countryLabel} {o.required}</label>
+            <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('countryLabel')} {o('required')}</label>
             <select className={inputClass} value={country} onChange={e => setCountry(e.target.value)} required>
               {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
@@ -181,7 +180,7 @@ export default function NovoProjetoPage() {
 
         {/* Cover image */}
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o.coverImage}</label>
+          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{o('coverImage')}</label>
           <div className="flex gap-2 mb-2">
             <button type="button" onClick={() => setCoverTab('url')}
                     className={`text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-sm transition-colors ${
@@ -218,7 +217,7 @@ export default function NovoProjetoPage() {
                            text-cream/30 text-xs tracking-wide hover:border-sage/40 hover:text-sage/60
                            transition-colors disabled:opacity-50 text-center"
               >
-                {uploading ? o.uploading : coverUrl ? o.imageUploaded : o.selectImage}
+                {uploading ? o('uploading') : coverUrl ? o('imageUploaded') : o('selectImage')}
               </button>
               {coverUrl && !uploading && (
                 <p className="text-sage text-[10px] mt-1.5 truncate">{coverUrl}</p>
@@ -230,7 +229,7 @@ export default function NovoProjetoPage() {
         {/* Video links */}
         <div>
           <label className="text-cream/50 text-xs tracking-wide block mb-1.5">
-            {o.videoLinks} <span className="text-cream/25">{o.videoHint}</span>
+            {o('videoLinks')} <span className="text-cream/25">{o('videoHint')}</span>
           </label>
           <div className="flex flex-col gap-2">
             {videoLinks.map((v, i) => (
@@ -252,7 +251,7 @@ export default function NovoProjetoPage() {
             ))}
             <button type="button" onClick={addVideoLink}
                     className="text-sage/50 text-[10px] tracking-widest uppercase hover:text-sage transition-colors text-left">
-              {o.addVideo}
+              {o('addVideo')}
             </button>
           </div>
         </div>
@@ -260,7 +259,7 @@ export default function NovoProjetoPage() {
         {/* Tags */}
         <div>
           <label className="text-cream/50 text-xs tracking-wide block mb-1.5">
-            {o.tags} <span className="text-cream/25">{o.tagsHint}</span>
+            {o('tags')} <span className="text-cream/25">{o('tagsHint')}</span>
           </label>
           <input className={inputClass} type="text" placeholder="onça-pintada, GPS, Pantanal"
                  value={tagsInput} onChange={e => setTagsInput(e.target.value)} />
@@ -272,11 +271,11 @@ export default function NovoProjetoPage() {
           <button type="submit" disabled={loading || uploading}
                   className="bg-leaf text-cream text-xs tracking-widest uppercase px-8 py-3 rounded-sm
                              hover:bg-sage transition-colors disabled:opacity-50">
-            {loading ? o.publishing : o.publish}
+            {loading ? o('publishing') : o('publish')}
           </button>
           <button type="button" onClick={() => router.back()}
                   className="text-cream/30 text-xs tracking-widest uppercase hover:text-cream transition-colors">
-            {o.cancel}
+            {o('cancel')}
           </button>
         </div>
       </form>

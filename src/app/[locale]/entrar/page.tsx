@@ -2,14 +2,16 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { Link, useRouter } from '@/i18n/navigation'
 import Nav from '@/components/layout/Nav'
-import Link from 'next/link'
 
 type Mode = null | 'donor' | 'org'
 
 export default function EntrarPage() {
   const router = useRouter()
+  const t = useTranslations('authForms.enter')
+  const tCommon = useTranslations('common')
   const [mode, setMode]       = useState<Mode>(null)
 
   // Donor state
@@ -45,7 +47,7 @@ export default function EntrarPage() {
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({ email: orgEmail, password: orgPassword })
     setOrgLoading(false)
-    if (error) { setOrgError('E-mail ou senha incorretos.'); return }
+    if (error) { setOrgError(t('invalidCredentials')); return }
     router.push('/org/painel')
     router.refresh()
   }
@@ -64,10 +66,10 @@ export default function EntrarPage() {
             <>
               <div className="text-center mb-10">
                 <h1 className="font-serif text-4xl font-light text-cream mb-3">
-                  Bem-vinda de volta
+                  {t('welcomeTitle')}
                 </h1>
                 <p className="text-cream/40 text-sm leading-relaxed">
-                  Como você quer entrar?
+                  {t('welcomeSub')}
                 </p>
               </div>
 
@@ -78,16 +80,16 @@ export default function EntrarPage() {
                   className="group bg-canopy/40 border border-white/[0.07] hover:border-sage/30
                              rounded-2xl p-7 text-left transition-all duration-200 hover:bg-canopy/60"
                 >
-                  <p className="text-sage text-xs tracking-widest uppercase mb-2">Apoiador / Doador</p>
+                  <p className="text-sage text-xs tracking-widest uppercase mb-2">{t('donorEyebrow')}</p>
                   <p className="text-cream font-serif text-xl font-light mb-1">
-                    Quero apoiar projetos
+                    {t('donorTitle')}
                   </p>
                   <p className="text-cream/35 text-xs leading-relaxed">
-                    Acesse sua conta de apoiador ou crie uma nova para começar a doe para projetos de conservação.
+                    {t('donorDesc')}
                   </p>
                   <span className="mt-4 inline-block text-sage/60 text-xs tracking-widest uppercase
                                    group-hover:text-sage transition-colors">
-                    Entrar como apoiador →
+                    {t('donorCta')}
                   </span>
                 </button>
 
@@ -97,16 +99,16 @@ export default function EntrarPage() {
                   className="group bg-canopy/40 border border-white/[0.07] hover:border-sage/30
                              rounded-2xl p-7 text-left transition-all duration-200 hover:bg-canopy/60"
                 >
-                  <p className="text-sage text-xs tracking-widest uppercase mb-2">Organização</p>
+                  <p className="text-sage text-xs tracking-widest uppercase mb-2">{t('orgEyebrow')}</p>
                   <p className="text-cream font-serif text-xl font-light mb-1">
-                    Tenho um projeto de conservação
+                    {t('orgTitle')}
                   </p>
                   <p className="text-cream/35 text-xs leading-relaxed">
-                    Acesse o painel da sua organização ou cadastre um novo projeto na plataforma.
+                    {t('orgDesc')}
                   </p>
                   <span className="mt-4 inline-block text-sage/60 text-xs tracking-widest uppercase
                                    group-hover:text-sage transition-colors">
-                    Entrar como organização →
+                    {t('orgCta')}
                   </span>
                 </button>
               </div>
@@ -119,16 +121,16 @@ export default function EntrarPage() {
               <button onClick={() => setMode(null)}
                       className="text-cream/30 text-xs tracking-widest uppercase hover:text-cream/60
                                  transition-colors mb-8 flex items-center gap-1.5">
-                ← Voltar
+                {tCommon('back')}
               </button>
 
               <div className="text-center mb-10">
-                <p className="text-sage text-xs tracking-widest uppercase mb-3">Apoiador / Doador</p>
+                <p className="text-sage text-xs tracking-widest uppercase mb-3">{t('donorEyebrow')}</p>
                 <h1 className="font-serif text-3xl font-light text-cream mb-3">
-                  Entrar ou criar conta
+                  {t('donorStepTitle')}
                 </h1>
                 <p className="text-cream/40 text-sm leading-relaxed">
-                  Use seu e-mail — enviamos um link de acesso. Sem senha.
+                  {t('donorStepSub')}
                 </p>
               </div>
 
@@ -136,35 +138,32 @@ export default function EntrarPage() {
                 {donorSent ? (
                   <div className="text-center py-4">
                     <p className="text-sage text-3xl mb-4">✉</p>
-                    <p className="text-cream/80 text-sm mb-2 font-medium">Link enviado!</p>
+                    <p className="text-cream/80 text-sm mb-2 font-medium">{t('sentTitle')}</p>
                     <p className="text-cream/40 text-xs leading-relaxed">
-                      Verifique sua caixa de entrada em{' '}
-                      <span className="text-cream/70">{donorEmail}</span>{' '}
-                      e clique no link para acessar.
+                      {t('sentDesc', { email: donorEmail })}
                     </p>
                     <button onClick={() => setDonorSent(false)}
                             className="mt-6 text-sage/60 text-xs hover:text-sage transition-colors">
-                      Usar outro e-mail
+                      {t('useOther')}
                     </button>
                   </div>
                 ) : (
                   <form onSubmit={handleDonorSubmit} className="flex flex-col gap-4">
                     <div>
-                      <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Seu e-mail</label>
+                      <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('emailLabel')}</label>
                       <input type="email" value={donorEmail}
                              onChange={ev => setDonorEmail(ev.target.value)}
-                             required autoFocus placeholder="voce@email.com"
+                             required autoFocus placeholder={t('emailPlaceholder')}
                              className={inputClass} />
                     </div>
                     {donorError && <p className="text-red-400 text-xs">{donorError}</p>}
                     <button type="submit" disabled={donorLoading}
                             className="w-full bg-leaf text-cream text-xs tracking-widest uppercase
                                        py-3.5 rounded-xl hover:bg-sage transition-colors disabled:opacity-50">
-                      {donorLoading ? 'Enviando...' : 'Enviar link de acesso'}
+                      {donorLoading ? tCommon('sending') : t('submit')}
                     </button>
                     <p className="text-cream/25 text-xs text-center leading-relaxed">
-                      Ao entrar, você concorda com nossos termos de uso.
-                      Sua conta é gratuita para sempre.
+                      {t('terms')}
                     </p>
                   </form>
                 )}
@@ -178,48 +177,48 @@ export default function EntrarPage() {
               <button onClick={() => setMode(null)}
                       className="text-cream/30 text-xs tracking-widest uppercase hover:text-cream/60
                                  transition-colors mb-8 flex items-center gap-1.5">
-                ← Voltar
+                {tCommon('back')}
               </button>
 
               <div className="text-center mb-10">
-                <p className="text-sage text-xs tracking-widest uppercase mb-3">Organização</p>
+                <p className="text-sage text-xs tracking-widest uppercase mb-3">{t('orgEyebrow')}</p>
                 <h1 className="font-serif text-3xl font-light text-cream mb-3">
-                  Acessar painel
+                  {t('orgStepTitle')}
                 </h1>
                 <p className="text-cream/40 text-sm leading-relaxed">
-                  Entre com o e-mail e senha da sua organização.
+                  {t('orgStepSub')}
                 </p>
               </div>
 
               <div className="bg-canopy/40 border border-white/[0.07] rounded-2xl p-8">
                 <form onSubmit={handleOrgLogin} className="flex flex-col gap-4">
                   <div>
-                    <label className="text-cream/50 text-xs tracking-wide block mb-1.5">E-mail</label>
+                    <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('orgEmailLabel')}</label>
                     <input type="email" value={orgEmail}
                            onChange={ev => setOrgEmail(ev.target.value)}
-                           required autoFocus placeholder="org@email.com"
+                           required autoFocus placeholder={t('orgEmailPlaceholder')}
                            className={inputClass} />
                   </div>
                   <div>
-                    <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Senha</label>
+                    <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('orgPasswordLabel')}</label>
                     <input type="password" value={orgPassword}
                            onChange={ev => setOrgPassword(ev.target.value)}
-                           required placeholder="••••••••"
+                           required placeholder={t('orgPasswordPlaceholder')}
                            className={inputClass} />
                   </div>
                   {orgError && <p className="text-red-400 text-xs">{orgError}</p>}
                   <button type="submit" disabled={orgLoading}
                           className="w-full bg-leaf text-cream text-xs tracking-widest uppercase
                                      py-3.5 rounded-xl hover:bg-sage transition-colors disabled:opacity-50 mt-1">
-                    {orgLoading ? 'Entrando...' : 'Entrar'}
+                    {orgLoading ? t('orgSubmitting') : t('orgSubmit')}
                   </button>
                 </form>
 
                 <div className="mt-6 pt-5 border-t border-white/[0.06] text-center">
-                  <p className="text-cream/30 text-xs mb-1">Ainda não tem conta?</p>
+                  <p className="text-cream/30 text-xs mb-1">{t('noAccount')}</p>
                   <Link href="/organizacoes/cadastro"
                         className="text-sage/70 text-xs tracking-widest uppercase hover:text-sage transition-colors">
-                    Cadastrar organização →
+                    {t('registerOrg')}
                   </Link>
                 </div>
               </div>

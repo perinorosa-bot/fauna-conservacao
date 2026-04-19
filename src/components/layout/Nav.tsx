@@ -143,7 +143,7 @@ export default function Nav() {
       <Link href="/sobre"
             className={clsx('text-[10px] tracking-widest uppercase transition-colors duration-200 whitespace-nowrap',
               path.startsWith('/sobre') ? 'text-sage' : linkInactive)}>
-        Sobre
+        {t('about')}
       </Link>
 
       <Link href="/projetos"
@@ -155,12 +155,12 @@ export default function Nav() {
       <Link href="/academy"
             className={clsx('text-[10px] tracking-widest uppercase transition-colors duration-200 whitespace-nowrap',
               path.startsWith('/academy') ? 'text-sage' : linkInactive)}>
-        Academy
+        {t('academy')}
       </Link>
 
       <a href="https://umapenca.com/fauna-conservacao" target="_blank" rel="noopener noreferrer"
          className={clsx('text-[10px] tracking-widest uppercase transition-colors duration-200 whitespace-nowrap', linkInactive)}>
-        Nossa loja
+        {t('shop')}
       </a>
 
       {/* ── Spacer ────────────────────────────────────────────────────────── */}
@@ -174,7 +174,7 @@ export default function Nav() {
               'text-[10px] tracking-widest uppercase px-4 py-2.5 rounded-sm transition-all duration-200 whitespace-nowrap hidden lg:inline-flex',
               outlineBtn,
             )}>
-        Nos apoie
+        {t('support')}
       </Link>
 
       {/* Doe agora */}
@@ -200,7 +200,7 @@ export default function Nav() {
               'text-[10px] tracking-widest uppercase px-4 py-2.5 rounded-sm transition-all duration-200 whitespace-nowrap hidden xl:inline-flex',
               outlineBtn,
             )}>
-        Tem um projeto?
+        {t('haveProject')}
       </Link>
 
       {/* Entrar / Meu perfil */}
@@ -211,7 +211,7 @@ export default function Nav() {
                 ? 'border border-forest/20 text-forest/60 hover:bg-forest/5 hover:text-forest hover:border-forest/40'
                 : 'border border-white/20 text-cream/70 hover:bg-white/5 hover:text-cream hover:border-white/40',
             )}>
-        {userEmail ? 'Meu perfil' : 'Entrar'}
+        {userEmail ? t('myProfile') : t('signIn')}
       </Link>
 
       {/* ── Language dropdown ─────────────────────────────────────────────── */}
@@ -258,7 +258,7 @@ export default function Nav() {
       {/* ── Music toggle ──────────────────────────────────────────────────── */}
       <button
         onClick={toggle}
-        title={playing ? 'Pausar sons da natureza' : 'Tocar sons da natureza'}
+        title={playing ? t('pauseSounds') : t('playSounds')}
         className={clsx(
           'flex items-center gap-1.5 transition-all duration-200',
           playing ? 'text-sage' : isLight ? 'text-forest/40 hover:text-forest/70' : 'text-cream/40 hover:text-cream/70',

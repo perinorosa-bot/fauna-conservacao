@@ -3,15 +3,20 @@
 import { useState } from 'react'
 import Nav from '@/components/layout/Nav'
 import { NavTheme } from '@/components/layout/NavTheme'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+
+type EmailItem = { label: string; value: string }
 
 export default function ContatoPage() {
+  const t = useTranslations('contato')
   const [name, setName]       = useState('')
   const [email, setEmail]     = useState('')
   const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
   const [sent, setSent]       = useState(false)
   const [loading, setLoading] = useState(false)
+
+  const emails = t.raw('emails') as EmailItem[]
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -36,20 +41,16 @@ export default function ContatoPage() {
 
             {/* Left */}
             <div>
-              <span className="text-sage text-[10px] tracking-[0.25em] uppercase block mb-5">Fale conosco</span>
+              <span className="text-sage text-[10px] tracking-[0.25em] uppercase block mb-5">{t('hero.eyebrow')}</span>
               <h1 className="font-serif text-5xl font-light text-forest mb-6">
-                Entre em <em className="italic text-sage">contato</em>
+                {t('hero.titleBefore')}<em className="italic text-sage">{t('hero.titleEm')}</em>
               </h1>
               <p className="text-forest/50 text-sm leading-loose mb-10 max-w-sm">
-                Seja para perguntas sobre doações, parcerias com organizações, imprensa ou qualquer outra coisa — estamos aqui.
+                {t('hero.subtitle')}
               </p>
 
               <div className="flex flex-col gap-6">
-                {[
-                  { label: 'E-mail geral',      value: 'ola@fauna.org' },
-                  { label: 'Imprensa',           value: 'imprensa@fauna.org' },
-                  { label: 'Organizações',       value: 'organizacoes@fauna.org' },
-                ].map(item => (
+                {emails.map(item => (
                   <div key={item.label}>
                     <p className="text-forest/35 text-[10px] tracking-widest uppercase mb-1">{item.label}</p>
                     <a href={`mailto:${item.value}`}
@@ -71,51 +72,51 @@ export default function ContatoPage() {
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   </div>
-                  <h3 className="font-serif text-2xl font-light text-forest mb-3">Mensagem enviada</h3>
-                  <p className="text-forest/45 text-sm">Respondemos em até 2 dias úteis.</p>
+                  <h3 className="font-serif text-2xl font-light text-forest mb-3">{t('form.sentTitle')}</h3>
+                  <p className="text-forest/45 text-sm">{t('form.sentDesc')}</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-forest/50 text-xs tracking-wide block mb-1.5">Nome *</label>
-                      <input className={inputClass} type="text" placeholder="Seu nome"
+                      <label className="text-forest/50 text-xs tracking-wide block mb-1.5">{t('form.nameLabel')}</label>
+                      <input className={inputClass} type="text" placeholder={t('form.namePlaceholder')}
                              value={name} onChange={e => setName(e.target.value)} required />
                     </div>
                     <div>
-                      <label className="text-forest/50 text-xs tracking-wide block mb-1.5">E-mail *</label>
-                      <input className={inputClass} type="email" placeholder="voce@email.com"
+                      <label className="text-forest/50 text-xs tracking-wide block mb-1.5">{t('form.emailLabel')}</label>
+                      <input className={inputClass} type="email" placeholder={t('form.emailPlaceholder')}
                              value={email} onChange={e => setEmail(e.target.value)} required />
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-forest/50 text-xs tracking-wide block mb-1.5">Assunto *</label>
+                    <label className="text-forest/50 text-xs tracking-wide block mb-1.5">{t('form.subjectLabel')}</label>
                     <select className={inputClass} value={subject} onChange={e => setSubject(e.target.value)} required>
-                      <option value="">Selecionar</option>
-                      <option>Dúvida sobre doação</option>
-                      <option>Cadastrar organização</option>
-                      <option>Imprensa e mídia</option>
-                      <option>Parceria</option>
-                      <option>Outro</option>
+                      <option value="">{t('form.subjectPlaceholderDefault')}</option>
+                      <option>{t('subjects.donation')}</option>
+                      <option>{t('subjects.orgRegister')}</option>
+                      <option>{t('subjects.press')}</option>
+                      <option>{t('subjects.partnership')}</option>
+                      <option>{t('subjects.other')}</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="text-forest/50 text-xs tracking-wide block mb-1.5">Mensagem *</label>
+                    <label className="text-forest/50 text-xs tracking-wide block mb-1.5">{t('form.messageLabel')}</label>
                     <textarea className={`${inputClass} resize-none`} rows={5}
-                              placeholder="Como podemos ajudar?"
+                              placeholder={t('form.messagePlaceholder')}
                               value={message} onChange={e => setMessage(e.target.value)} required />
                   </div>
 
                   <button type="submit" disabled={loading}
                           className="w-full bg-leaf text-cream text-xs tracking-widest uppercase py-3.5 rounded-sm
                                      hover:bg-sage transition-colors disabled:opacity-50 mt-2">
-                    {loading ? 'Enviando...' : 'Enviar mensagem'}
+                    {loading ? t('form.submitting') : t('form.submit')}
                   </button>
 
                   <p className="text-forest/25 text-xs text-center">
-                    Respondemos em até 2 dias úteis
+                    {t('form.sla')}
                   </p>
                 </form>
               )}

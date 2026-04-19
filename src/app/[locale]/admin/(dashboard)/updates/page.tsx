@@ -1,8 +1,18 @@
+import { getTranslations, getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import UpdateActions from '@/components/admin/UpdateActions'
 
+function localeToBcp47(locale: string): string {
+  if (locale === 'pt') return 'pt-BR'
+  if (locale === 'es') return 'es-ES'
+  return 'en-US'
+}
+
 export default async function AdminUpdatesPage() {
   const supabase = createClient()
+  const t      = await getTranslations('adminDash.updates')
+  const locale = await getLocale()
+  const bcp47  = localeToBcp47(locale)
 
   const { data: updates } = await supabase
     .from('updates')
@@ -13,8 +23,8 @@ export default async function AdminUpdatesPage() {
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1 className="font-serif text-3xl font-light text-cream">Atualizações do feed</h1>
-        <p className="text-cream/40 text-sm mt-1">{updates?.length ?? 0} publicadas</p>
+        <h1 className="font-serif text-3xl font-light text-cream">{t('title')}</h1>
+        <p className="text-cream/40 text-sm mt-1">{t('subtitle', { count: updates?.length ?? 0 })}</p>
       </div>
 
       <div className="flex flex-col gap-4">
@@ -36,11 +46,11 @@ export default async function AdminUpdatesPage() {
                   <div>
                     <p className="text-cream/85 text-sm font-medium">{u.title}</p>
                     <p className="text-cream/35 text-xs mt-0.5">
-                      {project?.organization?.name ?? '—'} · {project?.title ?? '—'} · por {u.author_name}
+                      {project?.organization?.name ?? '—'} · {project?.title ?? '—'} · {t('by', { author: u.author_name })}
                     </p>
                   </div>
                   <p className="text-cream/25 text-xs whitespace-nowrap flex-shrink-0">
-                    {new Date(u.created_at).toLocaleDateString('pt-BR')}
+                    {new Date(u.created_at).toLocaleDateString(bcp47)}
                   </p>
                 </div>
                 <p className="text-cream/40 text-sm leading-relaxed line-clamp-2 mb-3">{u.content}</p>
@@ -51,7 +61,7 @@ export default async function AdminUpdatesPage() {
         })}
         {!updates?.length && (
           <div className="bg-[#0d1610] border border-white/[0.06] rounded-xl px-5 py-12 text-center">
-            <p className="text-cream/25 text-sm">Nenhuma atualização publicada</p>
+            <p className="text-cream/25 text-sm">{t('empty')}</p>
           </div>
         )}
       </div>

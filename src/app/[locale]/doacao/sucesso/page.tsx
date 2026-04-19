@@ -1,12 +1,14 @@
-import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import Nav from '@/components/layout/Nav'
 
-export default function DoacaoSucessoPage({
+export default async function DoacaoSucessoPage({
   searchParams,
 }: {
   searchParams: { projeto?: string }
 }) {
   const slug = searchParams.projeto
+  const t = await getTranslations('donationForm.success')
 
   return (
     <main className="min-h-screen bg-forest">
@@ -22,10 +24,10 @@ export default function DoacaoSucessoPage({
           </div>
 
           <h1 className="font-serif text-4xl font-light text-cream mb-4">
-            Obrigado pela sua <em className="italic text-sage">doação</em>
+            {t('titleBefore')}<em className="italic text-sage">{t('titleEm')}</em>
           </h1>
           <p className="text-cream/50 text-sm leading-relaxed mb-10">
-            Seu apoio chegou. Você receberá atualizações do projeto por e-mail conforme o trabalho avança no campo.
+            {t('description')}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -35,7 +37,7 @@ export default function DoacaoSucessoPage({
                 className="bg-leaf text-cream text-xs tracking-widest uppercase px-6 py-3 rounded-sm
                            hover:bg-sage transition-colors"
               >
-                Ver projeto
+                {t('viewProject')}
               </Link>
             )}
             <Link
@@ -43,7 +45,7 @@ export default function DoacaoSucessoPage({
               className="border border-white/20 text-cream/60 text-xs tracking-widest uppercase px-6 py-3 rounded-sm
                          hover:bg-white/5 hover:text-cream transition-colors"
             >
-              Explorar outros projetos
+              {t('exploreOthers')}
             </Link>
           </div>
         </div>
