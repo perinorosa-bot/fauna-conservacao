@@ -1,7 +1,7 @@
 import { Link } from '@/i18n/navigation'
 import Nav from '@/components/layout/Nav'
 import { NavTheme } from '@/components/layout/NavTheme'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, getFormatter } from 'next-intl/server'
 
 // Resources are fixture data — titles/descriptions stay in pt until a real DB wires up.
 type ResourceType = 'template' | 'guia' | 'checklist' | 'planilha' | 'ebook'
@@ -36,6 +36,7 @@ const RESOURCES: Resource[] = [
 
 export default async function RecursosPage() {
   const t = await getTranslations('academy.resources')
+  const format = await getFormatter()
 
   const typeLabel = (type: ResourceType) => t(`filterLabels.${type}`)
 
@@ -101,7 +102,7 @@ export default async function RecursosPage() {
 
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-forest/[0.06]">
                   <span className="text-forest/30 text-[11px]">
-                    {r.downloads.toLocaleString()} {t('downloadsSuffix')}
+                    {format.number(r.downloads)} {t('downloadsSuffix')}
                   </span>
                   <button className="flex items-center gap-1.5 text-leaf text-[10px] tracking-widests uppercase
                                      hover:gap-2.5 transition-all group-hover:text-forest">

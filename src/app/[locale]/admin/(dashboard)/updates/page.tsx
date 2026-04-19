@@ -1,18 +1,11 @@
-import { getTranslations, getLocale } from 'next-intl/server'
+import { getTranslations, getFormatter } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import UpdateActions from '@/components/admin/UpdateActions'
-
-function localeToBcp47(locale: string): string {
-  if (locale === 'pt') return 'pt-BR'
-  if (locale === 'es') return 'es-ES'
-  return 'en-US'
-}
 
 export default async function AdminUpdatesPage() {
   const supabase = createClient()
   const t      = await getTranslations('adminDash.updates')
-  const locale = await getLocale()
-  const bcp47  = localeToBcp47(locale)
+  const format = await getFormatter()
 
   const { data: updates } = await supabase
     .from('updates')
@@ -50,7 +43,7 @@ export default async function AdminUpdatesPage() {
                     </p>
                   </div>
                   <p className="text-cream/25 text-xs whitespace-nowrap flex-shrink-0">
-                    {new Date(u.created_at).toLocaleDateString(bcp47)}
+                    {format.dateTime(new Date(u.created_at), { dateStyle: 'medium' })}
                   </p>
                 </div>
                 <p className="text-cream/40 text-sm leading-relaxed line-clamp-2 mb-3">{u.content}</p>

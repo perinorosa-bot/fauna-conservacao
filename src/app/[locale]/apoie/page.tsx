@@ -17,7 +17,7 @@ export default function ApoiePage() {
         <section className="pt-40 pb-24 px-10 max-w-screen-lg mx-auto">
           <span className="text-sage text-[10px] tracking-[0.25em] uppercase block mb-5">{a('missionEyebrow')}</span>
           <h1 className="font-serif text-6xl md:text-7xl font-light text-forest leading-[1.05] mb-8 max-w-3xl">
-            {a('missionTitle')} <em className="italic text-sage">{a('missionTitleEm')}</em> merece
+            {a('missionTitle')} <em className="italic text-sage">{a('missionTitleEm')}</em> {a('missionTitleAfter')}
           </h1>
           <p className="text-forest/55 text-base leading-loose max-w-xl">
             {a('missionSub')}
@@ -74,6 +74,9 @@ export default function ApoiePage() {
             </div>
 
             <div className="grid md:grid-cols-3 gap-6 mb-14">
+              {/* TODO(#9-followup): currency is coupled with locale copy — pt.apoie.tiers uses BRL, en/es use USD.
+                  Decouple when multi-currency Stripe pricing lands: render price via useFormatter from a numeric
+                  amount + currency prop, and keep translations free of currency values. */}
               {(a.raw('tiers') as Array<{name: string, price: string, perks: string[], highlight?: boolean}>).map(tier => (
                 <div
                   key={tier.name}

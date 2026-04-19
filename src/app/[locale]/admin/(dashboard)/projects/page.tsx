@@ -1,18 +1,11 @@
-import { getTranslations, getLocale } from 'next-intl/server'
+import { getTranslations, getFormatter } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import ProjectActions from '@/components/admin/ProjectActions'
-
-function localeToBcp47(locale: string): string {
-  if (locale === 'pt') return 'pt-BR'
-  if (locale === 'es') return 'es-ES'
-  return 'en-US'
-}
 
 export default async function AdminProjectsPage() {
   const supabase = createClient()
   const t      = await getTranslations('adminDash.projects')
-  const locale = await getLocale()
-  const bcp47  = localeToBcp47(locale)
+  const format = await getFormatter()
 
   const { data: projects } = await supabase
     .from('projects')
@@ -67,7 +60,7 @@ export default async function AdminProjectsPage() {
                     <p className="text-cream/30 text-xs">{p.country}</p>
                   </td>
                   <td className="px-5 py-4 text-cream/50 text-sm">
-                    {p.currency} {Number(p.goal_amount).toLocaleString(bcp47)}
+                    {p.currency} {format.number(Number(p.goal_amount))}
                   </td>
                   <td className="px-5 py-4">
                     <p className="text-sage text-sm">{pct}%</p>

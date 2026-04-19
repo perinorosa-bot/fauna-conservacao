@@ -460,6 +460,7 @@
     "missionEyebrow": "Our mission",
     "missionTitle": "The technology that",
     "missionTitleEm": "conservation",
+    "missionTitleAfter": "deserves",
     "missionSub": "Fauna is a non-profit platform built by people who believe the biodiversity crisis is the greatest challenge of our generation — and that well-made technology can be part of the solution.",
     "finTitle": "Donations go",
     "finTitleEm": "100% to the projects",
@@ -772,7 +773,7 @@
           { "q": "Can international organizations register?", "a": "Yes. Fauna is a global platform and accepts organizations from any country. For registration, valid legal documentation from the organization's home country is required. The verification process is the same regardless of location." },
           { "q": "In which languages can I publish my project?", "a": "Projects may be published in Portuguese and/or English. Since Fauna is a global platform, we recommend publishing in both languages to broaden reach and increase the chances of being found by donors in different countries." },
           { "q": "Does Fauna promote my organization on social media?", "a": "Yes, provided your organization has Fauna's verification badge and active projects on the platform. To request promotion, send an email to contatofauna@proton.me with your organization's information and any marketing materials you'd like to share. Our team will review and get back to you." },
-          { "q": "What documents are required for registration?", "a": "To ensure donor safety, Fauna requires all organizations to hold some form of valid legal registration in their home country — such as CNPJ, a registered association, foundation, or international equivalent — along with evidence of active projects. We may request activity reports or materials demonstrating the work performed. Fully informal projects without any legal formalization are not accepted on the platform at this time. If your initiative is in the process of formalization, contact us at contatofauna@proton.me so we can review your case." },
+          { "q": "What documents are required for registration?", "a": "To ensure donor safety, Fauna requires all organizations to hold some form of valid legal registration in their home country — such as CNPJ (Brazilian business tax ID), a registered association, foundation, or international equivalent — along with evidence of active projects. We may request activity reports or materials demonstrating the work performed. Fully informal projects without any legal formalization are not accepted on the platform at this time. If your initiative is in the process of formalization, contact us at contatofauna@proton.me so we can review your case." },
           { "q": "How long does the review take?", "a": "On average 5 to 10 business days after complete documentation is submitted." },
           { "q": "Can I register more than one project?", "a": "Yes. There is no limit on the number of projects per organization. We recommend that each project have complete and up-to-date information." },
           { "q": "How do I receive donations?", "a": "Directly in your Stripe account. Fauna does not intermediate the payment — the connection is made directly between the donor and your account." },
@@ -1146,6 +1147,31 @@
         { "heading": "Return shipping", "body": "Return due to **defect or our error**: shipping on us. Return due to **change of mind**: shipping on the customer." },
         { "heading": "Questions", "body": "Reach out through the contact form or at loja@fauna.org.", "contactLink": "contact form" }
       ]
+    }
+  },
+  "meta": {
+    "home": {
+      "title": "Fauna — Conservation you can see",
+      "description": "Support real animal conservation projects around the world. Follow the work, understand the impact, donate with purpose."
+    },
+    "privacy": {
+      "title": "Privacy Policy — Fauna",
+      "description": "How we collect, use and protect your data on the Fauna platform."
+    },
+    "cookies": {
+      "title": "Cookie Policy — Fauna",
+      "description": "Which cookies we use on the Fauna site and how to control them."
+    },
+    "academy": {
+      "title": "Fauna Academy — Fundraising for conservation",
+      "description": "Training and workshops for conservation organizations to learn how to raise funds effectively."
+    },
+    "troca": {
+      "title": "Exchange Policy — Fauna Shop",
+      "description": "Deadlines and conditions to exchange or return products from the Fauna shop."
+    },
+    "admin": {
+      "title": "Admin — Fauna"
     }
   }
 }

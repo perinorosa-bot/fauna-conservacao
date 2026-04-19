@@ -11,7 +11,24 @@ type PrivacySection = {
   cookiesLink?: string
 }
 
-export const metadata = { title: 'Privacy Policy — Fauna' }
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string }
+}) {
+  const t = await getTranslations({ locale: params.locale, namespace: 'meta.privacy' })
+  return {
+    title: t('title'),
+    description: t('description'),
+    alternates: {
+      languages: {
+        'pt-BR': '/privacidade',
+        'en-US': '/en/privacidade',
+        'es-ES': '/es/privacidade',
+      },
+    },
+  }
+}
 
 // Renders inline **bold** markdown markers into <strong> tags.
 function renderBold(text: string) {

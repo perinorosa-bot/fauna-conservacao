@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useTranslations, useLocale } from 'next-intl'
+import { useTranslations, useFormatter } from 'next-intl'
 
 const THREATENED_SPECIES = 44_016
 
@@ -181,11 +181,9 @@ function Compass() {
 
 export default function SpeciesCounter() {
   const { value, ref } = useCountUp(THREATENED_SPECIES)
-  const locale = useLocale()
+  const format = useFormatter()
   const t = useTranslations('species')
-  const formatted = new Intl.NumberFormat(
-    locale === 'en' ? 'en-US' : locale === 'es' ? 'es-ES' : 'pt-BR'
-  ).format(value)
+  const formatted = format.number(value)
 
   return (
     <section className="relative bg-forest overflow-hidden border-t border-white/[0.04]">

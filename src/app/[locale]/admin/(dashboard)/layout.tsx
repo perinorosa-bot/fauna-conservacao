@@ -1,6 +1,14 @@
 import AdminSidebar from '@/components/admin/AdminSidebar'
+import { getTranslations } from 'next-intl/server'
 
-export const metadata = { title: 'Admin — Fauna' }
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string }
+}) {
+  const t = await getTranslations({ locale: params.locale, namespace: 'meta.admin' })
+  return { title: t('title') }
+}
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (

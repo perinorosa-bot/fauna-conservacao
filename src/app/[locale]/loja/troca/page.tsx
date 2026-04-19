@@ -3,7 +3,24 @@ import { NavTheme } from '@/components/layout/NavTheme'
 import { Link } from '@/i18n/navigation'
 import { getTranslations } from 'next-intl/server'
 
-export const metadata = { title: 'Exchange Policy — Fauna Shop' }
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string }
+}) {
+  const t = await getTranslations({ locale: params.locale, namespace: 'meta.troca' })
+  return {
+    title: t('title'),
+    description: t('description'),
+    alternates: {
+      languages: {
+        'pt-BR': '/loja/troca',
+        'en-US': '/en/loja/troca',
+        'es-ES': '/es/loja/troca',
+      },
+    },
+  }
+}
 
 type ExchangeSection = {
   heading: string

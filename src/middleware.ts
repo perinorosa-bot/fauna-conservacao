@@ -22,7 +22,28 @@ function localizedUrl(locale: Locale, path: string, base: string) {
 }
 
 export async function middleware(request: NextRequest) {
+  // Legacy-cookie migration: the previous custom LanguageContext used
+  // `fauna-lang`. Carry it over once to `NEXT_LOCALE` (what next-intl reads)
+  // and delete the old cookie. Self-heals on first visit per user.
+  const legacyLang = request.cookies.get('fauna-lang')?.value
+  const nextLocale = request.cookies.get('NEXT_LOCALE')?.value
+  if (legacyLang && !nextLocale && ['pt', 'en', 'es'].includes(legacyLang)) {
+    request.cookies.set('NEXT_LOCALE', legacyLang)
+  }
+
   const intlResponse = intlMiddleware(request)
+
+  if (legacyLang && !nextLocale && ['pt', 'en', 'es'].includes(legacyLang)) {
+    intlResponse.cookies.set('NEXT_LOCALE', legacyLang, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: 'lax',
+    })
+    intlResponse.cookies.delete('fauna-lang')
+  } else if (legacyLang && nextLocale) {
+    // Old cookie no longer needed
+    intlResponse.cookies.delete('fauna-lang')
+  }
 
   // If next-intl wants to redirect (locale detection / negotiation), honour it
   // before running any auth logic.

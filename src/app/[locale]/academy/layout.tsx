@@ -1,8 +1,23 @@
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
-export const metadata: Metadata = {
-  title: 'Fauna Academy — Captação de recursos para conservação',
-  description: 'Treinamentos e workshops para organizações de conservação aprenderem a captar recursos com eficiência.',
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string }
+}): Promise<Metadata> {
+  const t = await getTranslations({ locale: params.locale, namespace: 'meta.academy' })
+  return {
+    title: t('title'),
+    description: t('description'),
+    alternates: {
+      languages: {
+        'pt-BR': '/academy',
+        'en-US': '/en/academy',
+        'es-ES': '/es/academy',
+      },
+    },
+  }
 }
 
 export default function AcademyLayout({ children }: { children: React.ReactNode }) {

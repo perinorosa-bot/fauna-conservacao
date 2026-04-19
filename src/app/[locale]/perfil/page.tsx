@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from '@/i18n/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useFormatter } from 'next-intl'
 import Nav from '@/components/layout/Nav'
 import { Link } from '@/i18n/navigation'
 import Image from 'next/image'
@@ -13,6 +13,7 @@ type Donation = { id: string; amount: number; currency: string; message: string 
 
 export default function PerfilPage() {
   const d = useTranslations('donorProfile')
+  const format = useFormatter()
   const router = useRouter()
   const supabase = createClient()
 
@@ -119,7 +120,7 @@ export default function PerfilPage() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-14">
           {[
-            { label: d('totalDonated'),      value: `R$ ${totalDonated.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` },
+            { label: d('totalDonated'),      value: format.number(totalDonated, { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 }) },
             { label: d('donationsMade'),     value: donations.length },
             { label: d('projectsSupported'), value: projectsSupported.size },
           ].map(s => (
@@ -186,10 +187,10 @@ export default function PerfilPage() {
                         {don.message && <p className="text-cream/30 text-xs mt-0.5 italic">"{don.message}"</p>}
                       </td>
                       <td className="px-6 py-4 text-sage text-sm font-medium">
-                        {don.currency} {Number(don.amount).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                        {don.currency} {format.number(Number(don.amount), { minimumFractionDigits: 2 })}
                       </td>
                       <td className="px-6 py-4 text-cream/35 text-xs">
-                        {new Date(don.created_at).toLocaleDateString('pt-BR')}
+                        {format.dateTime(new Date(don.created_at), { dateStyle: 'medium' })}
                       </td>
                     </tr>
                   ))}

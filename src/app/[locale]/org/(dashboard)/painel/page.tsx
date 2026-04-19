@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { useLocale, useTranslations } from 'next-intl'
+import { useFormatter, useTranslations } from 'next-intl'
 
 type Project  = { id: string; title: string; slug: string; biome: string; status: string }
 type Donation = { amount: number; currency: string; donor_name: string; created_at: string; project: { title: string } | null }
@@ -20,8 +20,7 @@ type StripeStatus = {
 export default function OrgPainelPage() {
   const o  = useTranslations('orgDash')
   const ts = useTranslations('orgDash.stripe')
-  const locale = useLocale()
-  const bcp47 = locale === 'pt' ? 'pt-BR' : locale === 'es' ? 'es-ES' : 'en-US'
+  const format = useFormatter()
   const searchParams = useSearchParams()
   const stripeParam  = searchParams.get('stripe')
   const [projects, setProjects]   = useState<Project[]>([])
@@ -271,8 +270,8 @@ export default function OrgPainelPage() {
                   <tr key={i} className="border-b border-white/[0.03] hover:bg-white/[0.02]">
                     <td className="px-6 py-3 text-cream/70 text-sm">{d.donor_name}</td>
                     <td className="px-6 py-3 text-cream/40 text-xs">{(d.project as any)?.title ?? '—'}</td>
-                    <td className="px-6 py-3 text-sage text-sm">{d.currency} {Number(d.amount).toLocaleString(bcp47, { minimumFractionDigits: 2 })}</td>
-                    <td className="px-6 py-3 text-cream/30 text-xs">{new Date(d.created_at).toLocaleDateString(bcp47)}</td>
+                    <td className="px-6 py-3 text-sage text-sm">{d.currency} {format.number(Number(d.amount), { minimumFractionDigits: 2 })}</td>
+                    <td className="px-6 py-3 text-cream/30 text-xs">{format.dateTime(new Date(d.created_at), { dateStyle: 'medium' })}</td>
                   </tr>
                 ))}
               </tbody>

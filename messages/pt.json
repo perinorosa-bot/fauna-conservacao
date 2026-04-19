@@ -460,6 +460,7 @@
     "missionEyebrow": "Nossa missão",
     "missionTitle": "A tecnologia que a",
     "missionTitleEm": "conservação",
+    "missionTitleAfter": "merece",
     "missionSub": "A Fauna é uma plataforma sem fins lucrativos construída por pessoas que acreditam que a crise da biodiversidade é o maior desafio da nossa geração — e que tecnologia bem feita pode ser parte da solução.",
     "finTitle": "Doações vão",
     "finTitleEm": "100% para os projetos",
@@ -1146,6 +1147,31 @@
         { "heading": "Frete de devolução", "body": "Devolução por **defeito ou erro nosso**: frete por nossa conta. Devolução por **arrependimento**: frete por conta do cliente." },
         { "heading": "Dúvidas", "body": "Fale com a gente pelo formulário de contato ou por loja@fauna.org.", "contactLink": "formulário de contato" }
       ]
+    }
+  },
+  "meta": {
+    "home": {
+      "title": "Fauna — Conservação que você pode ver",
+      "description": "Apoie projetos reais de conservação animal ao redor do mundo. Acompanhe o trabalho, entenda o impacto, doe com propósito."
+    },
+    "privacy": {
+      "title": "Política de Privacidade — Fauna",
+      "description": "Como coletamos, usamos e protegemos seus dados na plataforma Fauna."
+    },
+    "cookies": {
+      "title": "Política de Cookies — Fauna",
+      "description": "Quais cookies usamos no site da Fauna e como controlá-los."
+    },
+    "academy": {
+      "title": "Fauna Academy — Captação de recursos para conservação",
+      "description": "Treinamentos e workshops para organizações de conservação aprenderem a captar recursos com eficiência."
+    },
+    "troca": {
+      "title": "Política de Troca — Fauna Shop",
+      "description": "Prazos e condições para troca ou devolução de produtos da loja Fauna."
+    },
+    "admin": {
+      "title": "Admin — Fauna"
     }
   }
 }

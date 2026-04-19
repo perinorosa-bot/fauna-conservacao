@@ -5,7 +5,7 @@ import Nav from '@/components/layout/Nav'
 import { NavTheme } from '@/components/layout/NavTheme'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useFormatter } from 'next-intl'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -186,6 +186,9 @@ const CATEGORIES: { id: Category; label: string }[] = [
 
 export default function LojaPage() {
   const t = useTranslations('loja')
+  const format = useFormatter()
+  const fmtBRL = (amount: number) =>
+    format.number(amount, { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 })
   const [category, setCategory] = useState<Category>('todos')
   const [cart, setCart]         = useState<CartItem[]>([])
   const [cartOpen, setCartOpen] = useState(false)
@@ -347,7 +350,7 @@ export default function LojaPage() {
                   <p className="text-forest text-sm font-medium leading-snug mb-0.5">{product.name}</p>
                   <p className="text-forest/40 text-[11px] mb-2">{product.subtitle}</p>
                   <p className="text-forest font-medium text-sm">
-                    R$ {product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                    {fmtBRL(product.price)}
                   </p>
                 </div>
               </article>
@@ -513,7 +516,7 @@ export default function LojaPage() {
 
                 <div className="mt-auto">
                   <p className="font-serif text-3xl font-light text-forest mb-5">
-                    R$ {selected.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                    {fmtBRL(selected.price)}
                   </p>
                   <button
                     onClick={() => {
@@ -551,7 +554,7 @@ export default function LojaPage() {
             <span className="text-sm font-medium">{cartCount}</span>
             <span className="text-[10px] tracking-widests uppercase">{t('cartLabel')}</span>
             <span className="font-serif text-sm">
-              R$ {cartTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+              {fmtBRL(cartTotal)}
             </span>
           </button>
         )}
@@ -604,7 +607,7 @@ export default function LojaPage() {
                           <p className="text-forest/40 text-[11px]">{item.selectedSize}</p>
                         )}
                         <p className="text-forest/50 text-xs mt-0.5">
-                          R$ {item.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                          {fmtBRL(item.price)}
                         </p>
                         {/* qty */}
                         <div className="flex items-center gap-2 mt-2">
@@ -624,7 +627,7 @@ export default function LojaPage() {
                       {/* subtotal + remove */}
                       <div className="flex flex-col items-end gap-2 flex-shrink-0">
                         <p className="text-forest font-medium text-sm">
-                          R$ {(item.price * item.qty).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                          {fmtBRL(item.price * item.qty)}
                         </p>
                         <button
                           onClick={() => removeFromCart(item.id, item.selectedSize)}
@@ -644,11 +647,11 @@ export default function LojaPage() {
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-forest/50 text-sm">Subtotal</span>
                     <span className="font-serif text-xl font-light text-forest">
-                      R$ {cartTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                      {fmtBRL(cartTotal)}
                     </span>
                   </div>
                   <p className="text-forest/30 text-[10px] mb-5">
-                    R$ {(cartTotal * 0.15).toLocaleString('pt-BR', { minimumFractionDigits: 2 })} desta compra vai para conservação
+                    {fmtBRL(cartTotal * 0.15)} desta compra vai para conservação
                   </p>
                   <button
                     onClick={handleCheckout}

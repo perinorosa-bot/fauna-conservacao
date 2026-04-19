@@ -2,8 +2,7 @@ import Nav from '@/components/layout/Nav'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { formatDistanceToNow } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { getFormatter } from 'next-intl/server'
 import DonationForm from '@/components/DonationForm'
 import type { Project, Organization } from '@/types'
 
@@ -102,6 +101,7 @@ const MOCK_PROJECTS: ProjectWithOrg[] = [
 
 export default async function ProjectPage({ params }: { params: { slug: string } }) {
   const supabase = createClient()
+  const format = await getFormatter()
 
   const { data: dbProject } = await supabase
     .from('projects')
@@ -191,7 +191,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
                 ) : (updates ?? []).map((u: any) => (
                   <div key={u.id} className="border-l-2 border-sage/30 pl-6 py-1">
                     <p className="text-cream/30 text-xs mb-2">
-                      {formatDistanceToNow(new Date(u.created_at), { addSuffix: true, locale: ptBR })}
+                      {format.relativeTime(new Date(u.created_at))}
                       {' · '}{u.author_name}
                     </p>
                     <h3 className="font-serif text-xl font-normal text-cream mb-3">{u.title}</h3>
@@ -248,9 +248,11 @@ export default async function ProjectPage({ params }: { params: { slug: string }
                       )}
                     </div>
                     <span className="text-sage text-sm">
-                      {new Intl.NumberFormat('pt-BR', {
-                        style: 'currency', currency: project.currency, maximumFractionDigits: 0
-                      }).format(d.amount)}
+                      {format.number(d.amount, {
+                        style: 'currency',
+                        currency: project.currency,
+                        maximumFractionDigits: 0,
+                      })}
                     </span>
                   </div>
                 ))}

@@ -1,18 +1,11 @@
-import { getTranslations, getLocale } from 'next-intl/server'
+import { getTranslations, getFormatter } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import OrgActions from '@/components/admin/OrgActions'
-
-function localeToBcp47(locale: string): string {
-  if (locale === 'pt') return 'pt-BR'
-  if (locale === 'es') return 'es-ES'
-  return 'en-US'
-}
 
 export default async function AdminOrganizationsPage() {
   const supabase = createClient()
   const t      = await getTranslations('adminDash.orgs')
-  const locale = await getLocale()
-  const bcp47  = localeToBcp47(locale)
+  const format = await getFormatter()
 
   const { data: orgs } = await supabase
     .from('organizations')
@@ -59,7 +52,7 @@ export default async function AdminOrganizationsPage() {
                   </span>
                 </td>
                 <td className="px-5 py-4 text-cream/35 text-xs">
-                  {new Date(org.created_at).toLocaleDateString(bcp47)}
+                  {format.dateTime(new Date(org.created_at), { dateStyle: 'medium' })}
                 </td>
                 <td className="px-5 py-4 text-right">
                   <OrgActions id={org.id} verified={org.verified} />

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import { Inter, IM_Fell_English } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages, setRequestLocale } from 'next-intl/server'
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing, type Locale } from '@/i18n/routing'
 import CookieBanner from '@/components/CookieBanner'
@@ -33,9 +33,26 @@ const imFell = IM_Fell_English({
   adjustFontFallback: false,
 })
 
-export const metadata: Metadata = {
-  title: 'Fauna — Conservação que você pode ver',
-  description: 'Apoie projetos reais de conservação animal ao redor do mundo. Acompanhe o trabalho, entenda o impacto, doe com propósito.',
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string }
+}): Promise<Metadata> {
+  const { locale } = params
+  const t = await getTranslations({ locale, namespace: 'meta.home' })
+  return {
+    title: t('title'),
+    description: t('description'),
+    alternates: {
+      // hreflang tags — tells Google which URL serves which locale.
+      // The default locale (pt) lives at `/`; en/es carry a prefix.
+      languages: {
+        'pt-BR': '/',
+        'en-US': '/en',
+        'es-ES': '/es',
+      },
+    },
+  }
 }
 
 export function generateStaticParams() {

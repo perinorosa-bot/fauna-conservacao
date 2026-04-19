@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { useTranslations, useLocale } from 'next-intl'
+import { useTranslations, useFormatter } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 
 // Quick client-side email shape check. Server still validates.
@@ -15,13 +15,8 @@ const AMOUNTS = [10, 25, 50, 100, 250]
 
 type DonationType = 'once' | 'monthly'
 
-// Locale → BCP-47 tag for Intl.NumberFormat in currency display.
-const LOCALE_MAP: Record<string, string> = { pt: 'pt-BR', en: 'en-US', es: 'es-AR' }
-
-function formatAmount(amount: number, locale: string) {
-  const bcp = LOCALE_MAP[locale] ?? locale
-  return (amount / 100).toLocaleString(bcp, { minimumFractionDigits: 2 })
-}
+// Currency-display numbers go through next-intl's `useFormatter`, which picks
+// the current locale automatically (pt → pt-BR, en → en-US, es → es-ES).
 
 // ─── Inner checkout form (inside Elements) ────────────────────────────────────
 function CheckoutForm({
@@ -36,7 +31,7 @@ function CheckoutForm({
   const stripe   = useStripe()
   const elements = useElements()
   const t        = useTranslations('donationForm')
-  const locale   = useLocale()
+  const format   = useFormatter()
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState('')
 
@@ -55,7 +50,7 @@ function CheckoutForm({
     else onSuccess()
   }
 
-  const formattedAmount = formatAmount(amount, locale)
+  const formattedAmount = format.number(amount / 100, { minimumFractionDigits: 2 })
   const label = donationType === 'monthly'
     ? t('confirmMonthly', { amount: formattedAmount })
     : t('confirmOnce', { amount: formattedAmount })
@@ -83,7 +78,7 @@ export default function DonationForm({
 }) {
   const t = useTranslations('donationForm')
   const tCommon = useTranslations('common')
-  const locale = useLocale()
+  const format = useFormatter()
   const [donationType, setDonationType] = useState<DonationType>('once')
   const [step, setStep]                 = useState<'amount' | 'info' | 'pay' | 'done'>('amount')
   const [amount, setAmount]             = useState(5000) // cents
@@ -104,7 +99,7 @@ export default function DonationForm({
   }, [])
 
   const displayAmount = amount / 100
-  const formattedAmount = formatAmount(amount, locale)
+  const formattedAmount = format.number(displayAmount, { minimumFractionDigits: 2 })
   const emailValid    = EMAIL_RE.test(donorEmail.trim())
 
   // reset to amount step whenever donation type changes
@@ -156,7 +151,7 @@ export default function DonationForm({
   }
 
   if (step === 'done') {
-    const displayFormatted = displayAmount.toLocaleString(LOCALE_MAP[locale] ?? locale, { minimumFractionDigits: 2 })
+    const displayFormatted = format.number(displayAmount, { minimumFractionDigits: 2 })
     return (
       <div className="bg-canopy/40 border border-white/[0.08] rounded-2xl p-8 text-center">
         <p className="text-sage text-3xl mb-3">✓</p>

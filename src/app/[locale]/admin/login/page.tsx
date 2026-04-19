@@ -1,12 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 
 export default function AdminLoginPage() {
-  const router = useRouter()
+  const locale = useLocale()
   const t = useTranslations('adminDash.login')
   const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
@@ -27,8 +26,10 @@ export default function AdminLoginPage() {
       return
     }
 
-    // Full reload so middleware reads the new session cookie
-    window.location.href = '/admin'
+    // Full reload so middleware reads the new session cookie.
+    // Preserve the active locale prefix (pt stays at /, en/es get a prefix).
+    const prefix = locale === 'pt' ? '' : `/${locale}`
+    window.location.href = `${prefix}/admin`
   }
 
   return (

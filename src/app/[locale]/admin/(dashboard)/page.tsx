@@ -1,17 +1,10 @@
-import { getTranslations, getLocale } from 'next-intl/server'
+import { getTranslations, getFormatter } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
-
-function localeToBcp47(locale: string): string {
-  if (locale === 'pt') return 'pt-BR'
-  if (locale === 'es') return 'es-ES'
-  return 'en-US'
-}
 
 export default async function AdminDashboard() {
   const supabase = createClient()
-  const t       = await getTranslations('adminDash.home')
-  const locale  = await getLocale()
-  const bcp47   = localeToBcp47(locale)
+  const t        = await getTranslations('adminDash.home')
+  const format   = await getFormatter()
 
   const [
     { count: orgCount },
@@ -112,7 +105,7 @@ export default async function AdminDashboard() {
               <div key={i} className="flex items-center justify-between py-2 border-b border-white/[0.04] last:border-0">
                 <p className="text-cream/70 text-sm">{d.donor_name}</p>
                 <span className="text-sage text-sm font-medium">
-                  {d.currency} {Number(d.amount).toLocaleString(bcp47)}
+                  {d.currency} {format.number(Number(d.amount))}
                 </span>
               </div>
             )) : (

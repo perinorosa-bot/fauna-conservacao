@@ -3,7 +3,24 @@ import { NavTheme } from '@/components/layout/NavTheme'
 import { Link } from '@/i18n/navigation'
 import { getTranslations } from 'next-intl/server'
 
-export const metadata = { title: 'Cookie Policy — Fauna' }
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string }
+}) {
+  const t = await getTranslations({ locale: params.locale, namespace: 'meta.cookies' })
+  return {
+    title: t('title'),
+    description: t('description'),
+    alternates: {
+      languages: {
+        'pt-BR': '/cookies',
+        'en-US': '/en/cookies',
+        'es-ES': '/es/cookies',
+      },
+    },
+  }
+}
 
 type CookieRow = {
   cookie: string
