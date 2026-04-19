@@ -845,7 +845,7 @@
         "headers": { "cookie": "Cookie", "type": "Tipo", "purpose": "Finalidad", "duration": "Vigencia" },
         "rows": [
           { "cookie": "sb-*", "type": "Esencial", "purpose": "Sesión de autenticación de Supabase", "duration": "7 días" },
-          { "cookie": "fauna-lang", "type": "Preferencia", "purpose": "Idioma seleccionado (PT/EN/ES)", "duration": "1 año" }
+          { "cookie": "NEXT_LOCALE", "type": "Preferencia", "purpose": "Idioma seleccionado (PT/EN/ES)", "duration": "1 año" }
         ]
       },
       "thirdPartyTitle": "Cookies de terceros",
