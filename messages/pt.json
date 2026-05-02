@@ -280,6 +280,9 @@
       "cancelBtn": "Cancelar",
       "cancelingBtn": "Cancelando…",
       "cancelError": "Erro ao cancelar.",
+      "managePortalBtn": "Gerenciar pagamento ↗",
+      "managePortalOpening": "Abrindo…",
+      "managePortalError": "Erro ao abrir o portal de cobranças.",
       "confirmCancel": "Cancelar a doação mensal de {amount} para \"{project}\"?\n\nA próxima cobrança não será feita. O ciclo atual continua até {endDate}.",
       "confirmCancelFallback": "o fim do período",
       "status": {
@@ -1552,5 +1555,19 @@
     "admin": {
       "title": "Admin — Fauna"
     }
+  },
+  "authErrors": {
+    "rateLimit": "Limite de envios de e-mail atingido. Tente novamente em uma hora.",
+    "invalidEmail": "E-mail inválido. Use um endereço de e-mail válido.",
+    "alreadyRegistered": "Esta conta já existe. Faça login em vez de criar uma nova.",
+    "invalidCredentials": "E-mail ou senha incorretos.",
+    "notConfirmed": "Confirme seu e-mail antes de entrar. Verifique sua caixa de entrada.",
+    "signupsDisabled": "Cadastros desabilitados no momento.",
+    "networkFailed": "Falha de conexão. Verifique sua internet e tente novamente.",
+    "captcha": "Falha na verificação de segurança. Recarregue a página e tente novamente.",
+    "passwordTooShort": "A senha deve ter pelo menos {min} caracteres.",
+    "waitSeconds": "Aguarde {seconds} segundos antes de tentar novamente.",
+    "generic": "Não foi possível concluir a operação. Tente novamente em alguns instantes.",
+    "saveOrgFailed": "Não foi possível salvar a organização. Tente novamente em alguns instantes."
   }
 }

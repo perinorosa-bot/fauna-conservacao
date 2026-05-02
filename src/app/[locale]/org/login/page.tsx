@@ -2,12 +2,14 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { applyAuthError } from '@/lib/supabase/translate-auth-error'
 import { useTranslations } from 'next-intl'
 import { Link, useRouter } from '@/i18n/navigation'
 
 export default function OrgLoginPage() {
   const router = useRouter()
   const t = useTranslations('authForms.orgLogin')
+  const tErr = useTranslations('authErrors')
   const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading]   = useState(false)
@@ -20,7 +22,7 @@ export default function OrgLoginPage() {
     const supabase = createClient()
     const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
     setLoading(false)
-    if (authError) { setError(t('invalidCredentials')); return }
+    if (authError) { setError(applyAuthError(authError, tErr)); return }
     router.push('/org/painel')
     router.refresh()
   }

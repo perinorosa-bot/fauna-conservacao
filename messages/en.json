@@ -280,6 +280,9 @@
       "cancelBtn": "Cancel",
       "cancelingBtn": "Canceling…",
       "cancelError": "Failed to cancel.",
+      "managePortalBtn": "Manage payment ↗",
+      "managePortalOpening": "Opening…",
+      "managePortalError": "Failed to open the billing portal.",
       "confirmCancel": "Cancel the monthly donation of {amount} to \"{project}\"?\n\nNo further charge will be made. The current cycle continues until {endDate}.",
       "confirmCancelFallback": "the end of the period",
       "status": {
@@ -1552,5 +1555,19 @@
     "admin": {
       "title": "Admin — Fauna"
     }
+  },
+  "authErrors": {
+    "rateLimit": "Email send rate limit reached. Please try again in an hour.",
+    "invalidEmail": "Invalid email. Use a valid email address.",
+    "alreadyRegistered": "This account already exists. Sign in instead of creating a new one.",
+    "invalidCredentials": "Wrong email or password.",
+    "notConfirmed": "Confirm your email before signing in. Check your inbox.",
+    "signupsDisabled": "Signups are currently disabled.",
+    "networkFailed": "Connection failed. Check your internet and try again.",
+    "captcha": "Security check failed. Reload the page and try again.",
+    "passwordTooShort": "Password must be at least {min} characters.",
+    "waitSeconds": "Wait {seconds} seconds before trying again.",
+    "generic": "Could not complete the operation. Please try again in a moment.",
+    "saveOrgFailed": "Could not save the organization. Please try again in a moment."
   }
 }

@@ -22,7 +22,20 @@ async function getOrCreateRecurringProductId(): Promise<string> {
   return product.id
 }
 
-async function getOrCreateCustomer(email: string, name: string): Promise<Stripe.Customer> {
+async function getOrCreateCustomer(
+  email: string,
+  name: string,
+  existingId?: string | null,
+): Promise<Stripe.Customer> {
+  // Prefer the customer linked to the donor's profile, when present.
+  if (existingId) {
+    try {
+      const customer = await stripe.customers.retrieve(existingId)
+      if (!(customer as Stripe.DeletedCustomer).deleted) return customer as Stripe.Customer
+    } catch {
+      // Stale or deleted — fall through to email lookup.
+    }
+  }
   const found = await stripe.customers.list({ email, limit: 1 })
   if (found.data[0]) return found.data[0]
   return stripe.customers.create({ email, name: name || undefined })
@@ -84,7 +97,29 @@ export async function POST(req: NextRequest) {
     // ── Recurring (Stripe Subscription with Connect destination charges) ──
     if (recurring) {
       const productId = await getOrCreateRecurringProductId()
-      const customer  = await getOrCreateCustomer(email, donorName ?? '')
+
+      // Reuse the customer linked to the profile if logged in, so the
+      // Customer Portal can find a single canonical customer per user.
+      let existingCustomerId: string | null = null
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('stripe_customer_id')
+          .eq('id', user.id)
+          .maybeSingle()
+        existingCustomerId = profile?.stripe_customer_id ?? null
+      }
+
+      const customer = await getOrCreateCustomer(email, donorName ?? '', existingCustomerId)
+
+      // Persist the customer id back to the profile (idempotent — only
+      // writes when missing or different). Anonymous donors skip this.
+      if (user && customer.id !== existingCustomerId) {
+        await supabase
+          .from('profiles')
+          .update({ stripe_customer_id: customer.id })
+          .eq('id', user.id)
+      }
 
       const price = await stripe.prices.create({
         unit_amount: amount,

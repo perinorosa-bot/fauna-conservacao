@@ -3,10 +3,12 @@
 import { useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
+import { applyAuthError } from '@/lib/supabase/translate-auth-error'
 
 export default function AdminLoginPage() {
   const locale = useLocale()
   const t = useTranslations('adminDash.login')
+  const tErr = useTranslations('authErrors')
   const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading]   = useState(false)
@@ -21,7 +23,7 @@ export default function AdminLoginPage() {
     const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
 
     if (authError) {
-      setError(t('invalidCredentials'))
+      setError(applyAuthError(authError, tErr))
       setLoading(false)
       return
     }
