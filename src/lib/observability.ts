@@ -32,9 +32,10 @@ async function loadSentry(): Promise<SentryLike | null> {
   sentryLoadAttempted = true
   if (!enabled) return null
   try {
-    // Import dinâmico — funciona se o pacote estiver instalado, falha silenciosa caso contrário.
-    // O `as any` evita exigir os types de @sentry/nextjs no build.
-    sentryModule = (await import('@sentry/nextjs' as any).catch(() => null)) as SentryLike | null
+    // Sentry é dependência opcional. webpackIgnore evita resolução em build-time
+    // e a string indireta esconde o módulo do typecheck (sem precisar dos types).
+    const moduleName = '@sentry/nextjs'
+    sentryModule = (await import(/* webpackIgnore: true */ moduleName).catch(() => null)) as SentryLike | null
   } catch {
     sentryModule = null
   }
