@@ -12,9 +12,10 @@ type Row = Subscription & {
 export default function SubscriptionsPanel({ userId }: { userId: string }) {
   const supabase = createClient()
   const [rows, setRows]       = useState<Row[]>([])
-  const [loading, setLoading] = useState(true)
-  const [busyId, setBusyId]   = useState<string | null>(null)
-  const [error, setError]     = useState('')
+  const [loading, setLoading]   = useState(true)
+  const [busyId, setBusyId]     = useState<string | null>(null)
+  const [openingPortal, setOpeningPortal] = useState(false)
+  const [error, setError]       = useState('')
 
   useEffect(() => {
     ;(async () => {
@@ -27,6 +28,20 @@ export default function SubscriptionsPanel({ userId }: { userId: string }) {
       setLoading(false)
     })()
   }, [userId])
+
+  async function handleOpenPortal() {
+    setOpeningPortal(true)
+    setError('')
+    const res = await fetch('/api/stripe/portal', { method: 'POST' })
+    setOpeningPortal(false)
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      setError(data.error ?? 'Erro ao abrir o portal de cobranças.')
+      return
+    }
+    const { url } = await res.json()
+    window.location.href = url
+  }
 
   async function handleCancel(row: Row) {
     if (!confirm(`Cancelar a doação mensal de R$ ${Number(row.amount).toLocaleString('pt-BR', { minimumFractionDigits: 2 })} para "${row.project?.title}"?\n\nA próxima cobrança não será feita. O ciclo atual continua até ${row.current_period_end ? new Date(row.current_period_end).toLocaleDateString('pt-BR') : 'o fim do período'}.`)) return
@@ -54,9 +69,19 @@ export default function SubscriptionsPanel({ userId }: { userId: string }) {
 
   return (
     <div className="mb-14">
-      <h2 className="font-serif text-2xl font-light text-cream mb-6">
-        Doações <em className="italic text-sage">recorrentes</em>
-      </h2>
+      <div className="flex items-end justify-between mb-6 gap-4">
+        <h2 className="font-serif text-2xl font-light text-cream">
+          Doações <em className="italic text-sage">recorrentes</em>
+        </h2>
+        <button
+          onClick={handleOpenPortal}
+          disabled={openingPortal}
+          className="text-cream/50 text-[11px] tracking-widests uppercase
+                     border border-white/[0.10] rounded-sm px-4 py-2
+                     hover:border-sage/40 hover:text-cream transition-colors disabled:opacity-50">
+          {openingPortal ? 'Abrindo...' : 'Gerenciar pagamento ↗'}
+        </button>
+      </div>
 
       <div className="bg-canopy/30 border border-white/[0.06] rounded-xl overflow-hidden">
         <table className="w-full">
