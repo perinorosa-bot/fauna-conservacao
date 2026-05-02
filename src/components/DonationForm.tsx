@@ -4,6 +4,11 @@ import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { createClient } from '@/lib/supabase/client'
+import { estimateStripeFee, grossUpAmount } from '@/lib/stripe-fees'
+
+function fmtBRL(cents: number) {
+  return (cents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })
+}
 
 // Quick client-side email shape check. Server still validates.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -76,9 +81,18 @@ export default function DonationForm({
   const [donorName, setDonorName]       = useState('')
   const [donorEmail, setDonorEmail]     = useState('')
   const [message, setMessage]           = useState('')
+  const [coverFee, setCoverFee]         = useState(false)
   const [clientSecret, setClientSecret] = useState('')
   const [loading, setLoading]           = useState(false)
   const [error, setError]               = useState('')
+
+  // Stripe deduz a tasa BR (3.99% + R$0.39) antes de transferir à ONG.
+  // Mostramos o split para o doador e oferecemos opção de cobrir.
+  const feeOnBase     = estimateStripeFee(amount, 'brl')          // tasa sobre amount escolhido
+  const grossAmount   = grossUpAmount(amount, 'brl')              // monto a cobrar si cubre tasa
+  const feeOnGross    = grossAmount - amount                      // tasa real cuando cubre
+  const chargedAmount = coverFee ? grossAmount : amount            // monto que vai pra Stripe
+  const orgReceives   = coverFee ? amount : amount - feeOnBase     // monto neto que vai pra ONG
 
   // Prefill email for logged-in donors so they don't have to retype it.
   useEffect(() => {
@@ -97,6 +111,7 @@ export default function DonationForm({
     setStep('amount')
     setClientSecret('')
     setError('')
+    setCoverFee(false)
   }
 
   async function handleProceed() {
@@ -108,7 +123,7 @@ export default function DonationForm({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         projectId,
-        amount,
+        amount: chargedAmount,        // já com a tasa embutida se coverFee=true
         currency: 'brl',
         donorName,
         donorEmail: donorEmail.trim(),
@@ -146,8 +161,8 @@ export default function DonationForm({
         <p className="text-cream font-serif text-xl font-light mb-2">Obrigada pelo apoio!</p>
         <p className="text-cream/40 text-sm">
           {donationType === 'monthly'
-            ? `Doação mensal de R$ ${displayAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} ativada com sucesso.`
-            : `Sua doação de R$ ${displayAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} foi processada com sucesso.`}
+            ? `Doação mensal de R$ ${fmtBRL(chargedAmount)} ativada com sucesso. A ONG receberá R$ ${fmtBRL(orgReceives)} a cada mês após a taxa de processamento.`
+            : `Sua doação de R$ ${fmtBRL(chargedAmount)} foi processada. A ONG receberá R$ ${fmtBRL(orgReceives)} após a taxa de processamento.`}
         </p>
       </div>
     )
@@ -200,8 +215,9 @@ export default function DonationForm({
             </button>
             <p className="text-cream/50 text-xs tracking-widests uppercase mb-4">
               {donationType === 'monthly'
-                ? `Doação mensal · R$ ${displayAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}/mês`
-                : `Doação · R$ ${displayAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}
+                ? `Doação mensal · R$ ${fmtBRL(chargedAmount)}/mês`
+                : `Doação · R$ ${fmtBRL(chargedAmount)}`}
+              {coverFee && <span className="text-sage/70 normal-case ml-2">(taxa coberta)</span>}
             </p>
             <Elements
               stripe={stripePromise}
@@ -218,7 +234,7 @@ export default function DonationForm({
                 },
               }}
             >
-              <CheckoutForm amount={amount} donationType={donationType} onSuccess={() => setStep('done')} />
+              <CheckoutForm amount={chargedAmount} donationType={donationType} onSuccess={() => setStep('done')} />
             </Elements>
           </>
         )}
@@ -258,11 +274,45 @@ export default function DonationForm({
                           placeholder="Deixe uma mensagem para a organização..."
                           rows={3} className={`${inputClass} resize-none`} />
               </div>
+
+              {/* ── Tasa Stripe + opção de cobrir ────────────────────────────── */}
+              <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-4 mt-1">
+                <div className="flex justify-between text-xs text-cream/55 mb-1">
+                  <span>Sua doação</span>
+                  <span>R$ {fmtBRL(amount)}</span>
+                </div>
+                <div className="flex justify-between text-xs text-cream/40 mb-2">
+                  <span>Taxa Stripe (estimada)</span>
+                  <span>− R$ {fmtBRL(coverFee ? feeOnGross : feeOnBase)}</span>
+                </div>
+                <div className="flex justify-between text-xs text-sage font-medium pt-2 border-t border-white/[0.06]">
+                  <span>ONG recebe</span>
+                  <span>R$ {fmtBRL(orgReceives)}{donationType === 'monthly' ? '/mês' : ''}</span>
+                </div>
+
+                <label className="mt-3 flex items-start gap-2 cursor-pointer text-cream/70 text-xs">
+                  <input
+                    type="checkbox"
+                    checked={coverFee}
+                    onChange={e => setCoverFee(e.target.checked)}
+                    className="mt-0.5 accent-sage"
+                  />
+                  <span>
+                    Adicionar R$ {fmtBRL(grossAmount - amount)} para que a ONG receba R$ {fmtBRL(amount)} cheios.
+                    <span className="block text-cream/35 text-[10px] mt-0.5">
+                      Você será cobrada R$ {fmtBRL(grossAmount)}{donationType === 'monthly' ? '/mês' : ''}.
+                    </span>
+                  </span>
+                </label>
+              </div>
+
               {error && <p className="text-red-400 text-xs">{error}</p>}
               <button onClick={handleProceed} disabled={loading || !donorName.trim() || !emailValid}
                       className="w-full bg-sage text-cream text-xs tracking-widests uppercase py-3.5 rounded-sm
                                  hover:bg-leaf transition-colors disabled:opacity-50">
-                {loading ? 'Aguarde...' : 'Continuar →'}
+                {loading
+                  ? 'Aguarde...'
+                  : `Continuar com R$ ${fmtBRL(chargedAmount)}${donationType === 'monthly' ? '/mês' : ''} →`}
               </button>
             </div>
           </>
@@ -311,7 +361,7 @@ export default function DonationForm({
             </button>
 
             <p className="text-cream/20 text-[10px] text-center mt-3">
-              100% vai para o projeto · Pagamento seguro via Stripe
+              Pagamento seguro via Stripe · A taxa de processamento é descontada do valor recebido pela ONG
             </p>
           </>
         )}

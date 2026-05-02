@@ -173,7 +173,7 @@ export default function SobrePage() {
                 </p>
                 <p className="text-forest/60 text-base leading-relaxed">
                   Conectamos organizações de conservação a apoiadores de todo o mundo, com transparência
-                  total e zero taxas sobre doações.
+                  total. A Fauna não cobra taxa de plataforma — apenas a do processador de pagamento se aplica.
                 </p>
               </div>
               <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
@@ -188,9 +188,9 @@ export default function SobrePage() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 mb-20">
               {[
-                { value: '100%', label: 'Das doações vão para os projetos' },
-                { value: 'R$ 0', label: 'Taxa cobrada das organizações'    },
-                { value: 'R$ 0', label: 'Taxa sobre doações'               },
+                { value: '0%',   label: 'Taxa de plataforma sobre doações'  },
+                { value: 'R$ 0', label: 'Taxa cobrada das organizações'     },
+                { value: 'Stripe', label: 'Único custo: a tarifa do processador' },
               ].map(s => (
                 <div key={s.label}
                      className="bg-moonstone border border-forest/[0.08] rounded-2xl p-8 text-center shadow-sm">
@@ -205,7 +205,7 @@ export default function SobrePage() {
             <h2 className="font-serif text-3xl font-light text-forest mb-10">Nossos valores</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-16">
               {[
-                { title: 'Transparência total',        desc: '100% das doações vão diretamente para os projetos. A Fauna não retém nem um centavo das contribuições dos apoiadores de conservação.' },
+                { title: 'Transparência total',        desc: 'A Fauna não retém nenhuma taxa sobre as doações. A única dedução é a do processador de pagamento (Stripe), aplicada antes da transferência à organização.' },
                 { title: 'Impacto verificado',         desc: 'Todas as organizações na plataforma passam por verificação manual antes de publicar projetos. Só chegam até você causas legítimas.' },
                 { title: 'Acesso global',              desc: 'Um projeto no Pantanal pode receber apoio de alguém na Noruega. Removemos as barreiras burocráticas e cambiais que isolam a conservação.' },
                 { title: 'Tecnologia como ferramenta', desc: 'Construímos infraestrutura digital que organizações de conservação — geralmente pequenas e sem recursos de TI — não teriam como construir sozinhas.' },

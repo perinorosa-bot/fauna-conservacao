@@ -6,8 +6,8 @@ const STEPS = [
   },
   {
     title:  'Doe ou patrocine',
-    text:   'Doação única ou mensal. Pagamento via Pix, cartão de crédito, débito ou boleto. Taxa zero: 100% vai à organização.*',
-    detail: '*Pagamentos processados pela Stripe. Taxas de processamento podem ser aplicáveis.',
+    text:   'Doação única ou mensal. Pagamento via Pix, cartão de crédito, débito ou boleto. A Fauna não retém taxa — apenas a do processador de pagamento se aplica.',
+    detail: 'Pagamentos processados pela Stripe. A tarifa do processador é descontada antes da transferência à organização.',
   },
   {
     title:  'Acompanhe os resultados',
