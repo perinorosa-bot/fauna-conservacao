@@ -45,7 +45,7 @@ export default function AcademyDashboardPage() {
 
   if (loading) {
     return (
-      <NavTheme theme="light">
+      <NavTheme theme="dark">
         <main className="min-h-screen bg-[#f5f4f0]">
           <Nav />
           <div className="flex items-center justify-center min-h-screen">
@@ -57,7 +57,7 @@ export default function AcademyDashboardPage() {
   }
 
   return (
-    <NavTheme theme="light">
+    <NavTheme theme="dark">
       <main className="min-h-screen bg-[#f5f4f0]">
         <Nav />
 
@@ -94,7 +94,7 @@ export default function AcademyDashboardPage() {
               { label: t('stats.downloadedResources'), value: 3 },
             ].map(s => (
               <div key={s.label}
-                   className="bg-white border border-forest/[0.08] rounded-2xl p-6 text-center shadow-sm">
+                   className="bg-moonstone border border-forest/[0.08] rounded-2xl p-6 text-center shadow-sm">
                 <p className="font-serif text-3xl font-light text-forest mb-1">{s.value}</p>
                 <p className="text-forest/35 text-[11px] tracking-widests uppercase leading-tight">{s.label}</p>
               </div>
@@ -105,7 +105,7 @@ export default function AcademyDashboardPage() {
           <h2 className="font-serif text-2xl font-light text-forest mb-6">{t('myCourses')}</h2>
 
           {MOCK_ENROLLMENTS.length === 0 ? (
-            <div className="bg-white border border-forest/[0.08] rounded-2xl p-16 text-center shadow-sm">
+            <div className="bg-moonstone border border-forest/[0.08] rounded-2xl p-16 text-center shadow-sm">
               <p className="text-forest/30 text-sm mb-5">{t('emptyCourses')}</p>
               <Link href="/academy/cursos"
                     className="bg-forest text-cream text-[10px] tracking-widests uppercase px-6 py-3 rounded-sm
@@ -117,7 +117,7 @@ export default function AcademyDashboardPage() {
             <div className="flex flex-col gap-4 mb-12">
               {MOCK_ENROLLMENTS.map(e => (
                 <div key={e.slug}
-                     className="bg-white border border-forest/[0.08] rounded-2xl p-7 shadow-sm flex flex-col md:flex-row gap-6 items-start md:items-center">
+                     className="bg-moonstone border border-forest/[0.08] rounded-2xl p-7 shadow-sm flex flex-col md:flex-row gap-6 items-start md:items-center">
                   {/* Circle progress */}
                   <div className="relative w-14 h-14 flex-shrink-0">
                     <svg className="w-14 h-14 -rotate-90" viewBox="0 0 56 56">
@@ -160,7 +160,7 @@ export default function AcademyDashboardPage() {
 
           {/* Workshops registered */}
           <h2 className="font-serif text-2xl font-light text-forest mb-6">{t('workshopsTitle')}</h2>
-          <div className="bg-white border border-forest/[0.08] rounded-2xl p-16 text-center shadow-sm">
+          <div className="bg-moonstone border border-forest/[0.08] rounded-2xl p-16 text-center shadow-sm">
             <p className="text-forest/30 text-sm mb-5">{t('emptyWorkshops')}</p>
             <Link href="/academy/workshops"
                   className="text-leaf text-xs tracking-widests uppercase hover:underline">

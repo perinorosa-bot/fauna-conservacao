@@ -1,19 +1,44 @@
 {
   "nav": {
     "projects": "Projects",
-    "howItWorks": "How it works",
-    "donate": "Donate now",
-    "forOrgs": "Have a conservation project?",
-    "sounds": "Sounds",
     "about": "About",
     "academy": "Academy",
     "shop": "Our shop",
     "support": "Support us",
+    "donate": "Donate now",
     "haveProject": "Have a project?",
+    "forOrgs": "Have a conservation project?",
     "myProfile": "My profile",
     "signIn": "Sign in",
+    "howItWorks": "How it works",
+    "sounds": "Sounds",
     "pauseSounds": "Pause nature sounds",
-    "playSounds": "Play nature sounds"
+    "playSounds": "Play nature sounds",
+    "audience": {
+      "fallback": "I am",
+      "donor": {
+        "label": "I'm a donor",
+        "sub": "I want to support projects"
+      },
+      "ngo": {
+        "label": "I'm an NGO",
+        "sub": "Looking for funding"
+      },
+      "company": {
+        "label": "I'm a company",
+        "sub": "Sponsor conservation"
+      }
+    },
+    "actions": {
+      "donateNow": "Donate now",
+      "myProfile": "My profile",
+      "accessAccount": "Access account",
+      "ngoDashboard": "NGO dashboard",
+      "registerNgo": "Register NGO",
+      "loginAsNgo": "Sign in as NGO",
+      "howToSupport": "How to support",
+      "talkToUs": "Talk to us"
+    }
   },
   "hero": {
     "headline1": "It's their",
@@ -24,26 +49,32 @@
     "scroll": "Scroll"
   },
   "feed": {
-    "eyebrow": "Our projects",
-    "title": "Find the project",
-    "titleEm": "you want to support",
-    "seeAll": "See all",
-    "seeAllBtn": "See all projects",
-    "funded": "funded"
+    "eyebrow": "In the field · Updates",
+    "title": "What happened in the past weeks"
   },
   "stats": {
     "activeProjects": "Active projects",
     "countries": "Countries",
     "raised": "Raised",
-    "supporters": "Supporters"
+    "supporters": "Supporters",
+    "eyebrow": "Fauna in numbers",
+    "titleH2": "Impact",
+    "report": "2026 report",
+    "dataLive": "● live data",
+    "subActiveProjects": "verified in the field",
+    "subCountries": "across continents",
+    "subRaised": "straight to organizations",
+    "subSupporters": "and growing",
+    "captionFooter": "Data refreshed every 24h"
   },
   "trust": {
     "text": "Every dollar donated goes directly to researchers in the field — no middlemen, no bureaucracy.",
     "link": "See how it works →"
   },
   "species": {
-    "eyebrow": "IUCN Red List · 2024",
-    "label": "threatened species"
+    "eyebrow": "IUCN Red List · Apr. 2026",
+    "label": "Species threatened with extinction",
+    "quote": "\"We are not just losing species. We are losing the testimony of millions of years of evolution.\""
   },
   "footer": {
     "rights": "© 2025 Fauna Platform",
@@ -73,35 +104,32 @@
     }
   },
   "howItWorks": {
-    "eyebrow": "Full transparency",
+    "eyebrow": "About",
     "title": "How it works",
     "learnMore": "Learn more →",
     "steps": [
       {
-        "title": "Organizations register their projects",
-        "text": "NGOs, conservation associations and environmental entities from any country publish projects, goals and results directly on the platform. No middlemen, no editorial filter.",
-        "detail": "Identity and credential verification within 5 business days."
+        "title": "Choose a project",
+        "text": "Browse verified organizations, filtered by biome, species, or country. Each profile carries scientific data, the team, and field history.",
+        "detail": "Three-tier verification: documents, finance, and technical."
       },
       {
-        "title": "You discover and follow the work",
-        "text": "The feed shows real updates — field photos, milestones reached, new species records. Each project has an ongoing story.",
-        "detail": "Notifications when a project you support publishes news."
+        "title": "Donate or sponsor",
+        "text": "One-time or monthly donation. Payment by card, debit, or local methods. Zero fees: 100% goes to the organization.*",
+        "detail": "*Payments processed by Stripe. Processing fees may apply."
       },
       {
-        "title": "Your donation has a name and address",
-        "text": "You choose the project, see exactly what you're funding, and receive updates over time. Visible impact, not abstract.",
-        "detail": "100% of your donation goes to the project. Platform fee covered by sponsors."
+        "title": "Track the results",
+        "text": "Receive quarterly reports with photos, monitoring data, and impact metrics. Every donation is traceable.",
+        "detail": "Personal dashboard with history, certificates, and donations."
       }
     ]
   },
   "cta": {
-    "eyebrow": "Join 19,400 supporters",
-    "headline": "Amazing projects happen every day in remote places. With any amount,",
-    "headlineEm": "you become part of the story.",
-    "cta1": "See projects now",
-    "cta2": "Register my project",
-    "cta3": "Support us",
-    "footnote": "Donations from $2 · Cancel anytime · 100% goes to the project"
+    "eyebrow": "Every donation is a decision",
+    "headline": "Incredible animal conservation projects happen all over the world. With any amount, you become part of the story.",
+    "cta1": "Support a project",
+    "cta2": "I run an organization"
   },
   "projetos": {
     "eyebrow": "Conservation in progress",
@@ -327,7 +355,34 @@
       "wait": "Please wait...",
       "connectError": "Error connecting to Stripe.",
       "networkError": "Network error. Please try again."
-    }
+    },
+    "updates": "Updates",
+    "loading": "Loading…",
+    "updatesPublished": "{count, plural, =0 {none published} =1 {1 published} other {# published}}",
+    "newUpdateBtn": "+ New update",
+    "noUpdatesYet": "No updates yet.",
+    "createFirstUpdate": "Create your first update →",
+    "viewBtn": "View",
+    "editBtn": "Edit",
+    "deleteBtn": "Delete",
+    "deletingBtn": "Deleting…",
+    "confirmDeleteUpdate": "Delete this update?",
+    "confirmDeleteUpdateLong": "Delete this update? This action cannot be undone.",
+    "editUpdateTitle": "Edit update",
+    "editUpdateSubtitle": "Tweaks to the post.",
+    "updateNotFound": "Update not found or you don't have permission to edit it.",
+    "uploadErrorPrefix": "Upload error: ",
+    "editProjectTitle": "Edit project",
+    "editProjectSubtitle": "Update the project information.",
+    "urlSlugPrefix": "URL — fauna.org/projetos/",
+    "urlSlugFallback": "your-project",
+    "projectNotFound": "Project not found or you don't have permission to edit it.",
+    "confirmDeleteProjectLong": "Delete this project? All associated updates will also be removed. This action cannot be undone.",
+    "deleteProjectBtn": "Delete project",
+    "statusLabel": "Status",
+    "statusActive": "Active",
+    "statusPaused": "Paused",
+    "statusCompleted": "Completed"
   },
   "adminDash": {
     "sidebar": {

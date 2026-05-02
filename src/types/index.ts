@@ -15,7 +15,7 @@ export type Project = {
   id: string
   created_at: string
   organization_id: string
-  organization?: Organization
+  organization?: Organization | null
   title: string
   slug: string
   description: string
@@ -37,7 +37,7 @@ export type Update = {
   id: string
   created_at: string
   project_id: string
-  project?: Project
+  project?: Project | null
   title: string
   content: string
   image_url: string | null

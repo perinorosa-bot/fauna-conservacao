@@ -1,10 +1,16 @@
 import { createClient } from '@/lib/supabase/server'
 import { stripe } from '@/lib/stripe'
+import { rateLimit } from '@/lib/rate-limit'
+import { captureException } from '@/lib/observability'
 import { NextRequest, NextResponse } from 'next/server'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export async function POST(req: NextRequest) {
+  const limited = await rateLimit(req, { key: 'donations:create', max: 10, windowSeconds: 60 })
+  if (limited) return limited
+
+  try {
   const { projectId, amount, currency = 'brl', donorName, donorEmail, message } = await req.json()
 
   if (!projectId || !amount || amount < 100) {
@@ -54,4 +60,11 @@ export async function POST(req: NextRequest) {
   })
 
   return NextResponse.json({ clientSecret: paymentIntent.client_secret })
+  } catch (err: any) {
+    await captureException(err, { scope: 'donations:create' })
+    return NextResponse.json(
+      { error: err?.message ?? 'Erro ao iniciar doação.' },
+      { status: 500 },
+    )
+  }
 }

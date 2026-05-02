@@ -1,8 +1,10 @@
 import Nav from '@/components/layout/Nav'
 import ParallaxHero from '@/components/ParallaxHero'
 import SpeciesCounter from '@/components/SpeciesCounter'
+import HowItWorksTimeline from '@/components/HowItWorksTimeline'
+import WhoWeAre from '@/components/WhoWeAre'
+import FeaturedProjects from '@/components/FeaturedProjects'
 import FeedSection from '@/components/FeedSection'
-import HowItWorks from '@/components/HowItWorks'
 import CtaSection from '@/components/CtaSection'
 import StatsBar from '@/components/StatsBar'
 import { createClient } from '@/lib/supabase/server'
@@ -19,6 +21,13 @@ export default async function HomePage() {
         organization:organizations (*)
       )
     `)
+    .order('created_at', { ascending: false })
+    .limit(5)
+
+  const { data: featuredProjects } = await supabase
+    .from('projects')
+    .select('*, organization:organizations(*)')
+    .eq('status', 'active')
     .order('created_at', { ascending: false })
     .limit(4)
 
@@ -37,10 +46,12 @@ export default async function HomePage() {
     <main>
       <Nav />
       <ParallaxHero />
+      <WhoWeAre />
+      <HowItWorksTimeline />
+      <FeaturedProjects projects={featuredProjects ?? []} totalCount={projectCount ?? 247} />
       <SpeciesCounter />
-      <StatsBar projectCount={projectCount ?? 247} totalRaised={totalRaised} />
       <FeedSection updates={updates ?? []} />
-      <HowItWorks />
+      <StatsBar projectCount={projectCount ?? 247} totalRaised={totalRaised} />
       <CtaSection />
     </main>
   )

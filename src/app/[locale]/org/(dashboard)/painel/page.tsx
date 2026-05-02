@@ -240,6 +240,10 @@ export default function OrgPainelPage() {
                         className="text-cream/30 text-[10px] tracking-widest uppercase hover:text-cream transition-colors">
                     {o('view')}
                   </Link>
+                  <Link href={`/org/projetos/${p.id}/editar`}
+                        className="text-sage/60 text-[10px] tracking-widest uppercase hover:text-sage transition-colors">
+                    Editar
+                  </Link>
                   <Link href={`/org/atualizacoes/nova?projeto=${p.id}`}
                         className="text-sage/50 text-[10px] tracking-widest uppercase hover:text-sage transition-colors">
                     {o('addUpdateShortcut')}

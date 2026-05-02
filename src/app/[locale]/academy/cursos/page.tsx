@@ -105,7 +105,7 @@ export default async function CursosPage() {
   }
 
   return (
-    <NavTheme theme="light">
+    <NavTheme theme="dark">
       <main className="min-h-screen bg-[#f5f4f0]">
         <Nav />
 
@@ -133,7 +133,7 @@ export default async function CursosPage() {
               const tag = tagLabel(c.tagKey)
               return (
               <Link key={c.slug} href={`/academy/cursos/${c.slug}`}
-                    className="group bg-white border border-forest/[0.08] rounded-2xl overflow-hidden
+                    className="group bg-moonstone border border-forest/[0.08] rounded-2xl overflow-hidden
                                hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex flex-col">
                 {/* card top */}
                 <div className="h-40 bg-gradient-to-br from-forest to-canopy relative flex flex-col justify-between p-5">

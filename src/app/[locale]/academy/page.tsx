@@ -26,8 +26,8 @@ export default async function AcademyHomePage() {
   const forWhoItems = t.raw('forWho.items') as ForWhoItem[]
 
   return (
-    <NavTheme theme="light">
-      <main className="min-h-screen bg-cream">
+    <NavTheme theme="dark">
+      <main className="min-h-screen bg-moonstone">
         <Nav />
 
         {/* ── Hero ──────────────────────────────────────────────────────────── */}
@@ -80,7 +80,7 @@ export default async function AcademyHomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {features.map((f, i) => (
               <div key={f.title}
-                   className="bg-white border border-forest/[0.08] rounded-2xl p-8 hover:shadow-md transition-shadow">
+                   className="bg-moonstone border border-forest/[0.08] rounded-2xl p-8 hover:shadow-md transition-shadow">
                 <span className="text-leaf text-2xl block mb-4">{FEATURE_ICONS[i] ?? '•'}</span>
                 <h3 className="font-serif text-xl font-light text-forest mb-2">{f.title}</h3>
                 <p className="text-forest/50 text-sm leading-relaxed">{f.desc}</p>
@@ -108,7 +108,7 @@ export default async function AcademyHomePage() {
                 const isFreeCourse = c.slug === 'captacao-recursos-iniciantes'
                 return (
                 <Link key={c.slug} href={`/academy/cursos/${c.slug}`}
-                      className="group bg-white border border-forest/[0.08] rounded-2xl overflow-hidden
+                      className="group bg-moonstone border border-forest/[0.08] rounded-2xl overflow-hidden
                                  hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
                   <div className="h-36 bg-gradient-to-br from-forest to-canopy relative flex items-end p-5">
                     {c.tag && (
@@ -179,7 +179,7 @@ export default async function AcademyHomePage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
               {forWhoItems.map(p => (
-                <div key={p.title} className="bg-white border border-forest/[0.08] rounded-2xl p-7">
+                <div key={p.title} className="bg-moonstone border border-forest/[0.08] rounded-2xl p-7">
                   <div className="w-2 h-2 rounded-full bg-leaf mb-5" />
                   <h3 className="font-serif text-lg font-light text-forest mb-2">{p.title}</h3>
                   <p className="text-forest/50 text-sm leading-relaxed">{p.desc}</p>

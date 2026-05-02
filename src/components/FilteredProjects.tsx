@@ -45,10 +45,10 @@ export default function FilteredProjects({ projects, light }: { projects: Projec
             onClick={() => setActive(key)}
             className={`text-[10px] tracking-widest uppercase border px-4 py-2 rounded-full transition-all duration-200 ${
               active === key
-                ? 'border-sage bg-sage/15 text-sage'
+                ? 'border-terra bg-terra/15 text-terra'
                 : light
-                  ? 'border-forest/30 text-forest/55 hover:border-forest/60 hover:text-forest'
-                  : 'border-white/[0.12] text-cream/45 hover:border-sage/40 hover:text-cream'
+                  ? 'border-forest/30 text-forest/55 hover:border-terra/60 hover:text-terra'
+                  : 'border-white/[0.12] text-cream/45 hover:border-terra/40 hover:text-cream'
             }`}
           >
             {tFilters(key)}

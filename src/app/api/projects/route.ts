@@ -1,7 +1,11 @@
 import { createClient } from '@/lib/supabase/server'
-import { NextResponse } from 'next/server'
+import { rateLimit } from '@/lib/rate-limit'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+  const limited = await rateLimit(request, { key: 'projects:list', max: 60, windowSeconds: 60 })
+  if (limited) return limited
+
   const supabase = createClient()
   const { searchParams } = new URL(request.url)
 
@@ -25,7 +29,10 @@ export async function GET(request: Request) {
   return NextResponse.json(data)
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const limited = await rateLimit(request, { key: 'projects:create', max: 10, windowSeconds: 60 })
+  if (limited) return limited
+
   const supabase = createClient()
 
   // Verify auth

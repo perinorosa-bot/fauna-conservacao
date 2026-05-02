@@ -40,26 +40,84 @@ export default function SobrePage() {
   }, [])
 
   return (
-    <NavTheme theme="light">
-      <main className="min-h-screen bg-cream">
+    <NavTheme theme="dark">
+      <main className="min-h-screen bg-moonstone">
         <Nav />
 
-        {/* ── Hero image ────────────────────────────────────────────────────── */}
-        <div className="relative h-[55vh] min-h-[400px] overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1600&auto=format&fit=crop&q=80"
-            alt="Fauna"
-            className="w-full h-full object-cover"
+        {/* ── Hero video ────────────────────────────────────────────────────── */}
+        <div className="relative h-[60vh] min-h-[460px] overflow-hidden">
+          <video
+            src="/sobre-hero.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ filter: 'saturate(0.92) contrast(1.05)' }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/50" />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-            <p className="text-cream/60 text-[10px] tracking-[0.3em] uppercase mb-3">{s('hero.eyebrowLabel')}</p>
-            <h1 className="font-serif text-5xl md:text-6xl font-light text-cream leading-tight">
-              Fauna
-            </h1>
-            <p className="text-cream/55 text-base mt-3 max-w-md">
-              {s('hero.subtitle')}
-            </p>
+          {/* ── Scrim layers ───────────────────────────────────────────────── */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'linear-gradient(180deg, rgba(11,20,16,0.70) 0%, rgba(11,20,16,0.30) 35%, rgba(11,20,16,0.55) 70%, rgba(11,20,16,0.92) 100%)',
+            }}
+          />
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 55% 45% at 50% 52%, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0) 75%)',
+            }}
+          />
+          <div
+            className="absolute inset-0 pointer-events-none mix-blend-multiply"
+            style={{ background: 'rgba(26,53,40,0.18)' }}
+          />
+
+          {/* ── Editorial composition ──────────────────────────────────────── */}
+          <div className="absolute inset-0 flex items-center justify-center px-6">
+            <div className="flex flex-col items-center text-center">
+
+              <div className="flex items-center gap-3 mb-8">
+                <span className="block w-10 h-px bg-cream/45" />
+                <p
+                  className="font-mono text-[10px] tracking-[0.42em] uppercase text-cream/85"
+                  style={{ textShadow: '0 1px 8px rgba(0,0,0,0.85)' }}
+                >
+                  {s('hero.eyebrowLabel')}
+                </p>
+                <span className="block w-10 h-px bg-cream/45" />
+              </div>
+
+              <h1
+                className="font-serif text-cream"
+                style={{
+                  fontSize:      'clamp(72px, 11vw, 168px)',
+                  lineHeight:    0.92,
+                  fontWeight:    300,
+                  letterSpacing: '-0.035em',
+                  textShadow:    '0 6px 40px rgba(0,0,0,0.75), 0 1px 2px rgba(0,0,0,0.5)',
+                }}
+              >
+                Fauna
+              </h1>
+
+              <span
+                className="block w-16 h-[2px] bg-terra mt-8 mb-6"
+                style={{ boxShadow: '0 0 18px rgba(196,82,42,0.55)' }}
+              />
+
+              <p
+                className="text-cream/90 max-w-[520px]"
+                style={{
+                  fontSize:   'clamp(15px, 1.4vw, 19px)',
+                  lineHeight: 1.55,
+                  textShadow: '0 2px 14px rgba(0,0,0,0.85)',
+                }}
+              >
+                {s('hero.subtitle')}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -124,7 +182,7 @@ export default function SobrePage() {
             <div className="grid grid-cols-3 gap-6 mb-20">
               {aboutStats.map(stat => (
                 <div key={stat.label}
-                     className="bg-white border border-forest/[0.08] rounded-2xl p-8 text-center shadow-sm">
+                     className="bg-moonstone border border-forest/[0.08] rounded-2xl p-8 text-center shadow-sm">
                   <p className="font-serif text-4xl font-light text-leaf mb-2">{stat.value}</p>
                   <p className="text-forest/45 text-sm leading-tight">{stat.label}</p>
                 </div>
@@ -137,7 +195,7 @@ export default function SobrePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-16">
               {aboutValues.map(v => (
                 <div key={v.title}
-                     className="bg-white border border-forest/[0.08] rounded-2xl p-8 shadow-sm">
+                     className="bg-moonstone border border-forest/[0.08] rounded-2xl p-8 shadow-sm">
                   <div className="w-2 h-2 rounded-full bg-leaf mb-5" />
                   <h3 className="font-serif text-xl font-light text-forest mb-2">{v.title}</h3>
                   <p className="text-forest/50 text-sm leading-relaxed">{v.desc}</p>
@@ -180,7 +238,7 @@ export default function SobrePage() {
             {/* Two tracks */}
             <div className="grid md:grid-cols-2 gap-6 mb-20">
               {/* Donors */}
-              <div className="bg-white border border-forest/[0.08] rounded-2xl p-10 shadow-sm">
+              <div className="bg-moonstone border border-forest/[0.08] rounded-2xl p-10 shadow-sm">
                 <p className="text-leaf text-[10px] tracking-widests uppercase mb-8">{cf('forDonors')}</p>
                 <div className="flex flex-col gap-10 mb-12">
                   {(cf.raw('donorSteps') as Array<{title: string, text: string}>).map((st, i) => (
@@ -203,7 +261,7 @@ export default function SobrePage() {
               </div>
 
               {/* Organizations */}
-              <div className="bg-white border border-forest/[0.08] rounded-2xl p-10 shadow-sm">
+              <div className="bg-moonstone border border-forest/[0.08] rounded-2xl p-10 shadow-sm">
                 <p className="text-amber-600 text-[10px] tracking-widests uppercase mb-8">{cf('forOrgs')}</p>
                 <div className="flex flex-col gap-10 mb-12">
                   {(cf.raw('orgSteps') as Array<{title: string, text: string, detail?: string}>).map((st, i) => (
@@ -240,7 +298,7 @@ export default function SobrePage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {(cf.raw('contentTypes') as Array<{icon: string, label: string, desc: string}>).map(c => (
                   <div key={c.label}
-                       className="bg-white border border-forest/[0.07] rounded-xl p-6 shadow-sm">
+                       className="bg-moonstone border border-forest/[0.07] rounded-xl p-6 shadow-sm">
                     <span className="text-leaf text-xl block mb-3">{c.icon}</span>
                     <p className="text-forest text-sm font-medium mb-2">{c.label}</p>
                     <p className="text-forest/40 text-xs leading-relaxed">{c.desc}</p>
@@ -300,7 +358,7 @@ export default function SobrePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-20">
               {teamMembers.map(p => (
                 <div key={p.name}
-                     className="bg-white border border-forest/[0.08] rounded-2xl p-8 shadow-sm">
+                     className="bg-moonstone border border-forest/[0.08] rounded-2xl p-8 shadow-sm">
                   <div className="w-14 h-14 rounded-full bg-forest/8 flex items-center justify-center mb-5">
                     <span className="font-serif text-xl text-forest/40">{p.name[0]}</span>
                   </div>

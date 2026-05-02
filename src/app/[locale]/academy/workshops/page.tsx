@@ -97,7 +97,7 @@ export default async function WorkshopsPage() {
   const past     = WORKSHOPS.filter(w => w.past)
 
   return (
-    <NavTheme theme="light">
+    <NavTheme theme="dark">
       <main className="min-h-screen bg-[#f5f4f0]">
         <Nav />
 
@@ -128,7 +128,7 @@ export default async function WorkshopsPage() {
 
               return (
                 <div key={w.id}
-                     className="bg-white border border-forest/[0.08] rounded-2xl p-8 flex flex-col md:flex-row gap-8 shadow-sm">
+                     className="bg-moonstone border border-forest/[0.08] rounded-2xl p-8 flex flex-col md:flex-row gap-8 shadow-sm">
                   {/* Date block */}
                   <div className="flex-shrink-0 w-20 text-center">
                     <div className="bg-forest rounded-xl p-3">

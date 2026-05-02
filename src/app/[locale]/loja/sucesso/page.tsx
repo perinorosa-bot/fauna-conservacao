@@ -16,7 +16,7 @@ export default function LojaSucessoPage() {
 
   return (
     <NavTheme theme="light">
-      <main className="min-h-screen bg-cream flex flex-col">
+      <main className="min-h-screen bg-moonstone flex flex-col">
         <Nav />
         <div className="flex-1 flex items-center justify-center px-10">
           <div className="text-center max-w-md">

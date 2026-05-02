@@ -8,31 +8,35 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        forest:    '#1A3528',   // tinta nanquim vegetal
-        canopy:    '#1E2E20',   // fundo secundário profundo
-        prussian:  '#2E5FA3',   // azul prussiano — atlas botânicos / RL navy
-        terra:     '#C4522A',   // terracota/vermelho botânico — vida / doação
-        leaf:      '#3D4A1E',   // ação primária
-        sage:      '#7A9E7E',   // acentos / links
+        // ── Paleta principal (Forest, do protótipo) ────────────
+        forest:    '#1A3528',   // verde profundo — bg principal
+        canopy:    '#1E2E20',   // bg secundário
+        basalt:    '#0F1A12',   // quase-preto cinematográfico — bg deep
+        leaf:      '#3D4A1E',   // verde-folha (ação primária / acento)
+        sage:      '#7A9E7E',   // sálvia (links, sucesso)
         mist:      '#A89070',   // pedra suave
-        cream:     '#EDE5D0',   // papel envelhecido
-        parchment: '#F5EFE0',   // pergaminho claro (fundos light)
+        cream:     '#EDE5D0',   // papel envelhecido (texto / fundo claro)
+        parchment: '#F5EFE0',   // pergaminho (fundos light)
         ochre:     '#B5834A',   // ocre de mapa antigo
-        warm:      '#B5834A',   // alias
-        sand:      '#EDE5D0',   // alias
-        stone:     '#A89070',   // alias
-        coffee:    '#B5834A',   // alias
-        gum:       '#7A9E7E',   // alias
-        moss:      '#3D4A1E',   // alias
-        basalt:    '#1E2E20',   // alias
+        prussian:  '#2E5FA3',   // azul prussiano
+        terra:     '#C4522A',   // terracota — vida / doação (accent)
+        moonstone: '#F5F5F5',   // cinza-pedra — substitui o branco em superfícies
+
+        // Aliases mantidos pra não quebrar componentes existentes
+        warm:      '#B5834A',
+        sand:      '#EDE5D0',
+        stone:     '#A89070',
+        coffee:    '#B5834A',
+        gum:       '#7A9E7E',
+        moss:      '#3D4A1E',
       },
       fontFamily: {
-        // Body, UI labels, small text → Inter (legível)
-        sans:    ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        // Títulos grandes, headlines → IM Fell English
-        serif:   ['var(--font-im-fell)', 'Georgia', 'serif'],
-        // Logo e destaques → Vaelia
-        display: ['var(--font-vaelia)', 'Georgia', 'serif'],
+        // Teste tipográfico — SpathaFold em todas as famílias
+        sans:      ['var(--font-spathafold)', 'system-ui', 'sans-serif'],
+        serif:     ['var(--font-spathafold)', 'Georgia', 'serif'],
+        display:   ['var(--font-spathafold)', 'Georgia', 'serif'],
+        cormorant: ['var(--font-spathafold)', 'Georgia', 'serif'],
+        mono:      ['var(--font-spathafold)', 'ui-monospace', 'monospace'],
       },
     },
   },

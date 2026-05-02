@@ -1,9 +1,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { stripe } from '@/lib/stripe'
-import { NextResponse } from 'next/server'
+import { rateLimit } from '@/lib/rate-limit'
+import { captureException } from '@/lib/observability'
+import { NextRequest, NextResponse } from 'next/server'
 
 // Creates a Stripe Connect onboarding link for the org
-export async function POST() {
+export async function POST(req: NextRequest) {
+  const limited = await rateLimit(req, { key: 'stripe:connect', max: 5, windowSeconds: 60 })
+  if (limited) return limited
+
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -24,7 +29,7 @@ export async function POST() {
       accountId = account.id
       await supabase.from('organizations').update({ stripe_account_id: accountId }).eq('id', org.id)
     } catch (err: any) {
-      console.error('[stripe/connect] accounts.create error:', err)
+      await captureException(err, { scope: 'stripe:connect:accounts.create', userId: user.id })
       return NextResponse.json({ error: err.message ?? 'Failed to create Stripe account' }, { status: 500 })
     }
   }
@@ -39,7 +44,7 @@ export async function POST() {
     })
     return NextResponse.json({ url: accountLink.url })
   } catch (err: any) {
-    console.error('[stripe/connect] accountLinks error:', err)
+    await captureException(err, { scope: 'stripe:connect:accountLinks', userId: user.id })
     return NextResponse.json({ error: err.message ?? 'Stripe error' }, { status: 500 })
   }
 }

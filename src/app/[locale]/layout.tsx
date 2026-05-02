@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
-import { Inter, IM_Fell_English } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
@@ -9,28 +8,13 @@ import CookieBanner from '@/components/CookieBanner'
 import Footer from '@/components/layout/Footer'
 import '../globals.css'
 
-const vaelia = localFont({
+const spathafold = localFont({
   src: [
-    { path: '../../../public/fonts/Vaelia.woff2' },
-    { path: '../../../public/fonts/Vaelia.woff'  },
+    { path: '../../../public/fonts/SpathaFold.woff2' },
+    { path: '../../../public/fonts/SpathaFold.woff'  },
   ],
-  variable: '--font-vaelia',
+  variable: '--font-spathafold',
   display: 'swap',
-})
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
-const imFell = IM_Fell_English({
-  subsets: ['latin'],
-  weight: ['400'],
-  style: ['normal', 'italic'],
-  variable: '--font-im-fell',
-  display: 'swap',
-  adjustFontFallback: false,
 })
 
 export async function generateMetadata({
@@ -81,8 +65,8 @@ export default async function LocaleLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={HTML_LANG[locale as Locale]} className={`${vaelia.variable} ${inter.variable} ${imFell.variable}`}>
-      <body className="bg-forest text-cream font-sans antialiased">
+    <html lang={HTML_LANG[locale as Locale]} className={spathafold.variable}>
+      <body className="bg-moonstone text-forest font-sans antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
           <Footer />

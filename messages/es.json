@@ -1,19 +1,44 @@
 {
   "nav": {
     "projects": "Proyectos",
-    "howItWorks": "Cómo funciona",
-    "donate": "Donar ahora",
-    "forOrgs": "¿Tienes un proyecto de conservación?",
-    "sounds": "Sonidos",
     "about": "Sobre",
     "academy": "Academy",
     "shop": "Nuestra tienda",
     "support": "Apoyanos",
+    "donate": "Donar ahora",
     "haveProject": "¿Tenés un proyecto?",
+    "forOrgs": "¿Tenés un proyecto de conservación?",
     "myProfile": "Mi perfil",
     "signIn": "Ingresar",
+    "howItWorks": "Cómo funciona",
+    "sounds": "Sonidos",
     "pauseSounds": "Pausar sonidos de la naturaleza",
-    "playSounds": "Reproducir sonidos de la naturaleza"
+    "playSounds": "Reproducir sonidos de la naturaleza",
+    "audience": {
+      "fallback": "Soy",
+      "donor": {
+        "label": "Soy donante",
+        "sub": "Quiero apoyar proyectos"
+      },
+      "ngo": {
+        "label": "Soy ONG",
+        "sub": "Buscando financiamiento"
+      },
+      "company": {
+        "label": "Soy empresa",
+        "sub": "Patrocinar conservación"
+      }
+    },
+    "actions": {
+      "donateNow": "Donar ahora",
+      "myProfile": "Mi perfil",
+      "accessAccount": "Acceder a la cuenta",
+      "ngoDashboard": "Panel de la ONG",
+      "registerNgo": "Registrar ONG",
+      "loginAsNgo": "Ingresar como ONG",
+      "howToSupport": "Cómo apoyar",
+      "talkToUs": "Hablanos"
+    }
   },
   "hero": {
     "headline1": "Es el planeta",
@@ -24,26 +49,32 @@
     "scroll": "Desliza"
   },
   "feed": {
-    "eyebrow": "Nuestros proyectos",
-    "title": "Encontrá el proyecto que",
-    "titleEm": "querés apoyar",
-    "seeAll": "Ver todos",
-    "seeAllBtn": "Ver todos los proyectos",
-    "funded": "financiado"
+    "eyebrow": "En el campo · Actualizaciones",
+    "title": "Qué pasó en las últimas semanas"
   },
   "stats": {
     "activeProjects": "Proyectos activos",
     "countries": "Países",
-    "raised": "Recaudado",
-    "supporters": "Colaboradores"
+    "raised": "Recaudados",
+    "supporters": "Apoyos",
+    "eyebrow": "Fauna en números",
+    "titleH2": "Impacto",
+    "report": "Reporte 2026",
+    "dataLive": "● datos actualizados",
+    "subActiveProjects": "verificados en el campo",
+    "subCountries": "en todos los continentes",
+    "subRaised": "directo a las organizaciones",
+    "subSupporters": "y creciendo",
+    "captionFooter": "Datos actualizados cada 24 h"
   },
   "trust": {
     "text": "Cada peso donado va directo a los investigadores en el campo — sin intermediarios, sin burocracia.",
     "link": "Ver cómo funciona →"
   },
   "species": {
-    "eyebrow": "Lista Roja de la UICN · 2024",
-    "label": "especies en peligro de extinción"
+    "eyebrow": "Lista Roja de la UICN · abr. 2026",
+    "label": "Especies amenazadas de extinción",
+    "quote": "\"No estamos perdiendo solo especies. Estamos perdiendo el testimonio de millones de años de evolución.\""
   },
   "footer": {
     "rights": "© 2025 Fauna Platform",
@@ -73,35 +104,32 @@
     }
   },
   "howItWorks": {
-    "eyebrow": "Transparencia total",
+    "eyebrow": "Acerca de",
     "title": "Cómo funciona",
     "learnMore": "Saber más →",
     "steps": [
       {
-        "title": "Las organizaciones registran sus proyectos",
-        "text": "ONGs, asociaciones de conservación y entidades ambientales de cualquier país publican proyectos, metas y resultados directamente en la plataforma. Sin intermediarios, sin filtro editorial.",
-        "detail": "Verificación de identidad y credenciales en hasta 5 días hábiles."
+        "title": "Elegí un proyecto",
+        "text": "Explorá organizaciones verificadas, filtradas por bioma, especie o país. Cada ficha trae datos científicos, el equipo y el historial en el campo.",
+        "detail": "Verificación en tres niveles: documental, financiera y técnica."
       },
       {
-        "title": "Tú descubres y sigues el trabajo",
-        "text": "El feed muestra actualizaciones reales — fotos de campo, hitos alcanzados, nuevos registros de especies. Cada proyecto tiene una historia en curso.",
-        "detail": "Notificaciones cuando el proyecto que apoyas publica novedades."
+        "title": "Doná o patrociná",
+        "text": "Donación única o mensual. Pago con tarjeta de crédito, débito u otros medios. Tarifa cero: el 100% va a la organización.*",
+        "detail": "*Pagos procesados por Stripe. Pueden aplicarse comisiones de procesamiento."
       },
       {
-        "title": "Tu donación tiene nombre y destino preciso",
-        "text": "Tú eliges el proyecto, ves exactamente qué financias y recibes actualizaciones a lo largo del tiempo. Impacto visible, no abstracto.",
-        "detail": "100% de tu donación va al proyecto. Tarifa de plataforma cubierta por patrocinadores."
+        "title": "Seguí los resultados",
+        "text": "Recibí reportes trimestrales con fotos, datos de monitoreo y métricas de impacto. Cada donación es rastreable.",
+        "detail": "Panel personal con historial, certificados y donaciones."
       }
     ]
   },
   "cta": {
-    "eyebrow": "Unite a 19.400 colaboradores",
-    "headline": "Proyectos increíbles ocurren todos los días en lugares remotos. Con cualquier monto,",
-    "headlineEm": "formás parte de la historia.",
-    "cta1": "Ver proyectos ahora",
-    "cta2": "Registrar mi proyecto",
-    "cta3": "Apoyanos",
-    "footnote": "Donación desde $2 · Cancelá cuando quieras · 100% va al proyecto"
+    "eyebrow": "Cada donación es una decisión",
+    "headline": "Proyectos increíbles de conservación animal pasan en todas partes del mundo. Con cualquier monto, sos parte de esta historia.",
+    "cta1": "Apoyar un proyecto",
+    "cta2": "Soy una organización"
   },
   "projetos": {
     "eyebrow": "Conservación en curso",
@@ -327,7 +355,34 @@
       "wait": "Esperá...",
       "connectError": "Error al conectar Stripe.",
       "networkError": "Error de red. Intentá de nuevo."
-    }
+    },
+    "updates": "Actualizaciones",
+    "loading": "Cargando…",
+    "updatesPublished": "{count, plural, =0 {ninguna publicada} =1 {1 publicada} other {# publicadas}}",
+    "newUpdateBtn": "+ Nueva actualización",
+    "noUpdatesYet": "Aún no hay actualizaciones.",
+    "createFirstUpdate": "Crear primera actualización →",
+    "viewBtn": "Ver",
+    "editBtn": "Editar",
+    "deleteBtn": "Eliminar",
+    "deletingBtn": "Eliminando…",
+    "confirmDeleteUpdate": "¿Eliminar esta actualización?",
+    "confirmDeleteUpdateLong": "¿Eliminar esta actualización? Esta acción no se puede deshacer.",
+    "editUpdateTitle": "Editar actualización",
+    "editUpdateSubtitle": "Ajustes en la publicación.",
+    "updateNotFound": "Actualización no encontrada o no tenés permiso para editarla.",
+    "uploadErrorPrefix": "Error en la subida: ",
+    "editProjectTitle": "Editar proyecto",
+    "editProjectSubtitle": "Actualizá la información del proyecto.",
+    "urlSlugPrefix": "URL — fauna.org/projetos/",
+    "urlSlugFallback": "tu-proyecto",
+    "projectNotFound": "Proyecto no encontrado o no tenés permiso para editarlo.",
+    "confirmDeleteProjectLong": "¿Eliminar este proyecto? Todas las actualizaciones asociadas también serán removidas. Esta acción no se puede deshacer.",
+    "deleteProjectBtn": "Eliminar proyecto",
+    "statusLabel": "Estado",
+    "statusActive": "Activo",
+    "statusPaused": "Pausado",
+    "statusCompleted": "Completado"
   },
   "adminDash": {
     "sidebar": {

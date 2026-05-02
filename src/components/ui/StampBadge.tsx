@@ -45,7 +45,7 @@ export function StampBadge({ text, centerText, size = 96, className }: Props) {
         letterSpacing="2.5"
         fill="currentColor"
         opacity="0.55"
-        fontFamily="var(--font-inter)"
+        fontFamily="var(--font-spathafold)"
         textLength={Math.PI * r * 1.92}
         lengthAdjust="spacing"
       >

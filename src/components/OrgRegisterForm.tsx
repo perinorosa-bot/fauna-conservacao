@@ -118,16 +118,16 @@ export default function OrgRegisterForm() {
     router.push('/org/painel')
   }
 
-  const inputClass = `w-full bg-white/[0.06] border border-white/[0.12] rounded-sm px-4 py-3
-    text-cream text-sm placeholder:text-cream/25 focus:outline-none
-    focus:border-sage/50 transition-colors`
+  const inputClass = `w-full bg-white/[0.10] border border-white/[0.28] rounded-sm px-4 py-3
+    text-cream text-sm placeholder:text-cream/45 focus:outline-none
+    focus:border-sage focus:bg-white/[0.14] transition-colors`
 
   if (step === 'confirm') {
     return (
       <div className="text-center py-8">
         <div className="text-sage text-4xl mb-4">✉</div>
         <h3 className="font-serif text-xl text-cream mb-2">{t('confirmTitle')}</h3>
-        <p className="text-cream/50 text-sm leading-relaxed">
+        <p className="text-cream/80 text-sm leading-relaxed">
           {t('confirmDesc', { email })}
         </p>
         <button
@@ -143,17 +143,17 @@ export default function OrgRegisterForm() {
     return (
       <form onSubmit={handleAccount} className="flex flex-col gap-4">
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('fullNameLabel')}</label>
+          <label className="text-cream/80 text-xs tracking-wide block mb-1.5">{t('fullNameLabel')}</label>
           <input className={inputClass} type="text" placeholder={t('fullNamePlaceholder')}
                  value={fullName} onChange={e => setFullName(e.target.value)} required/>
         </div>
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('emailLabel')}</label>
+          <label className="text-cream/80 text-xs tracking-wide block mb-1.5">{t('emailLabel')}</label>
           <input className={inputClass} type="email" placeholder={t('emailPlaceholder')}
                  value={email} onChange={e => setEmail(e.target.value)} required/>
         </div>
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('passwordLabel')}</label>
+          <label className="text-cream/80 text-xs tracking-wide block mb-1.5">{t('passwordLabel')}</label>
           <input className={inputClass} type="password" placeholder={t('passwordPlaceholder')}
                  value={password} onChange={e => setPassword(e.target.value)} required minLength={8}/>
         </div>
@@ -164,7 +164,7 @@ export default function OrgRegisterForm() {
           {loading ? t('creatingAccount') : t('createAccount')}
         </button>
 
-        <p className="text-center text-cream/30 text-xs">
+        <p className="text-center text-cream/65 text-xs">
           {t('alreadyHaveAccount')}{' '}
           <a href="/org/login" className="text-sage hover:underline">{t('signIn')}</a>
         </p>
@@ -178,21 +178,21 @@ export default function OrgRegisterForm() {
         {t('accountCreated')}
       </p>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('orgNameLabel')}</label>
+        <label className="text-cream/80 text-xs tracking-wide block mb-1.5">{t('orgNameLabel')}</label>
         <input className={inputClass} type="text" placeholder={t('orgNamePlaceholder')}
                value={orgName}
                onChange={e => { setOrgName(e.target.value); setOrgSlug(slugify(e.target.value)) }}
                required/>
       </div>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">
+        <label className="text-cream/80 text-xs tracking-wide block mb-1.5">
           {t('slugLabel')}<span className="text-sage">{orgSlug || t('slugFallback')}</span>
         </label>
         <input className={inputClass} type="text" placeholder={t('slugPlaceholder')}
                value={orgSlug} onChange={e => setOrgSlug(slugify(e.target.value))} required/>
       </div>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('countryLabel')}</label>
+        <label className="text-cream/80 text-xs tracking-wide block mb-1.5">{t('countryLabel')}</label>
         <select
           className={`${inputClass} appearance-none`}
           value={orgCountry}
@@ -206,19 +206,19 @@ export default function OrgRegisterForm() {
         </select>
       </div>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('descLabel')}</label>
+        <label className="text-cream/80 text-xs tracking-wide block mb-1.5">{t('descLabel')}</label>
         <textarea className={`${inputClass} resize-none`} rows={3}
                   placeholder={t('descPlaceholder')}
                   value={orgDesc} onChange={e => setOrgDesc(e.target.value)} required/>
       </div>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('websiteLabel')}</label>
+        <label className="text-cream/80 text-xs tracking-wide block mb-1.5">{t('websiteLabel')}</label>
         <input className={inputClass} type="url" placeholder={t('websitePlaceholder')}
                value={orgWebsite} onChange={e => setOrgWebsite(e.target.value)}/>
       </div>
 
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('logoLabel')}</label>
+        <label className="text-cream/80 text-xs tracking-wide block mb-1.5">{t('logoLabel')}</label>
         <div className="flex gap-2 mb-2">
           <button type="button" onClick={() => setLogoTab('url')}
                   className={`text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-sm transition-colors ${

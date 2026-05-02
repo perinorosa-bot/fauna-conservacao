@@ -257,7 +257,7 @@ export default function LojaPage() {
 
   return (
     <NavTheme theme="light">
-      <main className="min-h-screen bg-cream">
+      <main className="min-h-screen bg-moonstone">
         <Nav />
 
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
@@ -442,7 +442,7 @@ export default function LojaPage() {
             onClick={() => setSelected(null)}
           >
             <div
-              className="bg-cream rounded-3xl overflow-hidden max-w-2xl w-full flex flex-col md:flex-row shadow-2xl max-h-[90vh]"
+              className="bg-moonstone rounded-3xl overflow-hidden max-w-2xl w-full flex flex-col md:flex-row shadow-2xl max-h-[90vh]"
               onClick={e => e.stopPropagation()}
             >
               {/* Image */}
@@ -568,7 +568,7 @@ export default function LojaPage() {
               onClick={() => setCartOpen(false)}
             />
             {/* Drawer */}
-            <div className="w-full max-w-sm bg-cream h-full flex flex-col shadow-2xl">
+            <div className="w-full max-w-sm bg-moonstone h-full flex flex-col shadow-2xl">
               {/* Header */}
               <div className="flex items-center justify-between px-6 py-5 border-b border-forest/10">
                 <h2 className="font-serif text-xl font-light text-forest">{t('cartLabel')}</h2>

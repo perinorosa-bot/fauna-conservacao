@@ -137,7 +137,7 @@ export default function FaqPage() {
                 value={query}
                 onChange={e => { setQuery(e.target.value); setActive(null) }}
                 placeholder={t('search.placeholder')}
-                className="w-full bg-white text-forest text-sm pl-12 pr-5 py-4 rounded-xl
+                className="w-full bg-moonstone text-forest text-sm pl-12 pr-5 py-4 rounded-xl
                            border-2 border-transparent focus:border-sage/40 focus:outline-none
                            placeholder:text-forest/30 shadow-lg shadow-black/20 transition-all"
               />
@@ -163,7 +163,7 @@ export default function FaqPage() {
                   className={`group text-left rounded-2xl p-7 border-2 transition-all duration-200 shadow-sm
                     ${activeSection === s.id
                       ? 'bg-forest border-forest text-cream shadow-lg shadow-forest/20'
-                      : 'bg-white border-transparent hover:border-forest/15 hover:shadow-md'
+                      : 'bg-moonstone border-transparent hover:border-forest/15 hover:shadow-md'
                     }`}
                 >
                   <div className={`mb-4 transition-colors ${
@@ -205,7 +205,7 @@ export default function FaqPage() {
             </p>
 
             {results.length === 0 ? (
-              <div className="bg-white rounded-2xl border border-forest/[0.08] p-12 text-center shadow-sm">
+              <div className="bg-moonstone rounded-2xl border border-forest/[0.08] p-12 text-center shadow-sm">
                 <p className="text-forest/30 text-sm mb-2">{t('noResultsTitle')}</p>
                 <p className="text-forest/40 text-sm">
                   {t('noResultsHint')}
@@ -213,7 +213,7 @@ export default function FaqPage() {
                 </p>
               </div>
             ) : (
-              <div className="bg-white rounded-2xl border border-forest/[0.08] shadow-sm overflow-hidden">
+              <div className="bg-moonstone rounded-2xl border border-forest/[0.08] shadow-sm overflow-hidden">
                 {results.map((item, i) => (
                   <AccordionItem key={i} q={item.q} a={item.a} section={item.section} />
                 ))}
@@ -232,7 +232,7 @@ export default function FaqPage() {
                 {t('questionsCount', { count: visibleSection.items.length })}
               </span>
             </div>
-            <div className="bg-white rounded-2xl border border-forest/[0.08] shadow-sm overflow-hidden">
+            <div className="bg-moonstone rounded-2xl border border-forest/[0.08] shadow-sm overflow-hidden">
               {visibleSection.items.map((item, i) => (
                 <AccordionItem key={i} q={item.q} a={item.a} />
               ))}
@@ -246,7 +246,7 @@ export default function FaqPage() {
             <p className="text-[10px] tracking-widest uppercase text-forest/30 mb-6">
               {t('popular')}
             </p>
-            <div className="bg-white rounded-2xl border border-forest/[0.08] shadow-sm overflow-hidden">
+            <div className="bg-moonstone rounded-2xl border border-forest/[0.08] shadow-sm overflow-hidden">
               {sections.flatMap(s => s.items.slice(0, 2)).slice(0, 6).map((item, i) => (
                 <AccordionItem key={i} q={item.q} a={item.a} section={sections.find(s => s.items.includes(item))?.label} />
               ))}

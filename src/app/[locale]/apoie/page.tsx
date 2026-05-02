@@ -10,7 +10,7 @@ export default function ApoiePage() {
 
   return (
     <NavTheme theme="light">
-      <main className="min-h-screen bg-cream">
+      <main className="min-h-screen bg-moonstone">
         <Nav />
 
         {/* Hero */}
@@ -62,7 +62,7 @@ export default function ApoiePage() {
         </section>
 
         {/* Support tiers */}
-        <section className="bg-cream border-t border-forest/[0.07] px-10 py-24">
+        <section className="bg-moonstone border-t border-forest/[0.07] px-10 py-24">
           <div className="max-w-screen-lg mx-auto">
             <div className="text-center mb-14">
               <h2 className="font-serif text-5xl font-light text-forest mb-4">
