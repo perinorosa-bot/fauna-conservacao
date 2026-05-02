@@ -5,6 +5,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { useTranslations, useFormatter } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
+import { estimateStripeFee, grossUpAmount } from '@/lib/stripe-fees'
 
 // Quick client-side email shape check. Server still validates.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -77,6 +78,7 @@ export default function DonationForm({
   orgHasStripe: boolean
 }) {
   const t = useTranslations('donationForm')
+  const tFee = useTranslations('donationForm.feeBreakdown')
   const tCommon = useTranslations('common')
   const format = useFormatter()
   const [donationType, setDonationType] = useState<DonationType>('once')
@@ -86,9 +88,18 @@ export default function DonationForm({
   const [donorName, setDonorName]       = useState('')
   const [donorEmail, setDonorEmail]     = useState('')
   const [message, setMessage]           = useState('')
+  const [coverFee, setCoverFee]         = useState(false)
   const [clientSecret, setClientSecret] = useState('')
   const [loading, setLoading]           = useState(false)
   const [error, setError]               = useState('')
+
+  // Stripe deduz a tasa BR (3.99% + R$0.39) antes de transferir à ONG.
+  // Mostramos o split para o doador e oferecemos opção de cobrir.
+  const feeOnBase     = estimateStripeFee(amount, 'brl')          // tasa sobre amount escolhido
+  const grossAmount   = grossUpAmount(amount, 'brl')              // monto a cobrar si cubre tasa
+  const feeOnGross    = grossAmount - amount                      // tasa real cuando cubre
+  const chargedAmount = coverFee ? grossAmount : amount            // monto que vai pra Stripe
+  const orgReceives   = coverFee ? amount : amount - feeOnBase     // monto neto que vai pra ONG
 
   // Prefill email for logged-in donors so they don't have to retype it.
   useEffect(() => {
@@ -98,9 +109,14 @@ export default function DonationForm({
     })
   }, [])
 
-  const displayAmount = amount / 100
-  const formattedAmount = format.number(displayAmount, { minimumFractionDigits: 2 })
-  const emailValid    = EMAIL_RE.test(donorEmail.trim())
+  const displayAmount       = amount / 100
+  const formattedAmount     = format.number(displayAmount, { minimumFractionDigits: 2 })
+  const formattedCharged    = format.number(chargedAmount / 100, { minimumFractionDigits: 2 })
+  const formattedReceives   = format.number(orgReceives / 100, { minimumFractionDigits: 2 })
+  const formattedFeeShown   = format.number((coverFee ? feeOnGross : feeOnBase) / 100, { minimumFractionDigits: 2 })
+  const formattedCoverDelta = format.number((grossAmount - amount) / 100, { minimumFractionDigits: 2 })
+  const formattedGross      = format.number(grossAmount / 100, { minimumFractionDigits: 2 })
+  const emailValid          = EMAIL_RE.test(donorEmail.trim())
 
   // reset to amount step whenever donation type changes
   function handleTypeChange(type: DonationType) {
@@ -108,6 +124,7 @@ export default function DonationForm({
     setStep('amount')
     setClientSecret('')
     setError('')
+    setCoverFee(false)
   }
 
   async function handleProceed() {
@@ -119,7 +136,7 @@ export default function DonationForm({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         projectId,
-        amount,
+        amount: chargedAmount,        // já com a tasa embutida se coverFee=true
         currency: 'brl',
         donorName,
         donorEmail: donorEmail.trim(),
@@ -151,15 +168,14 @@ export default function DonationForm({
   }
 
   if (step === 'done') {
-    const displayFormatted = format.number(displayAmount, { minimumFractionDigits: 2 })
     return (
       <div className="bg-canopy/40 border border-white/[0.08] rounded-2xl p-8 text-center">
         <p className="text-sage text-3xl mb-3">✓</p>
         <p className="text-cream font-serif text-xl font-light mb-2">{t('thanksTitle')}</p>
         <p className="text-cream/40 text-sm">
           {donationType === 'monthly'
-            ? t('thanksMonthly', { amount: displayFormatted })
-            : t('thanksOnce', { amount: displayFormatted })}
+            ? t('thanksMonthly', { charged: formattedCharged, received: formattedReceives })
+            : t('thanksOnce',    { charged: formattedCharged, received: formattedReceives })}
         </p>
       </div>
     )
@@ -212,8 +228,9 @@ export default function DonationForm({
             </button>
             <p className="text-cream/50 text-xs tracking-widests uppercase mb-4">
               {donationType === 'monthly'
-                ? t('stepPayHeaderMonthly', { amount: formattedAmount })
-                : t('stepPayHeaderOnce', { amount: formattedAmount })}
+                ? t('stepPayHeaderMonthly', { amount: formattedCharged })
+                : t('stepPayHeaderOnce',    { amount: formattedCharged })}
+              {coverFee && <span className="text-sage/70 normal-case ml-2">{t('feeCovered')}</span>}
             </p>
             <Elements
               stripe={stripePromise}
@@ -230,7 +247,7 @@ export default function DonationForm({
                 },
               }}
             >
-              <CheckoutForm amount={amount} donationType={donationType} onSuccess={() => setStep('done')} />
+              <CheckoutForm amount={chargedAmount} donationType={donationType} onSuccess={() => setStep('done')} />
             </Elements>
           </>
         )}
@@ -245,7 +262,7 @@ export default function DonationForm({
             <p className="text-cream/50 text-xs tracking-widests uppercase mb-4">
               {donationType === 'monthly'
                 ? t('stepInfoHeaderMonthly', { amount: formattedAmount })
-                : t('stepInfoHeaderOnce', { amount: formattedAmount })}
+                : t('stepInfoHeaderOnce',    { amount: formattedAmount })}
             </p>
             <div className="flex flex-col gap-4">
               <div>
@@ -270,11 +287,49 @@ export default function DonationForm({
                           placeholder={t('messagePlaceholder')}
                           rows={3} className={`${inputClass} resize-none`} />
               </div>
+
+              {/* ── Tasa Stripe + opção de cobrir ────────────────────────────── */}
+              <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-4 mt-1">
+                <div className="flex justify-between text-xs text-cream/55 mb-1">
+                  <span>{tFee('yourDonation')}</span>
+                  <span>R$ {formattedAmount}</span>
+                </div>
+                <div className="flex justify-between text-xs text-cream/40 mb-2">
+                  <span>{tFee('stripeFee')}</span>
+                  <span>− R$ {formattedFeeShown}</span>
+                </div>
+                <div className="flex justify-between text-xs text-sage font-medium pt-2 border-t border-white/[0.06]">
+                  <span>{donationType === 'monthly' ? tFee('ngoReceivesMonthly') : tFee('ngoReceivesOnce')}</span>
+                  <span>R$ {formattedReceives}</span>
+                </div>
+
+                <label className="mt-3 flex items-start gap-2 cursor-pointer text-cream/70 text-xs">
+                  <input
+                    type="checkbox"
+                    checked={coverFee}
+                    onChange={e => setCoverFee(e.target.checked)}
+                    className="mt-0.5 accent-sage"
+                  />
+                  <span>
+                    {tFee('coverFee', { fee: formattedCoverDelta, full: formattedAmount })}
+                    <span className="block text-cream/35 text-[10px] mt-0.5">
+                      {donationType === 'monthly'
+                        ? tFee('youWillBeChargedMonthly', { gross: formattedGross })
+                        : tFee('youWillBeChargedOnce',    { gross: formattedGross })}
+                    </span>
+                  </span>
+                </label>
+              </div>
+
               {error && <p className="text-red-400 text-xs">{error}</p>}
               <button onClick={handleProceed} disabled={loading || !donorName.trim() || !emailValid}
                       className="w-full bg-sage text-cream text-xs tracking-widests uppercase py-3.5 rounded-sm
                                  hover:bg-leaf transition-colors disabled:opacity-50">
-                {loading ? t('waiting') : tCommon('continue')}
+                {loading
+                  ? t('waiting')
+                  : donationType === 'monthly'
+                    ? t('continueMonthly', { amount: formattedCharged })
+                    : t('continueOnce',    { amount: formattedCharged })}
               </button>
             </div>
           </>
@@ -319,7 +374,7 @@ export default function DonationForm({
                                shadow-[0_2px_12px_rgba(107,142,90,0.35)]">
               {donationType === 'monthly'
                 ? t('supportMonthly', { amount: formattedAmount })
-                : t('supportOnce', { amount: formattedAmount })}
+                : t('supportOnce',    { amount: formattedAmount })}
             </button>
 
             <p className="text-cream/20 text-[10px] text-center mt-3">

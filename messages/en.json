@@ -78,7 +78,7 @@
   },
   "footer": {
     "rights": "© 2025 Fauna Platform",
-    "zeroFee": "Zero fees on donations",
+    "zeroFee": "No platform fee — only the payment processor fee applies",
     "sections": {
       "platform": "Platform",
       "account": "Account",
@@ -115,8 +115,8 @@
       },
       {
         "title": "Donate or sponsor",
-        "text": "One-time or monthly donation. Payment by card, debit, or local methods. Zero fees: 100% goes to the organization.*",
-        "detail": "*Payments processed by Stripe. Processing fees may apply."
+        "text": "One-time or monthly donation. Payment by card, debit, or local methods. Fauna does not retain a fee — only the payment processor fee applies.",
+        "detail": "Payments processed by Stripe. The processor fee is deducted before the transfer to the organization."
       },
       {
         "title": "Track the results",
@@ -177,7 +177,7 @@
     "title": "A platform for",
     "titleEm1": "those who do",
     "titleEm2": "those who support",
-    "subtitle": "Fauna connects conservation organizations to supporters worldwide — with full transparency, zero fees and direct updates from the field.",
+    "subtitle": "Fauna connects conservation organizations to supporters worldwide — with full transparency, no platform fee and direct updates from the field.",
     "titleConnector": "and for",
     "forDonors": "For supporters",
     "forOrgs": "For organizations",
@@ -187,9 +187,9 @@
     "feedTitle": "Tell your project's story",
     "feedTitleEm": "in any format",
     "feedSub": "Registered organizations publish updates directly on the platform. Supporters follow the work in real time and receive notifications with every new post.",
-    "zeroTitle": "Zero fees on donations.",
+    "zeroTitle": "No platform fee.",
     "zeroTitleEm": "Forever.",
-    "zeroSub": "Every cent donated goes directly to the project. The platform is sustained through voluntary contributions from supporters.",
+    "zeroSub": "Fauna does not retain commission on donations — only the payment processor fee applies. The platform is sustained through voluntary contributions from supporters.",
     "donorSteps": [
       {
         "title": "Explore the projects",
@@ -218,7 +218,7 @@
       {
         "title": "Post updates and connect with supporters",
         "text": "Post photos, videos, stories and field reports directly on the platform. Your supporters receive every update and stay engaged with your work.",
-        "detail": "100% of the donation goes to the project. Platform fee covered by sponsors."
+        "detail": "Fauna does not retain any fee. Only the payment processor fee applies."
       }
     ],
     "contentTypes": [
@@ -266,7 +266,32 @@
     "removedProject": "Project removed",
     "noDonations": "You haven't made any donations yet",
     "exploreProjects": "Explore projects",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "subscriptions": {
+      "sectionTitle": "Recurring",
+      "sectionTitleEm": "donations",
+      "colProject": "Project",
+      "colAmount": "Amount",
+      "colStatus": "Status",
+      "colNextCharge": "Next charge",
+      "colActions": "Actions",
+      "projectRemoved": "Project removed",
+      "perMonth": "/mo",
+      "cancelBtn": "Cancel",
+      "cancelingBtn": "Canceling…",
+      "cancelError": "Failed to cancel.",
+      "confirmCancel": "Cancel the monthly donation of {amount} to \"{project}\"?\n\nNo further charge will be made. The current cycle continues until {endDate}.",
+      "confirmCancelFallback": "the end of the period",
+      "status": {
+        "canceled": "Canceled",
+        "cancelingAtEnd": "Cancels at end of cycle",
+        "active": "Active",
+        "pastDue": "Past due",
+        "paused": "Paused",
+        "unpaid": "Unpaid",
+        "trialing": "Trial"
+      }
+    }
   },
   "orgDash": {
     "panelLabel": "Organization panel",
@@ -680,8 +705,8 @@
         "formTitle": "Create organization profile",
         "bullets": [
           {
-            "title": "Zero fees on donations",
-            "desc": "Keep 100% of what you raise. The platform sustains itself another way — not at your expense."
+            "title": "No platform fee",
+            "desc": "Fauna does not charge a commission on what your organization raises. The only deduction is the payment processor fee (Stripe), applied per transaction. The platform sustains itself in other ways — not at your expense."
           },
           {
             "title": "International donations",
@@ -740,8 +765,8 @@
   "donationForm": {
     "unavailable": "Donations for this project will be available soon.",
     "thanksTitle": "Thank you for your support!",
-    "thanksMonthly": "Monthly donation of $ {amount} successfully activated.",
-    "thanksOnce": "Your donation of $ {amount} was processed successfully.",
+    "thanksMonthly": "Monthly donation of $ {charged} successfully activated. The NGO will receive $ {received} each month after processing fees.",
+    "thanksOnce": "Your donation of $ {charged} was processed. The NGO will receive $ {received} after processing fees.",
     "tabOnce": "One-time donation",
     "tabMonthly": "Monthly donation",
     "monthlyBadge": "Monthly donations ensure ongoing support for the project. Cancel anytime.",
@@ -751,6 +776,7 @@
     "paymentError": "Payment processing error.",
     "stepPayHeaderMonthly": "Monthly donation · $ {amount}/month",
     "stepPayHeaderOnce": "Donation · $ {amount}",
+    "feeCovered": "(fee covered)",
     "stepInfoHeaderMonthly": "Monthly · $ {amount}/month",
     "stepInfoHeaderOnce": "One-time · $ {amount}",
     "nameLabel": "Your name *",
@@ -763,13 +789,24 @@
     "messagePlaceholder": "Leave a message for the organization...",
     "startError": "Error starting payment.",
     "waiting": "Please wait...",
+    "continueMonthly": "Continue with $ {amount}/month →",
+    "continueOnce": "Continue with $ {amount} →",
     "amountMonthly": "Monthly amount",
     "amountChoose": "Choose an amount",
     "customPlaceholder": "Other",
     "minAmount": "Minimum amount $ 5",
     "supportMonthly": "Support with $ {amount}/month →",
     "supportOnce": "Support with $ {amount} →",
-    "secureNote": "100% goes to the project · Secure payment via Stripe",
+    "secureNote": "Secure payment via Stripe · The processing fee is deducted from what the NGO receives",
+    "feeBreakdown": {
+      "yourDonation": "Your donation",
+      "stripeFee": "Stripe fee (estimated)",
+      "ngoReceivesMonthly": "NGO receives (monthly)",
+      "ngoReceivesOnce": "NGO receives",
+      "coverFee": "Add $ {fee} so the NGO receives the full $ {full}.",
+      "youWillBeChargedMonthly": "You will be charged $ {gross}/month.",
+      "youWillBeChargedOnce": "You will be charged $ {gross}."
+    },
     "success": {
       "titleBefore": "Thank you for your ",
       "titleEm": "donation",
@@ -862,7 +899,7 @@
           },
           {
             "q": "Does Fauna charge any fee for registration?",
-            "a": "No. Registration is completely free. Fauna does not charge membership, monthly fees, or commissions on donations. We are funded through voluntary contributions directly to the platform and through our product shop — which means 100% of the amount donated to a project goes directly to the responsible organization."
+            "a": "No. Registration is completely free. Fauna does not charge membership, monthly fees, or commissions on donations — we are funded through voluntary contributions directly to the platform and through our product shop. The only deduction on a donation is the payment processor fee (Stripe), applied per transaction before the amount reaches the organization."
           },
           {
             "q": "Can international organizations register?",
@@ -1125,19 +1162,19 @@
       "missionTitleEm": "conservation",
       "missionTitleAfter": " needs",
       "missionP1": "Fauna is a non-profit digital platform built by people who believe the biodiversity crisis is the biggest challenge of our generation — and that well-designed technology can be part of the solution.",
-      "missionP2": "We connect conservation organizations with supporters around the world, with full transparency and zero fees on donations.",
+      "missionP2": "We connect conservation organizations to supporters around the world, with full transparency. Fauna does not charge a platform fee — only the payment processor fee applies.",
       "stats": [
         {
-          "value": "100%",
-          "label": "Of donations reach the projects"
+          "value": "0%",
+          "label": "Platform fee on donations"
         },
         {
           "value": "$0",
           "label": "Fee charged to organizations"
         },
         {
-          "value": "$0",
-          "label": "Fee on donations"
+          "value": "Stripe",
+          "label": "Only cost: the processor fee"
         }
       ],
       "valuesEyebrow": "What guides us",
@@ -1145,7 +1182,7 @@
       "values": [
         {
           "title": "Full transparency",
-          "desc": "100% of donations go directly to the projects. Fauna does not keep a cent of conservation supporters' contributions."
+          "desc": "Fauna does not retain any fee on donations. The only deduction is the payment processor fee (Stripe), applied before the transfer to the organization."
         },
         {
           "title": "Verified impact",

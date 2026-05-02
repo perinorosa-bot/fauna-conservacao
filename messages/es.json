@@ -78,7 +78,7 @@
   },
   "footer": {
     "rights": "© 2025 Fauna Platform",
-    "zeroFee": "Tarifa cero en donaciones",
+    "zeroFee": "Sin tarifa de plataforma — solo se aplica la del procesador de pagos",
     "sections": {
       "platform": "Plataforma",
       "account": "Cuenta",
@@ -115,8 +115,8 @@
       },
       {
         "title": "Doná o patrociná",
-        "text": "Donación única o mensual. Pago con tarjeta de crédito, débito u otros medios. Tarifa cero: el 100% va a la organización.*",
-        "detail": "*Pagos procesados por Stripe. Pueden aplicarse comisiones de procesamiento."
+        "text": "Donación única o mensual. Pago con tarjeta de crédito, débito u otros medios. Fauna no retiene tarifa — solo se aplica la del procesador de pagos.",
+        "detail": "Pagos procesados por Stripe. La tarifa del procesador se descuenta antes de la transferencia a la organización."
       },
       {
         "title": "Seguí los resultados",
@@ -177,7 +177,7 @@
     "title": "Una plataforma para",
     "titleEm1": "quienes hacen",
     "titleEm2": "quienes apoyan",
-    "subtitle": "Fauna conecta organizaciones de conservación con colaboradores de todo el mundo — con transparencia total, tarifa cero y actualizaciones directas del campo.",
+    "subtitle": "Fauna conecta organizaciones de conservación con colaboradores de todo el mundo — con transparencia total, sin tarifa de plataforma y actualizaciones directas del campo.",
     "titleConnector": "y para",
     "forDonors": "Para colaboradores",
     "forOrgs": "Para organizaciones",
@@ -187,9 +187,9 @@
     "feedTitle": "Cuenta la historia de tu proyecto",
     "feedTitleEm": "en cualquier formato",
     "feedSub": "Las organizaciones registradas publican actualizaciones directamente en la plataforma. Los colaboradores siguen el trabajo en tiempo real y reciben notificaciones con cada nueva publicación.",
-    "zeroTitle": "Tarifa cero en donaciones.",
+    "zeroTitle": "Sin tarifa de plataforma.",
     "zeroTitleEm": "Para siempre.",
-    "zeroSub": "Cada centavo donado va directo al proyecto. La plataforma se sostiene a través de contribuciones voluntarias de los propios colaboradores.",
+    "zeroSub": "Fauna no retiene comisión sobre las donaciones — solo se aplica la tarifa del procesador de pagos. La plataforma se sostiene a través de contribuciones voluntarias de los propios colaboradores.",
     "donorSteps": [
       {
         "title": "Explorá los proyectos",
@@ -218,7 +218,7 @@
       {
         "title": "Subí actualizaciones y conectá con colaboradores",
         "text": "Publicá fotos, videos, stories y relatos de campo directamente en la plataforma. Tus colaboradores reciben cada novedad y se mantienen comprometidos con el trabajo.",
-        "detail": "100% de la donación va al proyecto. Tarifa de plataforma cubierta por patrocinadores."
+        "detail": "Fauna no retiene ninguna tarifa. Solo se aplica la del procesador de pagos."
       }
     ],
     "contentTypes": [
@@ -266,7 +266,32 @@
     "removedProject": "Proyecto eliminado",
     "noDonations": "Aún no realizaste ninguna donación",
     "exploreProjects": "Explorar proyectos",
-    "signOut": "Cerrar sesión"
+    "signOut": "Cerrar sesión",
+    "subscriptions": {
+      "sectionTitle": "Donaciones",
+      "sectionTitleEm": "recurrentes",
+      "colProject": "Proyecto",
+      "colAmount": "Monto",
+      "colStatus": "Estado",
+      "colNextCharge": "Próximo cobro",
+      "colActions": "Acciones",
+      "projectRemoved": "Proyecto eliminado",
+      "perMonth": "/mes",
+      "cancelBtn": "Cancelar",
+      "cancelingBtn": "Cancelando…",
+      "cancelError": "Error al cancelar.",
+      "confirmCancel": "¿Cancelar la donación mensual de {amount} a \"{project}\"?\n\nNo se realizará el próximo cobro. El ciclo actual continúa hasta {endDate}.",
+      "confirmCancelFallback": "el fin del período",
+      "status": {
+        "canceled": "Cancelada",
+        "cancelingAtEnd": "Se cancela al fin del ciclo",
+        "active": "Activa",
+        "pastDue": "Pago atrasado",
+        "paused": "Pausada",
+        "unpaid": "Sin pagar",
+        "trialing": "En prueba"
+      }
+    }
   },
   "orgDash": {
     "panelLabel": "Panel de la organización",
@@ -680,8 +705,8 @@
         "formTitle": "Crear perfil de la organización",
         "bullets": [
           {
-            "title": "Tarifa cero en donaciones",
-            "desc": "Quedate con el 100% de lo que recaudes. La plataforma se sostiene de otra forma — no a tu costa."
+            "title": "Sin tarifa de plataforma",
+            "desc": "Fauna no cobra comisión sobre lo que tu organización recaude. La única deducción es la tarifa del procesador de pagos (Stripe), aplicada por transacción. La plataforma se sostiene de otra forma — no a tus costas."
           },
           {
             "title": "Donaciones internacionales",
@@ -740,8 +765,8 @@
   "donationForm": {
     "unavailable": "Las donaciones para este proyecto estarán disponibles pronto.",
     "thanksTitle": "¡Gracias por el apoyo!",
-    "thanksMonthly": "Donación mensual de $ {amount} activada con éxito.",
-    "thanksOnce": "Tu donación de $ {amount} fue procesada con éxito.",
+    "thanksMonthly": "Donación mensual de $ {charged} activada con éxito. La ONG recibirá $ {received} cada mes después de la tasa de procesamiento.",
+    "thanksOnce": "Tu donación de $ {charged} fue procesada. La ONG recibirá $ {received} después de la tasa de procesamiento.",
     "tabOnce": "Donación única",
     "tabMonthly": "Donación mensual",
     "monthlyBadge": "Las donaciones mensuales garantizan soporte continuo al proyecto. Cancelás cuando quieras.",
@@ -751,6 +776,7 @@
     "paymentError": "Error al procesar el pago.",
     "stepPayHeaderMonthly": "Donación mensual · $ {amount}/mes",
     "stepPayHeaderOnce": "Donación · $ {amount}",
+    "feeCovered": "(tasa cubierta)",
     "stepInfoHeaderMonthly": "Mensual · $ {amount}/mes",
     "stepInfoHeaderOnce": "Única · $ {amount}",
     "nameLabel": "Tu nombre *",
@@ -763,13 +789,24 @@
     "messagePlaceholder": "Dejá un mensaje para la organización...",
     "startError": "Error al iniciar el pago.",
     "waiting": "Esperá...",
+    "continueMonthly": "Continuar con $ {amount}/mes →",
+    "continueOnce": "Continuar con $ {amount} →",
     "amountMonthly": "Monto mensual",
     "amountChoose": "Elegí un monto",
     "customPlaceholder": "Otro",
     "minAmount": "Monto mínimo $ 5",
     "supportMonthly": "Apoyar con $ {amount}/mes →",
     "supportOnce": "Apoyar con $ {amount} →",
-    "secureNote": "100% va al proyecto · Pago seguro vía Stripe",
+    "secureNote": "Pago seguro vía Stripe · La tasa de procesamiento se descuenta de lo que recibe la ONG",
+    "feeBreakdown": {
+      "yourDonation": "Tu donación",
+      "stripeFee": "Tasa Stripe (estimada)",
+      "ngoReceivesMonthly": "ONG recibe (mensual)",
+      "ngoReceivesOnce": "ONG recibe",
+      "coverFee": "Agregar $ {fee} para que la ONG reciba $ {full} completos.",
+      "youWillBeChargedMonthly": "Vas a ser cobrada $ {gross}/mes.",
+      "youWillBeChargedOnce": "Vas a ser cobrada $ {gross}."
+    },
     "success": {
       "titleBefore": "Gracias por tu ",
       "titleEm": "donación",
@@ -862,7 +899,7 @@
           },
           {
             "q": "¿Fauna cobra alguna tarifa por el registro?",
-            "a": "No. El registro es totalmente gratuito. Fauna no cobra tarifa de adhesión, mensualidad ni comisión sobre las donaciones. Nos financiamos con contribuciones voluntarias directas a la plataforma y con nuestra tienda de productos, lo que significa que el 100% del monto donado a un proyecto va directamente a la organización responsable."
+            "a": "No. El registro es totalmente gratuito. Fauna no cobra tarifa de adhesión, mensualidad ni comisión sobre las donaciones — nos financiamos con contribuciones voluntarias directas a la plataforma y con nuestra tienda de productos. La única deducción sobre una donación es la tarifa del procesador de pagos (Stripe), aplicada por transacción antes de que el monto llegue a la organización."
           },
           {
             "q": "¿Pueden registrarse organizaciones internacionales?",
@@ -1125,19 +1162,19 @@
       "missionTitleEm": "conservación",
       "missionTitleAfter": " necesita",
       "missionP1": "Fauna es una plataforma digital sin fines de lucro construida por personas que creen que la crisis de biodiversidad es el mayor desafío de nuestra generación, y que una tecnología bien hecha puede ser parte de la solución.",
-      "missionP2": "Conectamos organizaciones de conservación con apoyadores de todo el mundo, con transparencia total y cero comisiones sobre las donaciones.",
+      "missionP2": "Conectamos organizaciones de conservación con colaboradores de todo el mundo, con transparencia total. Fauna no cobra tarifa de plataforma — solo se aplica la del procesador de pagos.",
       "stats": [
         {
-          "value": "100%",
-          "label": "De las donaciones van a los proyectos"
+          "value": "0%",
+          "label": "Tarifa de plataforma sobre donaciones"
         },
         {
-          "value": "US$ 0",
+          "value": "$0",
           "label": "Tarifa cobrada a las organizaciones"
         },
         {
-          "value": "US$ 0",
-          "label": "Tarifa sobre donaciones"
+          "value": "Stripe",
+          "label": "Único costo: la tarifa del procesador"
         }
       ],
       "valuesEyebrow": "Lo que nos guía",
@@ -1145,7 +1182,7 @@
       "values": [
         {
           "title": "Transparencia total",
-          "desc": "El 100% de las donaciones va directo a los proyectos. Fauna no se queda con ni un centavo de las contribuciones de quienes apoyan la conservación."
+          "desc": "Fauna no retiene ninguna tarifa sobre las donaciones. La única deducción es la del procesador de pagos (Stripe), aplicada antes de la transferencia a la organización."
         },
         {
           "title": "Impacto verificado",
