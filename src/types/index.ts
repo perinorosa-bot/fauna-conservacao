@@ -55,6 +55,39 @@ export type Donation = {
   currency: string
   message: string | null
   anonymous: boolean
+  subscription_id?: string | null
+  stripe_invoice_id?: string | null
+  stripe_payment_intent_id?: string | null
+}
+
+export type SubscriptionStatus =
+  | 'incomplete'
+  | 'incomplete_expired'
+  | 'trialing'
+  | 'active'
+  | 'past_due'
+  | 'canceled'
+  | 'unpaid'
+  | 'paused'
+
+export type Subscription = {
+  id: string
+  donor_user_id: string | null
+  donor_email: string
+  donor_name: string | null
+  project_id: string
+  organization_id: string
+  stripe_subscription_id: string
+  stripe_customer_id: string
+  amount: number
+  currency: string
+  status: SubscriptionStatus
+  cancel_at_period_end: boolean
+  current_period_end: string | null
+  canceled_at: string | null
+  created_at: string
+  updated_at: string
+  project?: Project
 }
 
 export type Profile = {

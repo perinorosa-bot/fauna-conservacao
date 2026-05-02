@@ -43,7 +43,7 @@ export default function Footer() {
 
       <div className="flex flex-col sm:flex-row justify-between items-center gap-2 border-t border-white/[0.04] pt-6">
         <span className="text-[10px] text-cream/18 tracking-wide">© 2025 Fauna Platform</span>
-        <span className="text-[10px] text-cream/15 tracking-wide">Taxa zero sobre doações</span>
+        <span className="text-[10px] text-cream/15 tracking-wide">Sem taxa de plataforma — apenas a do processador de pagamento se aplica</span>
       </div>
     </footer>
   )

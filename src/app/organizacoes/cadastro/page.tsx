@@ -24,7 +24,7 @@ export default function OrgCadastroPage() {
 
             <div className="flex flex-col gap-6">
               {[
-                { icon: '○', title: 'Taxa zero sobre doações', desc: 'Fique com 100% do que arrecadar. A plataforma se sustenta de outra forma — não às suas custas.' },
+                { icon: '○', title: 'Sem taxa de plataforma', desc: 'A Fauna não cobra comissão sobre o que sua organização arrecadar. A única dedução é a tarifa do processador de pagamento (Stripe), aplicada por transação. A plataforma se sustenta de outra forma — não às suas custas.' },
                 { icon: '○', title: 'Doações internacionais', desc: 'Receba apoio de qualquer país sem burocracia de câmbio ou compliance.' },
                 { icon: '○', title: 'Rede de sinergias', desc: 'Descubra projetos complementares e crie colaborações que ampliam o impacto.' },
                 { icon: '○', title: 'Relatórios automáticos', desc: 'A plataforma envia atualizações aos seus doadores automaticamente.' },

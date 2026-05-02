@@ -73,7 +73,7 @@ const SECTIONS = [
       },
       {
         q: 'A Fauna cobra alguma taxa para cadastro?',
-        a: 'Não. O cadastro é totalmente gratuito. A Fauna não cobra taxa de adesão, mensalidade nem comissão sobre doações. Nos financiamos por meio de contribuições voluntárias diretas à plataforma e da nossa loja de produtos — o que significa que 100% do valor doado a um projeto vai diretamente à organização responsável.',
+        a: 'Não. O cadastro é totalmente gratuito. A Fauna não cobra taxa de adesão, mensalidade nem comissão sobre doações — nos financiamos por meio de contribuições voluntárias diretas à plataforma e da nossa loja de produtos. A única dedução sobre uma doação é a tarifa do processador de pagamento (Stripe), aplicada por transação antes do valor chegar à organização.',
       },
       {
         q: 'Organizações internacionais podem se cadastrar?',

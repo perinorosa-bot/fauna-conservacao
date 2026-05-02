@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useLanguage } from '@/lib/i18n/LanguageContext'
 import Nav from '@/components/layout/Nav'
+import SubscriptionsPanel from '@/components/SubscriptionsPanel'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -155,6 +156,9 @@ export default function PerfilPage() {
             </div>
           </div>
         )}
+
+        {/* Recurring subscriptions */}
+        {userId && <SubscriptionsPanel userId={userId} />}
 
         {/* Donation history */}
         <div>
