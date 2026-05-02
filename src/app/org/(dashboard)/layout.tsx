@@ -55,6 +55,7 @@ export default function OrgLayout({ children }: { children: React.ReactNode }) {
           {[
             { href: '/org/painel',            label: o.overview },
             { href: '/org/projetos/novo',     label: o.newProject },
+            { href: '/org/atualizacoes',      label: 'Atualizações' },
             { href: '/org/atualizacoes/nova', label: o.newUpdate },
             { href: '/org/perfil',            label: o.orgProfile },
           ].map(item => (

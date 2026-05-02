@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import { useLanguage } from '@/lib/i18n/LanguageContext'
@@ -16,6 +16,14 @@ const LOCALES: { code: Locale; label: string; flag: string }[] = [
 ]
 
 const FLAG_LABELS: Record<Locale, string> = { pt: '🇧🇷', en: '🇺🇸', es: '🇪🇸' }
+
+/* ── Audience pill — perfis "Sou doador / ONG / empresa" ─── */
+type AudienceId = 'doador' | 'ong' | 'empresa'
+const AUDIENCES: { id: AudienceId; label: string; sub: string; href: string }[] = [
+  { id: 'doador',  label: 'Sou doador',  sub: 'Quero apoiar projetos',    href: '/projetos' },
+  { id: 'ong',     label: 'Sou ONG',     sub: 'Buscando financiamento',   href: '/organizacoes/cadastro' },
+  { id: 'empresa', label: 'Sou empresa', sub: 'Patrocinar conservação',   href: '/apoie' },
+]
 
 function useSoundscape() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -37,16 +45,20 @@ function useSoundscape() {
 }
 
 export default function Nav() {
-  const path                      = usePathname()
-  const [scrolled, setScrolled]   = useState(false)
-  const [visible, setVisible]     = useState(false)
+  const path                       = usePathname()
+  const router                     = useRouter()
+  const [scrolled, setScrolled]    = useState(false)
+  const [visible, setVisible]      = useState(false)
   const [userEmail, setUserEmail]  = useState<string | null>(null)
   const [userRole, setUserRole]    = useState<string | null>(null)
   const [langOpen, setLangOpen]    = useState(false)
   const langRef                    = useRef<HTMLDivElement>(null)
-  const { playing, toggle }       = useSoundscape()
-  const { locale, t, setLocale }  = useLanguage()
-  const navTheme                  = useNavTheme()
+  const [audience, setAudience]    = useState<AudienceId>('doador')
+  const [audOpen, setAudOpen]      = useState(false)
+  const audRef                     = useRef<HTMLDivElement>(null)
+  const { playing, toggle }        = useSoundscape()
+  const { locale, t, setLocale }   = useLanguage()
+  const navTheme                   = useNavTheme()
 
   useEffect(() => {
     const supabase = createClient()
@@ -74,10 +86,53 @@ export default function Nav() {
       if (langRef.current && !langRef.current.contains(e.target as Node)) {
         setLangOpen(false)
       }
+      if (audRef.current && !audRef.current.contains(e.target as Node)) {
+        setAudOpen(false)
+      }
     }
     document.addEventListener('mousedown', handleClick)
     return () => document.removeEventListener('mousedown', handleClick)
   }, [])
+
+  // Persist audience selection on the device
+  useEffect(() => {
+    const saved = (typeof window !== 'undefined' && localStorage.getItem('fauna_audience')) as AudienceId | null
+    if (saved && AUDIENCES.some(a => a.id === saved)) setAudience(saved)
+  }, [])
+
+  function selectAudience(a: typeof AUDIENCES[number]) {
+    setAudience(a.id)
+    setAudOpen(false)
+    if (typeof window !== 'undefined') localStorage.setItem('fauna_audience', a.id)
+    router.push(a.href)
+  }
+
+  /* Cada perfil tem ações próprias, claras e não-redundantes:
+   *   doador  → ação: explorar projetos / login passwordless
+   *   ong     → ação: cadastrar ou entrar no painel
+   *   empresa → ação: conhecer apoio / falar com a equipe */
+  const AUDIENCE_ACTIONS = {
+    doador: {
+      primaryLabel:   'Doar agora',
+      primaryHref:    '/projetos',
+      secondaryLabel: userEmail ? 'Meu perfil' : 'Acessar conta',
+      secondaryHref:  userEmail ? '/perfil' : '/entrar',
+    },
+    ong: {
+      primaryLabel:   userEmail && userRole === 'organization' ? 'Painel da ONG' : 'Cadastrar ONG',
+      primaryHref:    userEmail && userRole === 'organization' ? '/org/painel' : '/organizacoes/cadastro',
+      secondaryLabel: 'Entrar como ONG',
+      secondaryHref:  '/org/login',
+    },
+    empresa: {
+      primaryLabel:   'Como apoiar',
+      primaryHref:    '/apoie',
+      secondaryLabel: 'Falar com a gente',
+      secondaryHref:  '/contato',
+    },
+  } as const
+
+  const action = AUDIENCE_ACTIONS[audience]
 
   const isLight = navTheme === 'light' && !scrolled
 
@@ -94,7 +149,7 @@ export default function Nav() {
   // Dark theme: bumped from /50 to /80 + drop-shadow halo so links stay
   // readable on medium-green backgrounds where the nav used to disappear.
   const linkInactive = isLight
-    ? 'text-forest/50 hover:text-forest'
+    ? 'text-forest/85 hover:text-forest'
     : 'text-cream/80 hover:text-cream drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]'
 
   const outlineBtn = isLight
@@ -110,21 +165,28 @@ export default function Nav() {
       className={clsx(
         'fixed top-0 left-0 right-0 z-50 px-8 py-4 flex items-center gap-5 transition-all duration-500',
         scrolled
-          ? 'bg-black/45 backdrop-blur-md border-b border-white/[0.06]'
-          // Unscrolled: a soft top-down gradient guarantees contrast on any
-          // page background (issue #10 — nav invisible on green-bg pages).
+          ? 'border-b border-white/[0.10]'
           : isLight
             ? 'bg-transparent'
             : 'bg-gradient-to-b from-black/35 to-transparent',
         visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2',
       )}
-      style={{ transitionProperty: 'background, border-color, padding, opacity, transform' }}
+      style={{
+        transitionProperty: 'background, border-color, padding, opacity, transform, backdrop-filter',
+        // Glassmorphism quando scrolled — frosted glass com blur forte e saturação
+        ...(scrolled && {
+          background:           'rgba(11, 20, 16, 0.55)',
+          backdropFilter:       'blur(20px) saturate(160%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(160%)',
+          boxShadow:            '0 4px 30px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06)',
+        }),
+      }}
     >
       {/* ── Logo ──────────────────────────────────────────────────────────── */}
       <Link
         href="/"
         className={clsx(
-          'font-display tracking-[0.18em] uppercase transition-all duration-300 hover:opacity-75 flex-shrink-0 mr-2',
+          'font-display tracking-[0.18em] uppercase transition-all duration-300 hover:opacity-75 flex-shrink-0 mr-3',
           logoColor,
           !isLight && 'drop-shadow-[0_1px_8px_rgba(0,0,0,0.55)]',
         )}
@@ -133,27 +195,27 @@ export default function Nav() {
         Fauna
       </Link>
 
-      {/* ── Left nav links ────────────────────────────────────────────────── */}
+      {/* ── Left nav links — mono uppercase, espaçamento 0.25em ─────────────── */}
       <Link href="/sobre"
-            className={clsx('text-[10px] tracking-widest uppercase transition-colors duration-200 whitespace-nowrap',
+            className={clsx('font-mono text-[11px] font-semibold tracking-[0.25em] uppercase transition-colors duration-200 whitespace-nowrap',
               path.startsWith('/sobre') ? 'text-sage' : linkInactive)}>
         Sobre
       </Link>
 
       <Link href="/projetos"
-            className={clsx('text-[10px] tracking-widest uppercase transition-colors duration-200 whitespace-nowrap',
+            className={clsx('font-mono text-[11px] font-semibold tracking-[0.25em] uppercase transition-colors duration-200 whitespace-nowrap',
               path.startsWith('/projetos') ? 'text-sage' : linkInactive)}>
         {t.nav.projects}
       </Link>
 
       <Link href="/academy"
-            className={clsx('text-[10px] tracking-widest uppercase transition-colors duration-200 whitespace-nowrap',
+            className={clsx('font-mono text-[11px] font-semibold tracking-[0.25em] uppercase transition-colors duration-200 whitespace-nowrap',
               path.startsWith('/academy') ? 'text-sage' : linkInactive)}>
         Academy
       </Link>
 
       <a href="https://umapenca.com/fauna-conservacao" target="_blank" rel="noopener noreferrer"
-         className={clsx('text-[10px] tracking-widest uppercase transition-colors duration-200 whitespace-nowrap', linkInactive)}>
+         className={clsx('font-mono text-[11px] font-semibold tracking-[0.25em] uppercase transition-colors duration-200 whitespace-nowrap', linkInactive)}>
         Nossa loja
       </a>
 
@@ -162,50 +224,77 @@ export default function Nav() {
 
       {/* ── Right side buttons ────────────────────────────────────────────── */}
 
-      {/* Nos apoie */}
-      <Link href="/apoie"
-            className={clsx(
-              'text-[10px] tracking-widest uppercase px-4 py-2.5 rounded-sm transition-all duration-200 whitespace-nowrap hidden lg:inline-flex',
-              outlineBtn,
-            )}>
-        Nos apoie
+      {/* Audience pill — Sou doador / ONG / empresa */}
+      <div ref={audRef} className="relative hidden md:block">
+        <button
+          onClick={() => setAudOpen(v => !v)}
+          className={clsx(
+            'flex items-center gap-2 px-3.5 py-2.5 rounded-[2px] border transition-all duration-200',
+            'font-mono text-[9.5px] tracking-[0.2em] uppercase whitespace-nowrap',
+            isLight
+              ? 'border-forest/20 text-forest/70 hover:border-forest/35 hover:text-forest'
+              : 'border-white/[0.18] text-cream/70 hover:border-white/30 hover:text-cream',
+          )}
+        >
+          <span className="block w-1.5 h-1.5 rounded-full bg-terra"
+                style={{ boxShadow: '0 0 8px rgba(196,82,42,0.6)' }} />
+          {AUDIENCES.find(a => a.id === audience)?.label ?? 'Sou'}
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none"
+               className={clsx('transition-transform duration-200', audOpen && 'rotate-180')}>
+            <path d="M1 2.5L4 5.5L7 2.5" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
+          </svg>
+        </button>
+
+        {audOpen && (
+          <div
+            className="absolute right-0 top-full mt-1.5 min-w-[240px] p-1.5 z-[60]"
+            style={{
+              background:           'rgba(11,20,16,0.96)',
+              backdropFilter:       'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border:               '1px solid rgba(237,229,208,0.10)',
+            }}
+          >
+            {AUDIENCES.map(a => (
+              <button
+                key={a.id}
+                onClick={() => selectAudience(a)}
+                className="block w-full text-left px-3.5 py-3 transition-colors"
+                style={{
+                  background: audience === a.id ? 'rgba(122,158,126,0.12)' : 'transparent',
+                  borderLeft: audience === a.id ? '2px solid var(--sage)' : '2px solid transparent',
+                }}
+              >
+                <div
+                  className="font-mono text-[10px] tracking-[0.2em] uppercase mb-0.5"
+                  style={{ color: audience === a.id ? 'var(--sage)' : 'var(--cream)' }}
+                >
+                  {a.label}
+                </div>
+                <div className="text-[11px] text-cream/45">{a.sub}</div>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Ação primária — varia por perfil (doador → Doar; ong → Cadastrar; empresa → Como apoiar) */}
+      <Link href={action.primaryHref}
+            className="font-mono text-[10px] tracking-[0.22em] uppercase font-semibold bg-terra text-cream
+                       px-5 py-2.5 rounded-[2px] hover:bg-[#A8431C] hover:-translate-y-px transition-all duration-200
+                       hidden sm:inline-flex whitespace-nowrap shadow-[0_2px_14px_rgba(196,82,42,0.35)] hover:shadow-[0_6px_20px_rgba(196,82,42,0.45)]">
+        {action.primaryLabel}
       </Link>
 
-      {/* Doe agora */}
-      {path.startsWith('/projetos') ? (
-        <a href="#projetos"
-           className="text-[10px] tracking-widest uppercase font-medium bg-terra text-cream
-                      px-5 py-2.5 rounded-sm hover:bg-[#A8431C] transition-colors duration-200
-                      hidden sm:inline-flex whitespace-nowrap shadow-[0_2px_12px_rgba(196,82,42,0.4)]">
-          {t.nav.donate}
-        </a>
-      ) : (
-        <Link href="/projetos"
-              className="text-[10px] tracking-widest uppercase font-medium bg-terra text-cream
-                         px-5 py-2.5 rounded-sm hover:bg-leaf transition-colors duration-200
-                         hidden sm:inline-flex whitespace-nowrap shadow-[0_2px_12px_rgba(107,142,90,0.4)]">
-          {t.nav.donate}
-        </Link>
-      )}
-
-      {/* Tem um projeto de conservação? */}
-      <Link href="/organizacoes/cadastro"
+      {/* Ação secundária — também varia por perfil */}
+      <Link href={action.secondaryHref}
             className={clsx(
-              'text-[10px] tracking-widest uppercase px-4 py-2.5 rounded-sm transition-all duration-200 whitespace-nowrap hidden xl:inline-flex',
-              outlineBtn,
-            )}>
-        Tem um projeto?
-      </Link>
-
-      {/* Entrar / Meu perfil */}
-      <Link href={authHref}
-            className={clsx(
-              'text-[10px] tracking-widest uppercase px-4 py-2.5 rounded-sm transition-all duration-200 whitespace-nowrap hidden sm:inline-flex',
+              'font-mono text-[10px] tracking-[0.22em] uppercase px-4 py-2.5 rounded-[2px] transition-all duration-200 whitespace-nowrap hidden sm:inline-flex',
               isLight
                 ? 'border border-forest/20 text-forest/60 hover:bg-forest/5 hover:text-forest hover:border-forest/40'
                 : 'border border-white/20 text-cream/70 hover:bg-white/5 hover:text-cream hover:border-white/40',
             )}>
-        {userEmail ? 'Meu perfil' : 'Entrar'}
+        {action.secondaryLabel}
       </Link>
 
       {/* ── Language dropdown ─────────────────────────────────────────────── */}

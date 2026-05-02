@@ -34,8 +34,8 @@ const STATS = [
 
 export default function AcademyHomePage() {
   return (
-    <NavTheme theme="light">
-      <main className="min-h-screen bg-cream">
+    <NavTheme theme="dark">
+      <main className="min-h-screen bg-moonstone">
         <Nav />
 
         {/* ── Hero ──────────────────────────────────────────────────────────── */}
@@ -92,7 +92,7 @@ export default function AcademyHomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {FEATURES.map(f => (
               <div key={f.title}
-                   className="bg-white border border-forest/[0.08] rounded-2xl p-8 hover:shadow-md transition-shadow">
+                   className="bg-moonstone border border-forest/[0.08] rounded-2xl p-8 hover:shadow-md transition-shadow">
                 <span className="text-leaf text-2xl block mb-4">{f.icon}</span>
                 <h3 className="font-serif text-xl font-light text-forest mb-2">{f.title}</h3>
                 <p className="text-forest/50 text-sm leading-relaxed">{f.desc}</p>
@@ -143,7 +143,7 @@ export default function AcademyHomePage() {
                 },
               ].map(c => (
                 <Link key={c.slug} href={`/academy/cursos/${c.slug}`}
-                      className="group bg-white border border-forest/[0.08] rounded-2xl overflow-hidden
+                      className="group bg-moonstone border border-forest/[0.08] rounded-2xl overflow-hidden
                                  hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
                   <div className="h-36 bg-gradient-to-br from-forest to-canopy relative flex items-end p-5">
                     {c.tag && (
@@ -217,7 +217,7 @@ export default function AcademyHomePage() {
                 { title: 'Projetos em formalização', desc: 'Que ainda não têm um setor de captação estruturado e precisam de um ponto de partida.' },
                 { title: 'Líderes de conservação', desc: 'Que querem aprender a contar histórias de impacto que convertam apoiadores em doadores.' },
               ].map(p => (
-                <div key={p.title} className="bg-white border border-forest/[0.08] rounded-2xl p-7">
+                <div key={p.title} className="bg-moonstone border border-forest/[0.08] rounded-2xl p-7">
                   <div className="w-2 h-2 rounded-full bg-leaf mb-5" />
                   <h3 className="font-serif text-lg font-light text-forest mb-2">{p.title}</h3>
                   <p className="text-forest/50 text-sm leading-relaxed">{p.desc}</p>

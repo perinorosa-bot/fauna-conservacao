@@ -11,7 +11,7 @@ export default function ComoFuncionaPage() {
 
   return (
     <NavTheme theme="light">
-    <main className="min-h-screen bg-cream">
+    <main className="min-h-screen bg-moonstone">
       <Nav />
 
       {/* Hero */}

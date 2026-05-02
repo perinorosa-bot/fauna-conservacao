@@ -28,7 +28,7 @@ export default function ContatoPage() {
 
   return (
     <NavTheme theme="light">
-      <main className="min-h-screen bg-cream">
+      <main className="min-h-screen bg-moonstone">
         <Nav />
 
         <div className="pt-40 pb-28 px-10 max-w-screen-lg mx-auto">

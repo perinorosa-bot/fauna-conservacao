@@ -2,10 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Design tokens — Botanical Scientific palette ───── */
+/* ─── Design tokens — Forest palette (botanical × cinematic) ── */
 :root {
   --forest:    #1A3528;   /* tinta nanquim vegetal — fundo principal    */
   --canopy:    #1E2E20;   /* fundo secundário profundo                  */
+  --basalt:    #0F1A12;   /* quase-preto cinema — bg deep                */
   --leaf:      #3D4A1E;   /* ação primária                              */
   --sage:      #7A9E7E;   /* acentos / links                            */
   --mist:      #A89070;   /* pedra suave — elementos sutis              */
@@ -14,7 +15,22 @@
   --ochre:     #B5834A;   /* ocre de mapa antigo                        */
   --warm:      #B5834A;
   --prussian:  #2E5FA3;   /* azul prussiano — atlas botânicos / RL navy */
-  --terra:     #C4522A;   /* terracota — vida / doação                  */
+  --terra:     #C4522A;   /* terracota — vida / doação (accent)         */
+  --moonstone: #F5F5F5;   /* cinza-pedra — substitui o branco            */
+
+  /* Surfaces derivadas, espelhando protótipo */
+  --bg:        var(--forest);
+  --bg-alt:    var(--canopy);
+  --bg-deep:   var(--basalt);
+  --fg:        var(--cream);
+  --fg-mute:   rgba(237, 229, 208, 0.55);
+  --fg-faint:  rgba(237, 229, 208, 0.25);
+  --line:      rgba(237, 229, 208, 0.08);
+  --line-2:    rgba(237, 229, 208, 0.16);
+  --accent:    var(--terra);
+
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* ─── Base ───────────────────────────────────────────── */
@@ -24,10 +40,15 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* IM Fell English only ships weight 400 — disable browser weight synthesis */
-.font-serif {
-  font-synthesis: none;
-  font-weight: 400;
+.font-serif    { font-synthesis: none; }
+.font-cormorant{ font-synthesis: none; letter-spacing: -0.01em; }
+
+/* ─── Sem itálicos no site (decisão de design) ─────────
+   Cobre tags semânticas (em, i, cite, var, address, dfn) e a
+   utility class do Tailwind (.italic). !important garante que
+   ganhe de styles inline. */
+em, i, cite, var, address, dfn, .italic {
+  font-style: normal !important;
 }
 
 /* ─── Hero stagger animations ────────────────────────── */
@@ -43,16 +64,29 @@ html {
   from { opacity: 0; transform: translateX(24px); }
   to   { opacity: 1; transform: translateX(0);    }
 }
-.anim-fade-up   { animation: fadeUp   0.9s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes caretFall {
+  0%   { top: -50%; opacity: 0; }
+  20%  { opacity: 1; }
+  100% { top: 110%; opacity: 0; }
+}
+@keyframes spin360 { to { transform: rotate(360deg); } }
+
+.anim-fade-up   { animation: fadeUp   0.9s var(--ease-out) both; }
 .anim-fade-in   { animation: fadeIn   0.8s ease both; }
-.anim-slide-left{ animation: slideLeft 1s  cubic-bezier(0.16,1,0.3,1) both; }
+.anim-slide-left{ animation: slideLeft 1s  var(--ease-out) both; }
+
+/* Delays utilitários (replica do protótipo) */
+.anim-delay-1 { animation-delay: 0.15s; }
+.anim-delay-2 { animation-delay: 0.30s; }
+.anim-delay-3 { animation-delay: 0.45s; }
+.anim-delay-4 { animation-delay: 0.60s; }
 
 /* Parallax sections need instant scroll */
 .no-scroll-behavior { scroll-behavior: auto; }
 
 /* Ensure body has the correct base background */
 body {
-  background-color: var(--forest);
+  background-color: var(--moonstone);
 }
 
 /* ─── Paper noise overlay ────────────────────────────── */
@@ -90,6 +124,43 @@ body::after {
 /* ─── Feed thumbnail hover ───────────────────────────── */
 .feed-thumb {
   transition: transform 500ms ease, filter 500ms ease;
+}
+
+/* ─── Typography helpers (do protótipo) ──────────────── */
+.eyebrow {
+  font-family: var(--font-spathafold);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--terra);
+  opacity: 0.85;
+}
+.label-mono {
+  font-family: var(--font-spathafold);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+}
+
+/* ─── Selection ──────────────────────────────────────── */
+::selection { background: var(--terra); color: var(--cream); }
+
+/* ─── Image placeholder ──────────────────────────────── */
+.placeholder-img {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(237,229,208,0.04) 0 6px,
+      rgba(237,229,208,0.07) 6px 12px
+    ),
+    var(--canopy);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-spathafold);
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--fg-faint);
+  text-align: center;
+  padding: 24px;
 }
 
 /* ─── Component classes ──────────────────────────────── */

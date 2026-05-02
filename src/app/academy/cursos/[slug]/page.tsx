@@ -127,8 +127,8 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
 
   if (!course) {
     return (
-      <NavTheme theme="light">
-        <main className="min-h-screen bg-cream flex items-center justify-center">
+      <NavTheme theme="dark">
+        <main className="min-h-screen bg-moonstone flex items-center justify-center">
           <Nav />
           <div className="text-center pt-32">
             <p className="text-forest/40 text-sm mb-4">Curso não encontrado.</p>
@@ -140,7 +140,7 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
   }
 
   return (
-    <NavTheme theme="light">
+    <NavTheme theme="dark">
       <main className="min-h-screen bg-[#f5f4f0]">
         <Nav />
 
@@ -170,7 +170,7 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
               </div>
 
               {/* Enroll card */}
-              <div className="bg-white rounded-2xl p-7 shadow-xl shadow-black/15 border border-forest/[0.08]">
+              <div className="bg-moonstone rounded-2xl p-7 shadow-xl shadow-black/15 border border-forest/[0.08]">
                 <p className="font-serif text-4xl font-light text-forest mb-1">
                   {course.price === 0 ? 'Gratuito' : `R$ ${course.price}`}
                 </p>
@@ -206,7 +206,7 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
         <div className="px-10 py-14 max-w-screen-lg mx-auto grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12">
           <div>
             {/* Learning outcomes */}
-            <div className="bg-white rounded-2xl border border-forest/[0.08] p-8 mb-8">
+            <div className="bg-moonstone rounded-2xl border border-forest/[0.08] p-8 mb-8">
               <h2 className="font-serif text-2xl font-light text-forest mb-6">O que você vai aprender</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {course.outcomes.map(o => (
@@ -219,7 +219,7 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
             </div>
 
             {/* Curriculum */}
-            <div className="bg-white rounded-2xl border border-forest/[0.08] overflow-hidden">
+            <div className="bg-moonstone rounded-2xl border border-forest/[0.08] overflow-hidden">
               <div className="px-8 py-6 border-b border-forest/[0.07]">
                 <h2 className="font-serif text-2xl font-light text-forest">Conteúdo do curso</h2>
                 <p className="text-forest/35 text-sm mt-1">
@@ -248,7 +248,7 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
 
           {/* Instructor (sticky) */}
           <div>
-            <div className="bg-white rounded-2xl border border-forest/[0.08] p-7 sticky top-24">
+            <div className="bg-moonstone rounded-2xl border border-forest/[0.08] p-7 sticky top-24">
               <h3 className="font-serif text-lg font-light text-forest mb-4">Instrutor</h3>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-forest/10 flex items-center justify-center flex-shrink-0">

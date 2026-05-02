@@ -81,7 +81,7 @@ const LEVEL_COLORS: Record<Level, string> = {
 
 export default function CursosPage() {
   return (
-    <NavTheme theme="light">
+    <NavTheme theme="dark">
       <main className="min-h-screen bg-[#f5f4f0]">
         <Nav />
 
@@ -106,7 +106,7 @@ export default function CursosPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {COURSES.map(c => (
               <Link key={c.slug} href={`/academy/cursos/${c.slug}`}
-                    className="group bg-white border border-forest/[0.08] rounded-2xl overflow-hidden
+                    className="group bg-moonstone border border-forest/[0.08] rounded-2xl overflow-hidden
                                hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex flex-col">
                 {/* card top */}
                 <div className="h-40 bg-gradient-to-br from-forest to-canopy relative flex flex-col justify-between p-5">

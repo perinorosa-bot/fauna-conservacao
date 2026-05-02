@@ -88,7 +88,7 @@ const RESOURCES = [
 
 export default function RecursosPage() {
   return (
-    <NavTheme theme="light">
+    <NavTheme theme="dark">
       <main className="min-h-screen bg-[#f5f4f0]">
         <Nav />
 
@@ -113,7 +113,7 @@ export default function RecursosPage() {
             {(['todos', ...Object.keys(TYPE_LABELS)] as const).map(t => (
               <span key={t}
                     className="text-[10px] tracking-widests uppercase px-4 py-2 rounded-full border
-                               bg-white border-forest/15 text-forest/50 cursor-pointer
+                               bg-moonstone border-forest/15 text-forest/50 cursor-pointer
                                hover:border-forest/35 hover:text-forest transition-colors">
                 {t === 'todos' ? 'Todos' : TYPE_LABELS[t as ResourceType]}
               </span>
@@ -126,7 +126,7 @@ export default function RecursosPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {RESOURCES.map((r, i) => (
               <div key={i}
-                   className="group bg-white border border-forest/[0.08] rounded-2xl p-7 shadow-sm
+                   className="group bg-moonstone border border-forest/[0.08] rounded-2xl p-7 shadow-sm
                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-300
                               flex flex-col">
                 <div className="flex items-start justify-between mb-5">

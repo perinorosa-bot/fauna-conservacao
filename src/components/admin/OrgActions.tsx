@@ -10,8 +10,17 @@ export default function OrgActions({ id, verified }: { id: string; verified: boo
 
   async function toggleVerify() {
     setLoading(true)
-    const supabase = createClient()
-    await supabase.from('organizations').update({ verified: !verified }).eq('id', id)
+    const res = await fetch('/api/admin/orgs/verify', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ orgId: id, verified: !verified }),
+    })
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      alert(data.error ?? 'Erro ao atualizar status.')
+      setLoading(false)
+      return
+    }
     router.refresh()
     setLoading(false)
   }

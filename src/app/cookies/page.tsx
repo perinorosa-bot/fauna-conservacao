@@ -7,7 +7,7 @@ export const metadata = { title: 'Política de Cookies — Fauna' }
 export default function CookiesPage() {
   return (
     <NavTheme theme="light">
-      <main className="min-h-screen bg-cream">
+      <main className="min-h-screen bg-moonstone">
         <Nav />
         <div className="pt-40 pb-28 px-10 max-w-screen-md mx-auto">
           <span className="text-sage text-[10px] tracking-[0.25em] uppercase block mb-5">Legal</span>

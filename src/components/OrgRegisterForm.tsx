@@ -116,17 +116,17 @@ export default function OrgRegisterForm() {
     router.push('/org/painel')
   }
 
-  const inputClass = `w-full bg-white/[0.06] border border-white/[0.12] rounded-sm px-4 py-3
-    text-cream text-sm placeholder:text-cream/25 focus:outline-none
-    focus:border-sage/50 transition-colors`
+  const inputClass = `w-full bg-white/[0.10] border border-white/[0.28] rounded-sm px-4 py-3
+    text-cream text-sm placeholder:text-cream/45 focus:outline-none
+    focus:border-sage focus:bg-white/[0.14] transition-colors`
 
   if (step === 'confirm') {
     return (
       <div className="text-center py-8">
         <div className="text-sage text-4xl mb-4">✉</div>
         <h3 className="font-serif text-xl text-cream mb-2">Confirme seu e-mail</h3>
-        <p className="text-cream/50 text-sm leading-relaxed">
-          Enviamos um link de confirmação para <span className="text-cream/80">{email}</span>.
+        <p className="text-cream/80 text-sm leading-relaxed">
+          Enviamos um link de confirmação para <span className="text-cream">{email}</span>.
           Clique no link e depois volte aqui para continuar.
         </p>
         <button
@@ -142,17 +142,17 @@ export default function OrgRegisterForm() {
     return (
       <form onSubmit={handleAccount} className="flex flex-col gap-4">
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Nome completo</label>
+          <label className="text-cream/80 text-xs tracking-wide block mb-1.5">Nome completo</label>
           <input className={inputClass} type="text" placeholder="Seu nome"
                  value={fullName} onChange={e => setFullName(e.target.value)} required/>
         </div>
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">E-mail</label>
+          <label className="text-cream/80 text-xs tracking-wide block mb-1.5">E-mail</label>
           <input className={inputClass} type="email" placeholder="email@organizacao.org"
                  value={email} onChange={e => setEmail(e.target.value)} required/>
         </div>
         <div>
-          <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Senha</label>
+          <label className="text-cream/80 text-xs tracking-wide block mb-1.5">Senha</label>
           <input className={inputClass} type="password" placeholder="Mínimo 8 caracteres"
                  value={password} onChange={e => setPassword(e.target.value)} required minLength={8}/>
         </div>
@@ -163,7 +163,7 @@ export default function OrgRegisterForm() {
           {loading ? 'Criando conta...' : 'Criar conta →'}
         </button>
 
-        <p className="text-center text-cream/30 text-xs">
+        <p className="text-center text-cream/65 text-xs">
           Já tem conta?{' '}
           <a href="/org/login" className="text-sage hover:underline">Entrar</a>
         </p>
@@ -177,21 +177,21 @@ export default function OrgRegisterForm() {
         ✓ Conta criada — agora, sua organização
       </p>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Nome da organização</label>
+        <label className="text-cream/80 text-xs tracking-wide block mb-1.5">Nome da organização</label>
         <input className={inputClass} type="text" placeholder="Ex: Instituto Onça-Pintada"
                value={orgName}
                onChange={e => { setOrgName(e.target.value); setOrgSlug(slugify(e.target.value)) }}
                required/>
       </div>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">
+        <label className="text-cream/80 text-xs tracking-wide block mb-1.5">
           URL pública — fauna.org/org/<span className="text-sage">{orgSlug || 'sua-org'}</span>
         </label>
         <input className={inputClass} type="text" placeholder="instituto-onca-pintada"
                value={orgSlug} onChange={e => setOrgSlug(slugify(e.target.value))} required/>
       </div>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">País de atuação</label>
+        <label className="text-cream/80 text-xs tracking-wide block mb-1.5">País de atuação</label>
         <select
           className={`${inputClass} appearance-none`}
           value={orgCountry}
@@ -205,19 +205,19 @@ export default function OrgRegisterForm() {
         </select>
       </div>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Descrição</label>
+        <label className="text-cream/80 text-xs tracking-wide block mb-1.5">Descrição</label>
         <textarea className={`${inputClass} resize-none`} rows={3}
                   placeholder="O que sua organização faz e por que importa..."
                   value={orgDesc} onChange={e => setOrgDesc(e.target.value)} required/>
       </div>
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Website (opcional)</label>
+        <label className="text-cream/80 text-xs tracking-wide block mb-1.5">Website (opcional)</label>
         <input className={inputClass} type="url" placeholder="https://suaorg.org"
                value={orgWebsite} onChange={e => setOrgWebsite(e.target.value)}/>
       </div>
 
       <div>
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Logo da organização (opcional)</label>
+        <label className="text-cream/80 text-xs tracking-wide block mb-1.5">Logo da organização (opcional)</label>
         <div className="flex gap-2 mb-2">
           <button type="button" onClick={() => setLogoTab('url')}
                   className={`text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-sm transition-colors ${

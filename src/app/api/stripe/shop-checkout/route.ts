@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { rateLimit } from '@/lib/rate-limit'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
@@ -14,6 +15,9 @@ type CartItem = {
 }
 
 export async function POST(req: NextRequest) {
+  const limited = await rateLimit(req, { key: 'shop:checkout', max: 10, windowSeconds: 60 })
+  if (limited) return limited
+
   try {
     const { items }: { items: CartItem[] } = await req.json()
 

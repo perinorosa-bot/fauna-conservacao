@@ -3,7 +3,7 @@ import OrgRegisterForm from '@/components/OrgRegisterForm'
 
 export default function OrgCadastroPage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-forest">
       <Nav />
       <div className="pt-40 pb-28 px-14 max-w-screen-xl mx-auto">
         <div className="grid gap-20" style={{ gridTemplateColumns: '1fr 560px' }}>
@@ -17,7 +17,7 @@ export default function OrgCadastroPage() {
               <em className="italic text-sage">já querem apoiar</em><br/>
               sua causa
             </h1>
-            <p className="text-cream/55 text-base leading-loose mb-12 max-w-lg">
+            <p className="text-cream/80 text-base leading-loose mb-12 max-w-lg">
               A Fauna conecta projetos de conservação a uma audiência global de apoiadores.
               Cadastre-se gratuitamente e comece a publicar atualizações do seu trabalho.
             </p>
@@ -33,7 +33,7 @@ export default function OrgCadastroPage() {
                   <div className="w-2 h-2 rounded-full bg-sage mt-2 flex-shrink-0"/>
                   <div>
                     <p className="text-cream font-medium text-sm mb-1">{item.title}</p>
-                    <p className="text-cream/45 text-sm leading-relaxed">{item.desc}</p>
+                    <p className="text-cream/70 text-sm leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -41,7 +41,16 @@ export default function OrgCadastroPage() {
           </div>
 
           {/* Right: form */}
-          <div className="bg-canopy/40 border border-white/[0.08] rounded-lg p-10">
+          <div
+            className="rounded-lg p-10"
+            style={{
+              background:           'rgba(11, 20, 16, 0.85)',
+              border:               '1px solid rgba(237, 229, 208, 0.18)',
+              backdropFilter:       'blur(18px) saturate(140%)',
+              WebkitBackdropFilter: 'blur(18px) saturate(140%)',
+              boxShadow:            '0 24px 60px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)',
+            }}
+          >
             <h2 className="font-serif text-2xl font-light text-cream mb-8">
               Criar perfil da organização
             </h2>

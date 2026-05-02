@@ -105,7 +105,7 @@ export default async function ProjetosPage() {
 
   return (
     <NavTheme theme="light">
-    <main className="min-h-screen bg-cream">
+    <main className="min-h-screen bg-moonstone">
       <Nav />
 
       <div className="pt-40 pb-16 px-10 max-w-screen-xl mx-auto">

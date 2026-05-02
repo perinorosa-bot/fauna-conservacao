@@ -1,124 +1,128 @@
-'use client'
-
 import Link from 'next/link'
-import Image from 'next/image'
 import type { Update, Project, Organization } from '@/types'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
-import { SpecimenLabel } from '@/components/ui/SpecimenLabel'
 
 type UpdateWithProject = Update & {
-  project: (Project & { organization: Organization }) | null
+  project: (Project & { organization: Organization | null }) | null
+}
+
+/* Formata tempo relativo em português ("2 dias atrás", "1 semana atrás"). */
+function timeAgo(dateString: string): string {
+  if (!dateString) return ''
+  const diff = Date.now() - new Date(dateString).getTime()
+  const sec  = Math.floor(diff / 1000)
+  const min  = Math.floor(sec  / 60)
+  const hr   = Math.floor(min  / 60)
+  const day  = Math.floor(hr   / 24)
+  const wk   = Math.floor(day  / 7)
+  const mo   = Math.floor(day  / 30)
+
+  if (mo  >= 1) return `${mo} ${mo  === 1 ? 'mês'    : 'meses'}  atrás`
+  if (wk  >= 1) return `${wk} ${wk  === 1 ? 'semana' : 'semanas'} atrás`
+  if (day >= 1) return `${day} ${day === 1 ? 'dia'    : 'dias'}    atrás`
+  if (hr  >= 1) return `${hr} ${hr  === 1 ? 'hora'   : 'horas'}    atrás`
+  if (min >= 1) return `${min} ${min === 1 ? 'minuto' : 'minutos'} atrás`
+  return 'agora há pouco'
 }
 
 export default function FeedSection({ updates }: { updates: UpdateWithProject[] }) {
-  const { t } = useLanguage()
-
   if (!updates.length) return null
 
-  return (
-    <section id="projetos" className="px-8 md:px-10 py-24 md:py-28 max-w-screen-xl mx-auto">
+  // Pega até 5 updates para o mosaico (1 grande + 4 pequenas).
+  const items = updates.slice(0, 5)
 
-      {/* Section header */}
-      <div className="flex items-end justify-between mb-12">
-        <div>
-          <p className="font-mono text-terra/65 text-[9px] tracking-[0.35em] uppercase mb-4">
-            {t.feed.eyebrow}
-          </p>
-          <h2 className="font-serif text-4xl md:text-5xl text-cream leading-tight">
-            {t.feed.title}<br />
-            <em className="italic text-terra">{t.feed.titleEm}</em>
+  return (
+    <section
+      style={{ padding: '120px 24px', background: '#F5F5F5' }}
+    >
+      <div className="max-w-[1280px] mx-auto">
+        {/* Header */}
+        <div className="mb-10">
+          <p className="eyebrow mb-3.5">Em campo · Atualizações</p>
+          <h2 className="font-serif text-forest font-light leading-[1.1]"
+              style={{ fontSize: 'clamp(32px, 4vw, 48px)' }}>
+            O que aconteceu nas últimas semanas
           </h2>
         </div>
-        <Link
-          href="/projetos"
-          className="flex items-center gap-2 border border-white/15 text-cream/60
-                     font-mono text-[9px] tracking-[0.25em] uppercase px-5 py-3
-                     hover:border-terra/40 hover:text-cream transition-all duration-200 flex-shrink-0 mb-1 group"
-        >
-          {t.feed.seeAll}
-          <span className="w-4 h-px bg-cream/30 group-hover:w-6 group-hover:bg-terra/60 transition-all duration-300" />
-        </Link>
-      </div>
 
-      {/* Cards grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {updates.map((update) => {
-          const project = update.project
-          const org     = project?.organization
-          const pct     = project
-            ? Math.round((project.raised_amount / project.goal_amount) * 100)
-            : 0
-
-          return (
-            <Link
-              key={update.id}
-              href={project ? `/projetos/${project.slug}` : '/projetos'}
-              className="group relative rounded-2xl overflow-hidden bg-canopy aspect-[3/4]
-                         flex flex-col justify-end cursor-pointer"
-            >
-              {update.image_url ? (
-                <Image
-                  src={update.image_url}
-                  alt={update.title}
-                  fill
-                  className="object-cover brightness-[0.82] group-hover:scale-105
-                             transition-transform duration-700 ease-out"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-gradient-to-br from-canopy to-forest" />
-              )}
-
-              {/* Specimen label top-left */}
-              {project && (
-                <div className="absolute top-3 left-3 z-10">
-                  <SpecimenLabel
-                    projectId={project.id}
-                    biome={project.biome}
-                    createdAt={project.created_at}
-                  />
-                </div>
-              )}
-
-              <div className="absolute top-3 right-3 z-10
-                              w-8 h-8 rounded-full bg-terra text-cream
-                              flex items-center justify-center text-xs
-                              opacity-0 group-hover:opacity-100
-                              translate-y-1 group-hover:translate-y-0
-                              transition-all duration-300">
-                ↗
-              </div>
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-
-              <div className="relative z-10 p-4">
-                {project?.species && (
-                  <span className="text-cream/60 text-[9px] tracking-widest uppercase block mb-1">
-                    {project.species.split(' ')[0]}
-                  </span>
-                )}
-                <h3 className="font-serif text-cream text-lg font-light leading-snug line-clamp-2 mb-1">
-                  {project?.title ?? update.title}
-                </h3>
-                <p className="text-cream/55 text-[11px]">
-                  {org?.name ?? ''}
-                  {pct > 0 && (
-                    <span className="text-terra ml-2">{pct}% {t.feed.funded}</span>
-                  )}
-                </p>
-              </div>
-            </Link>
-          )
-        })}
-      </div>
-
-      <div className="mt-10 text-center flex flex-col items-center gap-3">
-        <Link href="/projetos" className="btn-primary">
-          {t.feed.seeAllBtn}
-        </Link>
-        <p className="font-mono text-cream/20 text-[8px] tracking-[0.3em] uppercase">
-          {new Date().getFullYear()} · Fauna Conservation Platform
-        </p>
+        {/* Mosaico: 1 grande à esquerda + 2x2 à direita */}
+        <div className="grid gap-4
+                        grid-cols-1
+                        md:[grid-template-columns:1.6fr_1fr_1fr]
+                        md:[grid-auto-rows:1fr]">
+          {items.map((u, i) => {
+            const isFeatured = i === 0
+            return <FeedCard key={u.id} update={u} featured={isFeatured} />
+          })}
+        </div>
       </div>
     </section>
+  )
+}
+
+function FeedCard({ update, featured }: { update: UpdateWithProject; featured: boolean }) {
+  const project = update.project
+  const org     = project?.organization
+  const href    = project ? `/projetos/${project.slug}` : '/projetos'
+
+  return (
+    <Link
+      href={href}
+      className={`group relative overflow-hidden bg-basalt border border-white/[0.08] block
+                  ${featured ? 'md:[grid-column:1] md:[grid-row:span_2] md:min-h-[600px]' : ''}`}
+      style={featured ? undefined : { aspectRatio: '4 / 3' }}
+    >
+      {update.image_url ? (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          src={update.image_url}
+          alt={update.title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          style={{ filter: 'brightness(.7)' }}
+        />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-canopy to-forest" />
+      )}
+
+      {/* Date tag TL */}
+      <div className="absolute top-3.5 left-3.5 z-[3]">
+        <span
+          className="font-mono text-[9px] tracking-[0.2em] uppercase text-terra"
+          style={{
+            background: 'rgba(11,20,16,0.65)',
+            backdropFilter: 'blur(6px)',
+            WebkitBackdropFilter: 'blur(6px)',
+            padding: '4px 8px',
+          }}
+        >
+          {timeAgo(update.created_at)}
+        </span>
+      </div>
+
+      {/* Bottom gradient */}
+      <div
+        className="absolute inset-0 z-[2]"
+        style={{
+          background: 'linear-gradient(to top, rgba(11,20,16,0.95), transparent 55%)',
+        }}
+      />
+
+      {/* Content */}
+      <div className="absolute bottom-0 left-0 right-0 p-5 z-[3]">
+        <div className="label-mono mb-2">
+          {org?.name ?? update.author_name ?? ''}
+        </div>
+        <h3
+          className="font-serif text-cream font-light leading-[1.2] mb-2 line-clamp-2"
+          style={{ fontSize: featured ? 32 : 18 }}
+        >
+          {update.title}
+        </h3>
+        {featured && update.content && (
+          <p className="text-cream/70 text-sm leading-[1.6] line-clamp-3 max-w-[460px]">
+            {update.content}
+          </p>
+        )}
+      </div>
+    </Link>
   )
 }
