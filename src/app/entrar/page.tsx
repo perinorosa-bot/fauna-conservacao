@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { translateAuthError } from '@/lib/supabase/translate-auth-error'
 import { useRouter } from 'next/navigation'
 import Nav from '@/components/layout/Nav'
 import Link from 'next/link'
@@ -34,7 +35,7 @@ export default function EntrarPage() {
       options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=/perfil` },
     })
     setDonorLoading(false)
-    if (error) setDonorError(error.message)
+    if (error) setDonorError(translateAuthError(error))
     else setDonorSent(true)
   }
 
@@ -45,7 +46,7 @@ export default function EntrarPage() {
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({ email: orgEmail, password: orgPassword })
     setOrgLoading(false)
-    if (error) { setOrgError('E-mail ou senha incorretos.'); return }
+    if (error) { setOrgError(translateAuthError(error)); return }
     router.push('/org/painel')
     router.refresh()
   }

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { translateAuthError } from '@/lib/supabase/translate-auth-error'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -20,7 +21,7 @@ export default function AdminLoginPage() {
     const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
 
     if (authError) {
-      setError('E-mail ou senha incorretos.')
+      setError(translateAuthError(authError))
       setLoading(false)
       return
     }

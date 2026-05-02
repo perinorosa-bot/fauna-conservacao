@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { translateAuthError } from '@/lib/supabase/translate-auth-error'
 import Link from 'next/link'
 
 export default function OrgLoginPage() {
@@ -19,7 +20,7 @@ export default function OrgLoginPage() {
     const supabase = createClient()
     const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
     setLoading(false)
-    if (authError) { setError('E-mail ou senha incorretos.'); return }
+    if (authError) { setError(translateAuthError(authError)); return }
     router.push('/org/painel')
     router.refresh()
   }

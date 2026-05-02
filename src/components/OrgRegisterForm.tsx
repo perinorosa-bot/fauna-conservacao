@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { translateAuthError } from '@/lib/supabase/translate-auth-error'
 import { COUNTRIES } from '@/lib/countries'
 
 export default function OrgRegisterForm() {
@@ -77,7 +78,7 @@ export default function OrgRegisterForm() {
     })
 
     setLoading(false)
-    if (authError) { setError(authError.message); return }
+    if (authError) { setError(translateAuthError(authError)); return }
 
     if (!data.session) {
       // Supabase requiere confirmación de email antes de crear sesión
@@ -107,7 +108,7 @@ export default function OrgRegisterForm() {
       logo_url:    logoUrl || null,
     })
 
-    if (dbError) { setError(dbError.message); setLoading(false); return }
+    if (dbError) { setError('Não foi possível salvar a organização. Tente novamente em alguns instantes.'); setLoading(false); return }
 
     // Set profile role to organization
     await supabase.from('profiles').update({ role: 'organization' }).eq('id', uid)
