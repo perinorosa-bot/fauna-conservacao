@@ -2,7 +2,8 @@ import Nav from '@/components/layout/Nav'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { getFormatter } from 'next-intl/server'
+import { getFormatter, getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import DonationForm from '@/components/DonationForm'
 import type { Project, Organization } from '@/types'
 
@@ -102,6 +103,7 @@ const MOCK_PROJECTS: ProjectWithOrg[] = [
 export default async function ProjectPage({ params }: { params: { slug: string } }) {
   const supabase = createClient()
   const format = await getFormatter()
+  const t = await getTranslations('projetos.detail')
 
   const { data: dbProject } = await supabase
     .from('projects')
@@ -183,11 +185,11 @@ export default async function ProjectPage({ params }: { params: { slug: string }
           {!isMock && (
             <>
               <h2 className="font-serif text-3xl font-light mb-8">
-                Atualizações do <em className="italic text-sage">campo</em>
+                {t('updatesTitleBefore')}<em className="italic text-sage">{t('updatesTitleEm')}</em>
               </h2>
               <div className="flex flex-col gap-8">
                 {(updates ?? []).length === 0 ? (
-                  <p className="text-cream/25 text-sm">Nenhuma atualização ainda.</p>
+                  <p className="text-cream/25 text-sm">{t('noUpdates')}</p>
                 ) : (updates ?? []).map((u: any) => (
                   <div key={u.id} className="border-l-2 border-sage/30 pl-6 py-1">
                     <p className="text-cream/30 text-xs mb-2">
@@ -214,13 +216,13 @@ export default async function ProjectPage({ params }: { params: { slug: string }
             {isMock ? (
               <div className="text-center py-4">
                 <p className="text-cream/40 text-sm mb-4">
-                  Este é um projeto de demonstração. Cadastre-se para apoiar projetos reais.
+                  {t('mockNotice')}
                 </p>
-                <a href="/entrar"
+                <Link href="/entrar"
                    className="inline-flex items-center gap-2 bg-leaf text-cream text-xs tracking-widest uppercase
                               px-6 py-3 rounded-sm hover:bg-sage transition-colors">
-                  Criar conta gratuita
-                </a>
+                  {t('createAccount')}
+                </Link>
               </div>
             ) : (
               <DonationForm
@@ -234,14 +236,14 @@ export default async function ProjectPage({ params }: { params: { slug: string }
           {!isMock && (donors ?? []).length > 0 && (
             <div>
               <p className="text-xs tracking-widest uppercase text-cream/30 mb-4">
-                Apoiadores recentes
+                {t('recentSupporters')}
               </p>
               <div className="flex flex-col gap-3">
                 {donors!.map((d: any) => (
                   <div key={d.created_at} className="flex justify-between items-start">
                     <div>
                       <p className="text-cream/70 text-sm">
-                        {d.anonymous ? 'Anônimo' : d.donor_name}
+                        {d.anonymous ? t('anonymous') : d.donor_name}
                       </p>
                       {d.message && (
                         <p className="text-cream/30 text-xs mt-0.5 italic">"{d.message}"</p>

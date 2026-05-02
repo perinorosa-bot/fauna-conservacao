@@ -72,18 +72,39 @@ Additional Stripe surface: `/api/stripe/connect` (onboarding org accounts for pa
 
 ### Dashboards
 
-- `/admin/(dashboard)` — [layout.tsx](src/app/admin/(dashboard)/layout.tsx) with sections: `organizations`, `projects`, `updates`, `donations`, `users`. Gated by middleware (admin role).
-- `/org/(dashboard)` — [layout.tsx](src/app/org/(dashboard)/layout.tsx) with `painel`, `projetos`, `atualizacoes`, `perfil`. Gated by middleware (must own an `organizations` row).
+- `/admin/(dashboard)` — [layout.tsx](src/app/[locale]/admin/(dashboard)/layout.tsx) with sections: `organizations`, `projects`, `updates`, `donations`, `users`. Gated by middleware (admin role).
+- `/org/(dashboard)` — [layout.tsx](src/app/[locale]/org/(dashboard)/layout.tsx) with `painel`, `projetos`, `atualizacoes`, `perfil`. Gated by middleware (must own an `organizations` row).
 
 Both dashboards do their own client-side data fetching with `createClient()` from [@/lib/supabase/client](src/lib/supabase/client.ts); they don't go through `/api/*`.
 
 ### i18n
 
-[src/lib/i18n/LanguageContext.tsx](src/lib/i18n/LanguageContext.tsx) wraps the app at the root layout. Components consume `useLanguage()` and read from `t.*` namespaces defined in [translations.ts](src/lib/i18n/translations.ts). The `next-intl` package is in `dependencies` but is **not** the active i18n system — the custom context is. Don't mix the two.
+`next-intl` 4.x with **prefix-based routing**: `pt` (default, no prefix) · `en` (`/en/...`) · `es` (`/es/...`). All app routes live under `src/app/[locale]/*` (only `src/app/api/*` and `src/app/auth/*` stay outside).
+
+Three plumbing files in [src/i18n/](src/i18n/):
+- [routing.ts](src/i18n/routing.ts) — `defineRouting({ locales: ['pt','en','es'], defaultLocale: 'pt', localePrefix: 'as-needed' })`
+- [request.ts](src/i18n/request.ts) — `getRequestConfig` loading `messages/${locale}.json`
+- [navigation.ts](src/i18n/navigation.ts) — locale-aware wrappers `Link`, `redirect`, `useRouter`, `usePathname`
+
+Translation files: [messages/pt.json](messages/pt.json), [en.json](messages/en.json), [es.json](messages/es.json). Type safety via `IntlMessages` declared in [src/types/messages.d.ts](src/types/messages.d.ts) — keys autocomplete from the pt schema.
+
+Consuming translations:
+- **Client components** (`'use client'`): `import { useTranslations } from 'next-intl'` → `const t = useTranslations('namespace')` → `{t('key')}`. For dates/numbers/currency: `useFormatter()`.
+- **Server components** (default): `import { getTranslations, getFormatter } from 'next-intl/server'` → `const t = await getTranslations('namespace')`. Page-level `generateMetadata` uses the same.
+
+Conventions:
+- **Namespace by feature**, not by page (e.g. `donationForm`, `adminDash.users`, `academy.coursePage`). One namespace can span multiple files.
+- **Always use `Link`/`redirect` from `@/i18n/navigation`** — never `next/link`/`next/navigation` directly. The wrappers preserve the locale prefix on every navigation.
+- **Currency/dates via `format.number`/`format.dateTime`** — never `toLocaleDateString('pt-BR')` or template-literal `R$ ${x}`.
+- **Mock fixtures stay in pt** (e.g. `MOCK_PROJECTS`, course catalog data). Only translate the page **chrome** (labels, buttons, headings), not the seed content.
+
+Adding a new locale: append to `routing.locales`, drop a new `messages/<code>.json` mirroring `pt.json`, add the BCP-47 mapping in [src/app/[locale]/layout.tsx](src/app/[locale]/layout.tsx) (`HTML_LANG`) and the `alternates.languages` block in `generateMetadata`.
+
+The middleware ([src/middleware.ts](src/middleware.ts)) chains `next-intl/middleware` first, then auth — it strips the locale prefix to match auth routes (`/admin/*`, `/org/*`) and rebuilds locale-prefixed redirect URLs via `localizedUrl()`. Cookie used for locale persistence is `NEXT_LOCALE` (the legacy `fauna-lang` cookie is migrated on first visit, then deleted).
 
 ### Design system
 
-Tailwind theme extends colors to a vegetal-ink / aged-paper palette (forest/canopy/cream/sage/terra/ochre — see [tailwind.config.js](tailwind.config.js)). Three font families, all injected via CSS variables in [layout.tsx](src/app/layout.tsx):
+Tailwind theme extends colors to a vegetal-ink / aged-paper palette (forest/canopy/cream/sage/terra/ochre — see [tailwind.config.js](tailwind.config.js)). Three font families, all injected via CSS variables in [layout.tsx](src/app/[locale]/layout.tsx):
 
 - `font-sans` → Inter (body/UI)
 - `font-serif` → IM Fell English (headlines)

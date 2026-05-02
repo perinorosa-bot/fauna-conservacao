@@ -109,7 +109,16 @@
     "titleEm": "proyectos",
     "subtitle": "Filtrá por bioma, especie o país para encontrar la causa que te habla.",
     "countSuffix": "proyectos activos",
-    "noResults": "No se encontraron proyectos para este filtro."
+    "noResults": "No se encontraron proyectos para este filtro.",
+    "detail": {
+      "updatesTitleBefore": "Actualizaciones del ",
+      "updatesTitleEm": "campo",
+      "noUpdates": "Aún no hay actualizaciones.",
+      "mockNotice": "Este es un proyecto de demostración. Registrate para apoyar proyectos reales.",
+      "createAccount": "Crear cuenta gratuita",
+      "recentSupporters": "Apoyos recientes",
+      "anonymous": "Anónimo"
+    }
   },
   "filters": {
     "all": "Todos",
@@ -753,12 +762,30 @@
         "label": "Preguntas generales",
         "description": "Qué es Fauna, cómo funciona, idiomas y transparencia financiera.",
         "items": [
-          { "q": "¿Qué es Fauna?", "a": "Fauna es un hub global de conservación animal. Conectamos a organizaciones que trabajan en protección de fauna silvestre con donantes y apoyadores —individuales e institucionales— de todo el mundo, ofreciendo una plataforma de contenido, descubrimiento de proyectos y donación directa." },
-          { "q": "¿Fauna es una ONG?", "a": "Fauna es una plataforma digital, no una ONG. No gestionamos proyectos de conservación directamente: somos la infraestructura que conecta a quien hace el trabajo de campo con quien quiere apoyarlo." },
-          { "q": "¿Fauna se queda con parte de las donaciones?", "a": "No. Las donaciones van directamente desde la cuenta del donante a la cuenta de Stripe de la organización elegida. Fauna no gestiona el dinero y este no pasa por nuestra cuenta. Las eventuales comisiones de procesamiento las cobra Stripe." },
-          { "q": "¿Cómo se sostiene Fauna financieramente?", "a": "Con contribuciones voluntarias directas a la plataforma y con la venta de productos de nuestra tienda. Nuestra existencia no depende de una comisión sobre las donaciones." },
-          { "q": "¿En qué idiomas está disponible la plataforma?", "a": "Fauna está disponible en portugués, inglés y español. Aceptamos organizaciones y donantes de cualquier país del mundo." },
-          { "q": "¿Fauna es responsable del uso que hacen las organizaciones de las donaciones?", "a": "Fauna realiza un proceso de verificación de todas las organizaciones registradas, pero no audita el uso de los recursos una vez realizadas las donaciones. Las donaciones van directamente desde la cuenta del donante a la cuenta de Stripe de la organización, sin intermediación de Fauna. La responsabilidad por el uso de los recursos es integralmente de la organización que los recibe. Si identificás irregularidades en algún proyecto, contactanos a contatofauna@proton.me." }
+          {
+            "q": "¿Qué es Fauna?",
+            "a": "Fauna es un hub global de conservación animal. Conectamos a organizaciones que trabajan en protección de fauna silvestre con donantes y apoyadores —individuales e institucionales— de todo el mundo, ofreciendo una plataforma de contenido, descubrimiento de proyectos y donación directa."
+          },
+          {
+            "q": "¿Fauna es una ONG?",
+            "a": "Fauna es una plataforma digital, no una ONG. No gestionamos proyectos de conservación directamente: somos la infraestructura que conecta a quien hace el trabajo de campo con quien quiere apoyarlo."
+          },
+          {
+            "q": "¿Fauna se queda con parte de las donaciones?",
+            "a": "No. Las donaciones van directamente desde la cuenta del donante a la cuenta de Stripe de la organización elegida. Fauna no gestiona el dinero y este no pasa por nuestra cuenta. Las eventuales comisiones de procesamiento las cobra Stripe."
+          },
+          {
+            "q": "¿Cómo se sostiene Fauna financieramente?",
+            "a": "Con contribuciones voluntarias directas a la plataforma y con la venta de productos de nuestra tienda. Nuestra existencia no depende de una comisión sobre las donaciones."
+          },
+          {
+            "q": "¿En qué idiomas está disponible la plataforma?",
+            "a": "Fauna está disponible en portugués, inglés y español. Aceptamos organizaciones y donantes de cualquier país del mundo."
+          },
+          {
+            "q": "¿Fauna es responsable del uso que hacen las organizaciones de las donaciones?",
+            "a": "Fauna realiza un proceso de verificación de todas las organizaciones registradas, pero no audita el uso de los recursos una vez realizadas las donaciones. Las donaciones van directamente desde la cuenta del donante a la cuenta de Stripe de la organización, sin intermediación de Fauna. La responsabilidad por el uso de los recursos es integralmente de la organización que los recibe. Si identificás irregularidades en algún proyecto, contactanos a contatofauna@proton.me."
+          }
         ]
       },
       {
@@ -766,20 +793,62 @@
         "label": "Para organizaciones",
         "description": "Registro, documentos, proyectos, recepción de donaciones y cuenta de Stripe.",
         "items": [
-          { "q": "¿Cualquier organización puede registrarse?", "a": "Sí, siempre que trabaje en proyectos de conservación de fauna silvestre. Toda organización pasa por un proceso de evaluación antes de publicarse en la plataforma y recibe un sello de verificación." },
-          { "q": "¿Cuál es la ventaja de registrar un proyecto en Fauna?", "a": "Fauna ofrece visibilidad global para proyectos de conservación animal, conectando a las organizaciones con una red de donantes y apoyadores comprometidos. Además, la plataforma es gratuita para registrarse, las donaciones llegan directamente a la organización sin intermediación financiera, y cada proyecto tiene una página dedicada con recursos visuales y actualizaciones." },
-          { "q": "Si la organización ya hace captación de recursos por su cuenta, ¿igual puede inscribir proyectos en Fauna?", "a": "Sí. Fauna no es excluyente respecto de otras formas de captación. La plataforma funciona como un canal adicional de visibilidad y donación, complementando las estrategias que la organización ya utiliza." },
-          { "q": "¿Fauna cobra alguna tarifa por el registro?", "a": "No. El registro es totalmente gratuito. Fauna no cobra tarifa de adhesión, mensualidad ni comisión sobre las donaciones. Nos financiamos con contribuciones voluntarias directas a la plataforma y con nuestra tienda de productos, lo que significa que el 100% del monto donado a un proyecto va directamente a la organización responsable." },
-          { "q": "¿Pueden registrarse organizaciones internacionales?", "a": "Sí. Fauna es una plataforma global y acepta organizaciones de cualquier país. Para el registro es necesario presentar documentación legal válida en el país de origen de la organización. El proceso de verificación es el mismo sin importar la ubicación." },
-          { "q": "¿En qué idiomas puedo publicar mi proyecto?", "a": "Los proyectos pueden publicarse en portugués y/o inglés. Como Fauna es una plataforma global, recomendamos publicar en ambos idiomas para ampliar el alcance y aumentar las chances de que el proyecto sea encontrado por donantes de distintos países." },
-          { "q": "¿Fauna difunde mi organización en redes sociales?", "a": "Sí, siempre que tu organización tenga el sello de validación de Fauna y proyectos activos cargados en la plataforma. Para solicitar difusión, envianos un correo a contatofauna@proton.me con la información de la organización y los materiales de marketing que quieras compartir. Nuestro equipo evaluará y te contactará." },
-          { "q": "¿Qué documentos son necesarios para el registro?", "a": "Para garantizar la seguridad de los donantes, Fauna exige que todas las organizaciones tengan alguna forma de registro legal válido en su país de origen —como CNPJ (identificación tributaria de empresas en Brasil), asociación registrada, fundación o equivalente internacional— y evidencias de proyectos activos. Podemos solicitar informes de actividades o materiales que demuestren el trabajo realizado. Proyectos completamente informales, sin ninguna formalización jurídica, no se aceptan en la plataforma por el momento. Si tu iniciativa está en proceso de formalización, contactanos a contatofauna@proton.me para evaluar tu caso." },
-          { "q": "¿Cuánto demora la evaluación?", "a": "El plazo promedio es de 5 a 10 días hábiles después del envío completo de la documentación." },
-          { "q": "¿Puedo registrar más de un proyecto?", "a": "Sí. No hay límite de proyectos por organización. Recomendamos que cada proyecto tenga información completa y actualizada." },
-          { "q": "¿Cómo recibo las donaciones?", "a": "Directamente en tu cuenta de Stripe. Fauna no intermedia el pago: la conexión se hace directamente entre el donante y tu cuenta." },
-          { "q": "¿Mi organización necesita una cuenta de Stripe para recibir donaciones?", "a": "Sí. Como las donaciones son procesadas directamente por Stripe, la organización necesita tener una cuenta de Stripe activa y válida en su país para recibir contribuciones. Stripe está disponible en más de 40 países. Si tu organización está en un país donde Stripe todavía no opera, contactanos a contatofauna@proton.me para evaluar alternativas." },
-          { "q": "¿Puedo editar o cerrar un proyecto después de publicado?", "a": "Sí. Los proyectos se pueden editar o cerrar en cualquier momento desde el dashboard de la organización. Al cerrar un proyecto, deja de aparecer públicamente en la plataforma y no recibe nuevas contribuciones. Todas las ediciones y el historial del proyecto quedan guardados en el dashboard." },
-          { "q": "¿Fauna puede suspender mi organización?", "a": "Sí. Nos reservamos el derecho de suspender organizaciones que no cumplan nuestros criterios de verificación, que brinden información falsa o que violen nuestros Términos y Condiciones." }
+          {
+            "q": "¿Cualquier organización puede registrarse?",
+            "a": "Sí, siempre que trabaje en proyectos de conservación de fauna silvestre. Toda organización pasa por un proceso de evaluación antes de publicarse en la plataforma y recibe un sello de verificación."
+          },
+          {
+            "q": "¿Cuál es la ventaja de registrar un proyecto en Fauna?",
+            "a": "Fauna ofrece visibilidad global para proyectos de conservación animal, conectando a las organizaciones con una red de donantes y apoyadores comprometidos. Además, la plataforma es gratuita para registrarse, las donaciones llegan directamente a la organización sin intermediación financiera, y cada proyecto tiene una página dedicada con recursos visuales y actualizaciones."
+          },
+          {
+            "q": "Si la organización ya hace captación de recursos por su cuenta, ¿igual puede inscribir proyectos en Fauna?",
+            "a": "Sí. Fauna no es excluyente respecto de otras formas de captación. La plataforma funciona como un canal adicional de visibilidad y donación, complementando las estrategias que la organización ya utiliza."
+          },
+          {
+            "q": "¿Fauna cobra alguna tarifa por el registro?",
+            "a": "No. El registro es totalmente gratuito. Fauna no cobra tarifa de adhesión, mensualidad ni comisión sobre las donaciones. Nos financiamos con contribuciones voluntarias directas a la plataforma y con nuestra tienda de productos, lo que significa que el 100% del monto donado a un proyecto va directamente a la organización responsable."
+          },
+          {
+            "q": "¿Pueden registrarse organizaciones internacionales?",
+            "a": "Sí. Fauna es una plataforma global y acepta organizaciones de cualquier país. Para el registro es necesario presentar documentación legal válida en el país de origen de la organización. El proceso de verificación es el mismo sin importar la ubicación."
+          },
+          {
+            "q": "¿En qué idiomas puedo publicar mi proyecto?",
+            "a": "Los proyectos pueden publicarse en portugués y/o inglés. Como Fauna es una plataforma global, recomendamos publicar en ambos idiomas para ampliar el alcance y aumentar las chances de que el proyecto sea encontrado por donantes de distintos países."
+          },
+          {
+            "q": "¿Fauna difunde mi organización en redes sociales?",
+            "a": "Sí, siempre que tu organización tenga el sello de validación de Fauna y proyectos activos cargados en la plataforma. Para solicitar difusión, envianos un correo a contatofauna@proton.me con la información de la organización y los materiales de marketing que quieras compartir. Nuestro equipo evaluará y te contactará."
+          },
+          {
+            "q": "¿Qué documentos son necesarios para el registro?",
+            "a": "Para garantizar la seguridad de los donantes, Fauna exige que todas las organizaciones tengan alguna forma de registro legal válido en su país de origen —como CNPJ (identificación tributaria de empresas en Brasil), asociación registrada, fundación o equivalente internacional— y evidencias de proyectos activos. Podemos solicitar informes de actividades o materiales que demuestren el trabajo realizado. Proyectos completamente informales, sin ninguna formalización jurídica, no se aceptan en la plataforma por el momento. Si tu iniciativa está en proceso de formalización, contactanos a contatofauna@proton.me para evaluar tu caso."
+          },
+          {
+            "q": "¿Cuánto demora la evaluación?",
+            "a": "El plazo promedio es de 5 a 10 días hábiles después del envío completo de la documentación."
+          },
+          {
+            "q": "¿Puedo registrar más de un proyecto?",
+            "a": "Sí. No hay límite de proyectos por organización. Recomendamos que cada proyecto tenga información completa y actualizada."
+          },
+          {
+            "q": "¿Cómo recibo las donaciones?",
+            "a": "Directamente en tu cuenta de Stripe. Fauna no intermedia el pago: la conexión se hace directamente entre el donante y tu cuenta."
+          },
+          {
+            "q": "¿Mi organización necesita una cuenta de Stripe para recibir donaciones?",
+            "a": "Sí. Como las donaciones son procesadas directamente por Stripe, la organización necesita tener una cuenta de Stripe activa y válida en su país para recibir contribuciones. Stripe está disponible en más de 40 países. Si tu organización está en un país donde Stripe todavía no opera, contactanos a contatofauna@proton.me para evaluar alternativas."
+          },
+          {
+            "q": "¿Puedo editar o cerrar un proyecto después de publicado?",
+            "a": "Sí. Los proyectos se pueden editar o cerrar en cualquier momento desde el dashboard de la organización. Al cerrar un proyecto, deja de aparecer públicamente en la plataforma y no recibe nuevas contribuciones. Todas las ediciones y el historial del proyecto quedan guardados en el dashboard."
+          },
+          {
+            "q": "¿Fauna puede suspender mi organización?",
+            "a": "Sí. Nos reservamos el derecho de suspender organizaciones que no cumplan nuestros criterios de verificación, que brinden información falsa o que violen nuestros Términos y Condiciones."
+          }
         ]
       },
       {
@@ -787,15 +856,42 @@
         "label": "Para donantes",
         "description": "Seguridad, medios de pago, recibos, deducciones y donaciones recurrentes.",
         "items": [
-          { "q": "¿Mi donación es segura?", "a": "Sí. Todos los pagos son procesados por Stripe, una de las plataformas de pago más seguras del mundo. Fauna no almacena datos financieros de los donantes." },
-          { "q": "¿Con qué medios de pago puedo realizar una donación?", "a": "Las donaciones son procesadas por Stripe y aceptan tarjeta de crédito, tarjeta de débito y otros métodos disponibles en tu región. PIX todavía no está disponible como medio de pago, pero estamos trabajando para incluirlo pronto." },
-          { "q": "¿A partir de qué monto puedo donar?", "a": "No hay monto mínimo establecido por Fauna. Stripe puede aplicar un monto mínimo de procesamiento, que puede variar. Cualquier contribución, por pequeña que sea, es bienvenida y va directamente al proyecto elegido." },
-          { "q": "¿Puedo elegir a qué proyecto específico quiero donar?", "a": "Sí. Navegás por los proyectos disponibles y elegís exactamente adónde va tu contribución." },
-          { "q": "¿Voy a recibir un comprobante de mi donación?", "a": "Stripe envía un comprobante de pago automáticamente. Para recibos fiscales o comprobantes específicos, contactá directamente a la organización beneficiaria." },
-          { "q": "¿Puedo cancelar una donación recurrente?", "a": "Sí. Las donaciones recurrentes se pueden cancelar en cualquier momento directamente en tu cuenta de la plataforma o vía Stripe." },
-          { "q": "¿Cómo sé que el proyecto es legítimo?", "a": "Todas las organizaciones pasan por verificación antes de publicarse. Exigimos documentación legal y evidencias de proyectos activos." },
-          { "q": "¿Mi donación es deducible del impuesto a las ganancias?", "a": "Fauna es una plataforma de conexión y no emite recibos fiscales. Las donaciones realizadas a través de Fauna no son deducibles del impuesto a las ganancias mediante la plataforma. Si necesitás documentación con fines fiscales, contactá directamente a la organización beneficiaria: algunas organizaciones tienen calificación legal para emitir recibos deducibles en su país de origen." },
-          { "q": "Soy una organización o fundación y me gustaría apoyar financieramente un proyecto registrado en Fauna. ¿Puedo donar desde el sitio?", "a": "Las donaciones institucionales —hechas por organizaciones, fundaciones o empresas— no se procesan directamente por el sitio. En ese caso, contactanos a contatofauna@proton.me indicando qué proyecto querés apoyar y los detalles de tu organización. Haremos la conexión directa entre las dos partes." }
+          {
+            "q": "¿Mi donación es segura?",
+            "a": "Sí. Todos los pagos son procesados por Stripe, una de las plataformas de pago más seguras del mundo. Fauna no almacena datos financieros de los donantes."
+          },
+          {
+            "q": "¿Con qué medios de pago puedo realizar una donación?",
+            "a": "Las donaciones son procesadas por Stripe y aceptan tarjeta de crédito, tarjeta de débito y otros métodos disponibles en tu región. PIX todavía no está disponible como medio de pago, pero estamos trabajando para incluirlo pronto."
+          },
+          {
+            "q": "¿A partir de qué monto puedo donar?",
+            "a": "No hay monto mínimo establecido por Fauna. Stripe puede aplicar un monto mínimo de procesamiento, que puede variar. Cualquier contribución, por pequeña que sea, es bienvenida y va directamente al proyecto elegido."
+          },
+          {
+            "q": "¿Puedo elegir a qué proyecto específico quiero donar?",
+            "a": "Sí. Navegás por los proyectos disponibles y elegís exactamente adónde va tu contribución."
+          },
+          {
+            "q": "¿Voy a recibir un comprobante de mi donación?",
+            "a": "Stripe envía un comprobante de pago automáticamente. Para recibos fiscales o comprobantes específicos, contactá directamente a la organización beneficiaria."
+          },
+          {
+            "q": "¿Puedo cancelar una donación recurrente?",
+            "a": "Sí. Las donaciones recurrentes se pueden cancelar en cualquier momento directamente en tu cuenta de la plataforma o vía Stripe."
+          },
+          {
+            "q": "¿Cómo sé que el proyecto es legítimo?",
+            "a": "Todas las organizaciones pasan por verificación antes de publicarse. Exigimos documentación legal y evidencias de proyectos activos."
+          },
+          {
+            "q": "¿Mi donación es deducible del impuesto a las ganancias?",
+            "a": "Fauna es una plataforma de conexión y no emite recibos fiscales. Las donaciones realizadas a través de Fauna no son deducibles del impuesto a las ganancias mediante la plataforma. Si necesitás documentación con fines fiscales, contactá directamente a la organización beneficiaria: algunas organizaciones tienen calificación legal para emitir recibos deducibles en su país de origen."
+          },
+          {
+            "q": "Soy una organización o fundación y me gustaría apoyar financieramente un proyecto registrado en Fauna. ¿Puedo donar desde el sitio?",
+            "a": "Las donaciones institucionales —hechas por organizaciones, fundaciones o empresas— no se procesan directamente por el sitio. En ese caso, contactanos a contatofauna@proton.me indicando qué proyecto querés apoyar y los detalles de tu organización. Haremos la conexión directa entre las dos partes."
+          }
         ]
       }
     ]
@@ -808,28 +904,63 @@
       "lastUpdated": "Última actualización: abril de 2025",
       "disclaimer": "Esta política de privacidad fue redactada originalmente bajo la LGPD brasileña. Pendiente de revisión legal para tu jurisdicción (GDPR, LOPD, etc.).",
       "sections": [
-        { "heading": "1. Quiénes somos", "body": "Fauna es una plataforma de financiamiento colectivo para proyectos de conservación de la biodiversidad. Nuestro compromiso es proteger los datos personales de quienes nos confían información para apoyar causas ambientales." },
-        { "heading": "2. Datos que recopilamos", "body": "Recopilamos solo lo necesario para operar la plataforma:", "list": [
-          "**Datos de registro:** nombre completo y dirección de correo electrónico.",
-          "**Datos de donación:** monto, moneda y mensaje opcional. Los datos de pago son procesados directamente por Stripe y no quedan en nuestros servidores.",
-          "**Datos de navegación:** logs de acceso, dirección IP y cookies técnicas esenciales para el funcionamiento del sitio."
-        ]},
-        { "heading": "3. Cómo usamos tus datos", "body": "", "list": [
-          "Autenticar tu cuenta y proteger el acceso.",
-          "Procesar y registrar donaciones.",
-          "Enviar actualizaciones de los proyectos que apoyás (podés cancelar en cualquier momento).",
-          "Cumplir obligaciones legales y fiscales."
-        ]},
-        { "heading": "4. Base legal (LGPD)", "body": "Tratamos tus datos con base en: (a) ejecución de contrato, cuando realizás una donación; (b) consentimiento, para comunicaciones por correo; y (c) cumplimiento de obligaciones legales." },
-        { "heading": "5. Compartición de datos", "body": "No vendemos ni alquilamos tus datos. Compartimos solo con:", "list": [
-          "**Stripe** — procesamiento de pagos.",
-          "**Supabase** — almacenamiento seguro de datos en la infraestructura de base de datos."
-        ], "footer": "Ambos proveedores operan en conformidad con el GDPR y la LGPD." },
-        { "heading": "6. Retención de datos", "body": "Conservamos tus datos mientras tu cuenta esté activa o por el plazo exigido por ley (generalmente 5 años para registros financieros). Podés solicitar la eliminación en cualquier momento." },
-        { "heading": "7. Tus derechos", "body": "Conforme a la LGPD, tenés derecho a: acceso, corrección, eliminación, portabilidad y revocación del consentimiento. Envía tu solicitud a privacidade@fauna.org." },
-        { "heading": "8. Cookies", "body": "Usamos cookies técnicas esenciales y cookies de preferencia (idioma). Consultá nuestra Política de Cookies para más detalles.", "cookiesLink": "Política de Cookies" },
-        { "heading": "9. Seguridad", "body": "Usamos cifrado en tránsito (TLS) y en reposo, control de acceso por roles y autenticación por link mágico, sin almacenamiento de contraseñas." },
-        { "heading": "10. Contacto", "body": "Dudas o solicitudes: privacidade@fauna.org" }
+        {
+          "heading": "1. Quiénes somos",
+          "body": "Fauna es una plataforma de financiamiento colectivo para proyectos de conservación de la biodiversidad. Nuestro compromiso es proteger los datos personales de quienes nos confían información para apoyar causas ambientales."
+        },
+        {
+          "heading": "2. Datos que recopilamos",
+          "body": "Recopilamos solo lo necesario para operar la plataforma:",
+          "list": [
+            "**Datos de registro:** nombre completo y dirección de correo electrónico.",
+            "**Datos de donación:** monto, moneda y mensaje opcional. Los datos de pago son procesados directamente por Stripe y no quedan en nuestros servidores.",
+            "**Datos de navegación:** logs de acceso, dirección IP y cookies técnicas esenciales para el funcionamiento del sitio."
+          ]
+        },
+        {
+          "heading": "3. Cómo usamos tus datos",
+          "body": "",
+          "list": [
+            "Autenticar tu cuenta y proteger el acceso.",
+            "Procesar y registrar donaciones.",
+            "Enviar actualizaciones de los proyectos que apoyás (podés cancelar en cualquier momento).",
+            "Cumplir obligaciones legales y fiscales."
+          ]
+        },
+        {
+          "heading": "4. Base legal (LGPD)",
+          "body": "Tratamos tus datos con base en: (a) ejecución de contrato, cuando realizás una donación; (b) consentimiento, para comunicaciones por correo; y (c) cumplimiento de obligaciones legales."
+        },
+        {
+          "heading": "5. Compartición de datos",
+          "body": "No vendemos ni alquilamos tus datos. Compartimos solo con:",
+          "list": [
+            "**Stripe** — procesamiento de pagos.",
+            "**Supabase** — almacenamiento seguro de datos en la infraestructura de base de datos."
+          ],
+          "footer": "Ambos proveedores operan en conformidad con el GDPR y la LGPD."
+        },
+        {
+          "heading": "6. Retención de datos",
+          "body": "Conservamos tus datos mientras tu cuenta esté activa o por el plazo exigido por ley (generalmente 5 años para registros financieros). Podés solicitar la eliminación en cualquier momento."
+        },
+        {
+          "heading": "7. Tus derechos",
+          "body": "Conforme a la LGPD, tenés derecho a: acceso, corrección, eliminación, portabilidad y revocación del consentimiento. Envía tu solicitud a privacidade@fauna.org."
+        },
+        {
+          "heading": "8. Cookies",
+          "body": "Usamos cookies técnicas esenciales y cookies de preferencia (idioma). Consultá nuestra Política de Cookies para más detalles.",
+          "cookiesLink": "Política de Cookies"
+        },
+        {
+          "heading": "9. Seguridad",
+          "body": "Usamos cifrado en tránsito (TLS) y en reposo, control de acceso por roles y autenticación por link mágico, sin almacenamiento de contraseñas."
+        },
+        {
+          "heading": "10. Contacto",
+          "body": "Dudas o solicitudes: privacidade@fauna.org"
+        }
       ]
     },
     "cookies": {
@@ -842,10 +973,25 @@
       "whatBody": "Las cookies son pequeños archivos de texto que se guardan en tu navegador cuando visitás un sitio. Permiten que el sitio recuerde tus preferencias y te mantenga autenticado entre visitas.",
       "weUseTitle": "Cookies que usamos",
       "table": {
-        "headers": { "cookie": "Cookie", "type": "Tipo", "purpose": "Finalidad", "duration": "Vigencia" },
+        "headers": {
+          "cookie": "Cookie",
+          "type": "Tipo",
+          "purpose": "Finalidad",
+          "duration": "Vigencia"
+        },
         "rows": [
-          { "cookie": "sb-*", "type": "Esencial", "purpose": "Sesión de autenticación de Supabase", "duration": "7 días" },
-          { "cookie": "NEXT_LOCALE", "type": "Preferencia", "purpose": "Idioma seleccionado (PT/EN/ES)", "duration": "1 año" }
+          {
+            "cookie": "sb-*",
+            "type": "Esencial",
+            "purpose": "Sesión de autenticación de Supabase",
+            "duration": "7 días"
+          },
+          {
+            "cookie": "NEXT_LOCALE",
+            "type": "Preferencia",
+            "purpose": "Idioma seleccionado (PT/EN/ES)",
+            "duration": "1 año"
+          }
         ]
       },
       "thirdPartyTitle": "Cookies de terceros",
@@ -872,9 +1018,18 @@
       "subtitle": "Sea por consultas sobre donaciones, alianzas con organizaciones, prensa o cualquier otra cosa, acá estamos."
     },
     "emails": [
-      { "label": "Correo general", "value": "ola@fauna.org" },
-      { "label": "Prensa", "value": "imprensa@fauna.org" },
-      { "label": "Organizaciones", "value": "organizacoes@fauna.org" }
+      {
+        "label": "Correo general",
+        "value": "ola@fauna.org"
+      },
+      {
+        "label": "Prensa",
+        "value": "imprensa@fauna.org"
+      },
+      {
+        "label": "Organizaciones",
+        "value": "organizacoes@fauna.org"
+      }
     ],
     "form": {
       "nameLabel": "Nombre *",
@@ -917,17 +1072,38 @@
       "missionP1": "Fauna es una plataforma digital sin fines de lucro construida por personas que creen que la crisis de biodiversidad es el mayor desafío de nuestra generación, y que una tecnología bien hecha puede ser parte de la solución.",
       "missionP2": "Conectamos organizaciones de conservación con apoyadores de todo el mundo, con transparencia total y cero comisiones sobre las donaciones.",
       "stats": [
-        { "value": "100%", "label": "De las donaciones van a los proyectos" },
-        { "value": "US$ 0", "label": "Tarifa cobrada a las organizaciones" },
-        { "value": "US$ 0", "label": "Tarifa sobre donaciones" }
+        {
+          "value": "100%",
+          "label": "De las donaciones van a los proyectos"
+        },
+        {
+          "value": "US$ 0",
+          "label": "Tarifa cobrada a las organizaciones"
+        },
+        {
+          "value": "US$ 0",
+          "label": "Tarifa sobre donaciones"
+        }
       ],
       "valuesEyebrow": "Lo que nos guía",
       "valuesTitle": "Nuestros valores",
       "values": [
-        { "title": "Transparencia total", "desc": "El 100% de las donaciones va directo a los proyectos. Fauna no se queda con ni un centavo de las contribuciones de quienes apoyan la conservación." },
-        { "title": "Impacto verificado", "desc": "Todas las organizaciones de la plataforma pasan por verificación manual antes de publicar proyectos. Solo llegan a vos causas legítimas." },
-        { "title": "Acceso global", "desc": "Un proyecto en el Pantanal puede recibir apoyo de alguien en Noruega. Sacamos las barreras burocráticas y cambiarias que aíslan a la conservación." },
-        { "title": "Tecnología como herramienta", "desc": "Construimos infraestructura digital que las organizaciones de conservación —generalmente chicas y sin recursos de TI— no podrían construir solas." }
+        {
+          "title": "Transparencia total",
+          "desc": "El 100% de las donaciones va directo a los proyectos. Fauna no se queda con ni un centavo de las contribuciones de quienes apoyan la conservación."
+        },
+        {
+          "title": "Impacto verificado",
+          "desc": "Todas las organizaciones de la plataforma pasan por verificación manual antes de publicar proyectos. Solo llegan a vos causas legítimas."
+        },
+        {
+          "title": "Acceso global",
+          "desc": "Un proyecto en el Pantanal puede recibir apoyo de alguien en Noruega. Sacamos las barreras burocráticas y cambiarias que aíslan a la conservación."
+        },
+        {
+          "title": "Tecnología como herramienta",
+          "desc": "Construimos infraestructura digital que las organizaciones de conservación —generalmente chicas y sin recursos de TI— no podrían construir solas."
+        }
       ],
       "ctaExplore": "Explorar proyectos →",
       "ctaSupport": "Apoyar a Fauna"
@@ -941,9 +1117,21 @@
       "storyP3": "Somos un equipo chico con una creencia grande: que la tecnología bien hecha puede multiplicar el impacto de quienes ya están haciendo la diferencia.",
       "teamEyebrow": "El equipo",
       "members": [
-        { "name": "Victoria", "role": "Fundadora & Producto", "bio": "Apasionada por la conservación y la tecnología. Construyó Fauna para conectar proyectos extraordinarios con apoyadores del mundo entero." },
-        { "name": "Equipo", "role": "Desarrollo & Diseño", "bio": "Diseñadores e ingenieros que creen que la mejor tecnología es la que está al servicio de causas que realmente importan." },
-        { "name": "¿Vos?", "role": "Colaborador abierto", "bio": "Fauna es un proyecto en construcción. Si creés en la misión, contactanos: siempre hay espacio para quien quiere contribuir." }
+        {
+          "name": "Victoria",
+          "role": "Fundadora & Producto",
+          "bio": "Apasionada por la conservación y la tecnología. Construyó Fauna para conectar proyectos extraordinarios con apoyadores del mundo entero."
+        },
+        {
+          "name": "Equipo",
+          "role": "Desarrollo & Diseño",
+          "bio": "Diseñadores e ingenieros que creen que la mejor tecnología es la que está al servicio de causas que realmente importan."
+        },
+        {
+          "name": "¿Vos?",
+          "role": "Colaborador abierto",
+          "bio": "Fauna es un proyecto en construcción. Si creés en la misión, contactanos: siempre hay espacio para quien quiere contribuir."
+        }
       ],
       "joinEyebrow": "Sumate",
       "joinTitleBefore": "Juntos llegamos ",
@@ -965,20 +1153,44 @@
         "ctaResources": "Recursos gratuitos"
       },
       "stats": [
-        { "value": "12+", "label": "cursos disponibles" },
-        { "value": "800+", "label": "organizaciones formadas" },
-        { "value": "40+", "label": "países representados" },
-        { "value": "100%", "label": "online y accesible" }
+        {
+          "value": "12+",
+          "label": "cursos disponibles"
+        },
+        {
+          "value": "800+",
+          "label": "organizaciones formadas"
+        },
+        {
+          "value": "40+",
+          "label": "países representados"
+        },
+        {
+          "value": "100%",
+          "label": "online y accesible"
+        }
       ],
       "features": {
         "eyebrow": "Qué ofrecemos",
         "titleBefore": "Todo lo que tu organización necesita para ",
         "titleEm": "captar más y mejor",
         "items": [
-          { "title": "Cursos prácticos", "desc": "Módulos grabados sobre captación de recursos, comunicación con donantes y gestión de proyectos." },
-          { "title": "Workshops en vivo", "desc": "Sesiones interactivas con especialistas. Hacé preguntas en tiempo real y generá networking con otras organizaciones." },
-          { "title": "Biblioteca gratuita", "desc": "Plantillas, guías y materiales de referencia para bajar y usar de inmediato." },
-          { "title": "Certificados", "desc": "Comprobá tu aprendizaje con certificados digitales reconocidos por la comunidad de conservación." }
+          {
+            "title": "Cursos prácticos",
+            "desc": "Módulos grabados sobre captación de recursos, comunicación con donantes y gestión de proyectos."
+          },
+          {
+            "title": "Workshops en vivo",
+            "desc": "Sesiones interactivas con especialistas. Hacé preguntas en tiempo real y generá networking con otras organizaciones."
+          },
+          {
+            "title": "Biblioteca gratuita",
+            "desc": "Plantillas, guías y materiales de referencia para bajar y usar de inmediato."
+          },
+          {
+            "title": "Certificados",
+            "desc": "Comprobá tu aprendizaje con certificados digitales reconocidos por la comunidad de conservación."
+          }
         ]
       },
       "featured": {
@@ -986,9 +1198,30 @@
         "title": "Cursos más buscados",
         "seeAll": "Ver todos →",
         "courses": [
-          { "slug": "captacao-recursos-iniciantes", "title": "Captación de Recursos para Principiantes", "level": "Principiante", "duration": "4h", "price": "Gratis", "tag": "Más popular" },
-          { "slug": "narrativa-impacto", "title": "Narrativa de Impacto para Donantes", "level": "Intermedio", "duration": "6h", "price": "R$ 197", "tag": "" },
-          { "slug": "grandes-doacoes", "title": "Estrategias para Grandes Donaciones", "level": "Avanzado", "duration": "8h", "price": "R$ 297", "tag": "Nuevo" }
+          {
+            "slug": "captacao-recursos-iniciantes",
+            "title": "Captación de Recursos para Principiantes",
+            "level": "Principiante",
+            "duration": "4h",
+            "price": "Gratis",
+            "tag": "Más popular"
+          },
+          {
+            "slug": "narrativa-impacto",
+            "title": "Narrativa de Impacto para Donantes",
+            "level": "Intermedio",
+            "duration": "6h",
+            "price": "R$ 197",
+            "tag": ""
+          },
+          {
+            "slug": "grandes-doacoes",
+            "title": "Estrategias para Grandes Donaciones",
+            "level": "Avanzado",
+            "duration": "8h",
+            "price": "R$ 297",
+            "tag": "Nuevo"
+          }
         ]
       },
       "nextWorkshop": {
@@ -1004,9 +1237,18 @@
         "titleBefore": "Para organizaciones que quieren ir ",
         "titleEm": "más allá",
         "items": [
-          { "title": "ONGs y asociaciones", "desc": "Que buscan diversificar fuentes de ingresos y reducir la dependencia de un único financiador." },
-          { "title": "Proyectos en formalización", "desc": "Que todavía no tienen un área de captación estructurada y necesitan un punto de partida." },
-          { "title": "Líderes de conservación", "desc": "Que quieren aprender a contar historias de impacto que conviertan apoyadores en donantes." }
+          {
+            "title": "ONGs y asociaciones",
+            "desc": "Que buscan diversificar fuentes de ingresos y reducir la dependencia de un único financiador."
+          },
+          {
+            "title": "Proyectos en formalización",
+            "desc": "Que todavía no tienen un área de captación estructurada y necesitan un punto de partida."
+          },
+          {
+            "title": "Líderes de conservación",
+            "desc": "Que quieren aprender a contar historias de impacto que conviertan apoyadores en donantes."
+          }
         ]
       },
       "cta": {
@@ -1098,6 +1340,29 @@
       "workshopsTitle": "Workshops inscritos",
       "emptyWorkshops": "No estás inscrito en ningún workshop.",
       "seeAgenda": "Ver agenda →"
+    },
+    "coursePage": {
+      "notFound": "Curso no encontrado.",
+      "seeAllCourses": "← Ver todos los cursos",
+      "breadcrumbAcademy": "Academy",
+      "breadcrumbCourses": "Cursos",
+      "byInstructor": "por {name}",
+      "priceFree": "Gratis",
+      "lifetimeAccessNote": "acceso de por vida · certificado incluido",
+      "accessFree": "Acceder gratis →",
+      "buyCourse": "Comprar curso →",
+      "guarantee": "Garantía de 7 días · Cancela cuando quieras",
+      "recordedLessons": "{count} clases grabadas",
+      "contentDuration": "{duration} de contenido",
+      "modulesCount": "{count} módulos",
+      "certificateOfCompletion": "Certificado de finalización",
+      "lifetimeAccess": "Acceso de por vida",
+      "whatYouLearn": "Lo que vas a aprender",
+      "courseContent": "Contenido del curso",
+      "courseOverview": "{modules} módulos · {lessons} clases · {duration}",
+      "lessonsSuffix": "clases",
+      "instructor": "Instructor",
+      "instructorOrg": "Fauna Academy"
     }
   },
   "loja": {
@@ -1126,26 +1391,48 @@
       "titleEm": "Cambio",
       "lastUpdated": "Última actualización: abril de 2025",
       "sections": [
-        { "heading": "Plazo para cambio o devolución", "body": "Tenés hasta **7 días corridos** después de recibir el pedido para solicitar cambio o devolución, conforme al Código de Defensa del Consumidor (Art. 49).\nPara productos con defecto de fabricación, el plazo es de **30 días** desde la recepción." },
-        { "heading": "Condiciones para el cambio", "list": [
-          "Producto sin uso, lavado o daño causado por el consumidor",
-          "Embalaje original preservado (cuando aplique)",
-          "Factura o comprobante de compra"
-        ]},
-        { "heading": "Productos no sujetos a cambio", "list": [
-          "Stickers y papelería una vez abiertos (por higiene)",
-          "Productos personalizados o hechos a pedido",
-          "Productos con daños causados por mal uso"
-        ]},
-        { "heading": "Cómo solicitarlo", "orderedList": [
-          "Contactanos por correo a loja@fauna.org con el número de pedido",
-          "Describí el motivo del cambio y, si podés, mandá fotos del producto",
-          "Esperá la confirmación de nuestro equipo (hasta 2 días hábiles)",
-          "Enviá el producto por correo — para devoluciones por defecto damos la etiqueta de envío"
-        ]},
-        { "heading": "Reembolso", "body": "Después de recibir y verificar el producto, el reembolso se procesa en hasta **5 días hábiles** a la tarjeta original o vía Pix. Para cambios por otro talle o producto, el nuevo envío sale en hasta **3 días hábiles**." },
-        { "heading": "Envío de devolución", "body": "Devolución por **defecto o error nuestro**: envío por nuestra cuenta. Devolución por **arrepentimiento**: envío por cuenta del cliente." },
-        { "heading": "Dudas", "body": "Escribinos por el formulario de contacto o a loja@fauna.org.", "contactLink": "formulario de contacto" }
+        {
+          "heading": "Plazo para cambio o devolución",
+          "body": "Tenés hasta **7 días corridos** después de recibir el pedido para solicitar cambio o devolución, conforme al Código de Defensa del Consumidor (Art. 49).\nPara productos con defecto de fabricación, el plazo es de **30 días** desde la recepción."
+        },
+        {
+          "heading": "Condiciones para el cambio",
+          "list": [
+            "Producto sin uso, lavado o daño causado por el consumidor",
+            "Embalaje original preservado (cuando aplique)",
+            "Factura o comprobante de compra"
+          ]
+        },
+        {
+          "heading": "Productos no sujetos a cambio",
+          "list": [
+            "Stickers y papelería una vez abiertos (por higiene)",
+            "Productos personalizados o hechos a pedido",
+            "Productos con daños causados por mal uso"
+          ]
+        },
+        {
+          "heading": "Cómo solicitarlo",
+          "orderedList": [
+            "Contactanos por correo a loja@fauna.org con el número de pedido",
+            "Describí el motivo del cambio y, si podés, mandá fotos del producto",
+            "Esperá la confirmación de nuestro equipo (hasta 2 días hábiles)",
+            "Enviá el producto por correo — para devoluciones por defecto damos la etiqueta de envío"
+          ]
+        },
+        {
+          "heading": "Reembolso",
+          "body": "Después de recibir y verificar el producto, el reembolso se procesa en hasta **5 días hábiles** a la tarjeta original o vía Pix. Para cambios por otro talle o producto, el nuevo envío sale en hasta **3 días hábiles**."
+        },
+        {
+          "heading": "Envío de devolución",
+          "body": "Devolución por **defecto o error nuestro**: envío por nuestra cuenta. Devolución por **arrepentimiento**: envío por cuenta del cliente."
+        },
+        {
+          "heading": "Dudas",
+          "body": "Escribinos por el formulario de contacto o a loja@fauna.org.",
+          "contactLink": "formulario de contacto"
+        }
       ]
     }
   },

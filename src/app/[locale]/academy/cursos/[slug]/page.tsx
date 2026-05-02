@@ -1,4 +1,5 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
+import { getFormatter, getTranslations } from 'next-intl/server'
 import Nav from '@/components/layout/Nav'
 import { NavTheme } from '@/components/layout/NavTheme'
 
@@ -122,8 +123,10 @@ const COURSES: Record<string, {
   },
 }
 
-export default function CourseDetailPage({ params }: { params: { slug: string } }) {
+export default async function CourseDetailPage({ params }: { params: { slug: string } }) {
   const course = COURSES[params.slug]
+  const t = await getTranslations('academy.coursePage')
+  const format = await getFormatter()
 
   if (!course) {
     return (
@@ -131,13 +134,18 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
         <main className="min-h-screen bg-cream flex items-center justify-center">
           <Nav />
           <div className="text-center pt-32">
-            <p className="text-forest/40 text-sm mb-4">Curso não encontrado.</p>
-            <Link href="/academy/cursos" className="text-leaf hover:underline text-sm">← Ver todos os cursos</Link>
+            <p className="text-forest/40 text-sm mb-4">{t('notFound')}</p>
+            <Link href="/academy/cursos" className="text-leaf hover:underline text-sm">{t('seeAllCourses')}</Link>
           </div>
         </main>
       </NavTheme>
     )
   }
+
+  const totalLessons = course.modules.reduce((s, m) => s + m.lessons.length, 0)
+  const priceLabel = course.price === 0
+    ? t('priceFree')
+    : format.number(course.price, { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })
 
   return (
     <NavTheme theme="light">
@@ -148,8 +156,8 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
         <section className="bg-forest pt-40 pb-16 px-10">
           <div className="max-w-screen-lg mx-auto">
             <p className="text-sage/60 text-[10px] tracking-[0.25em] uppercase mb-5">
-              <Link href="/academy" className="hover:text-sage">Academy</Link>
-              {' '}/ <Link href="/academy/cursos" className="hover:text-sage">Cursos</Link>
+              <Link href="/academy" className="hover:text-sage">{t('breadcrumbAcademy')}</Link>
+              {' '}/ <Link href="/academy/cursos" className="hover:text-sage">{t('breadcrumbCourses')}</Link>
               {' '}/ {course.title}
             </p>
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12 items-start">
@@ -166,31 +174,31 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
                 <p className="text-cream/45 text-base leading-relaxed max-w-lg mb-6">
                   {course.description}
                 </p>
-                <p className="text-sage/70 text-xs">por {course.instructor}</p>
+                <p className="text-sage/70 text-xs">{t('byInstructor', { name: course.instructor })}</p>
               </div>
 
               {/* Enroll card */}
               <div className="bg-white rounded-2xl p-7 shadow-xl shadow-black/15 border border-forest/[0.08]">
                 <p className="font-serif text-4xl font-light text-forest mb-1">
-                  {course.price === 0 ? 'Gratuito' : `R$ ${course.price}`}
+                  {priceLabel}
                 </p>
                 {course.price > 0 && (
-                  <p className="text-forest/35 text-xs mb-5">acesso vitalício · certificado incluso</p>
+                  <p className="text-forest/35 text-xs mb-5">{t('lifetimeAccessNote')}</p>
                 )}
                 <button className="w-full bg-forest text-cream text-[11px] tracking-widests uppercase py-4 rounded-lg
                                    hover:bg-leaf transition-colors mb-3 mt-4">
-                  {course.price === 0 ? 'Acessar gratuitamente →' : 'Comprar curso →'}
+                  {course.price === 0 ? t('accessFree') : t('buyCourse')}
                 </button>
                 {course.price > 0 && (
-                  <p className="text-center text-forest/30 text-[10px]">Garantia de 7 dias · Cancele quando quiser</p>
+                  <p className="text-center text-forest/30 text-[10px]">{t('guarantee')}</p>
                 )}
                 <div className="mt-5 pt-5 border-t border-forest/[0.07] flex flex-col gap-2">
                   {[
-                    `${course.modules.reduce((s, m) => s + m.lessons.length, 0)} aulas gravadas`,
-                    `${course.duration} de conteúdo`,
-                    `${course.modules.length} módulos`,
-                    'Certificado de conclusão',
-                    'Acesso vitalício',
+                    t('recordedLessons', { count: totalLessons }),
+                    t('contentDuration', { duration: course.duration }),
+                    t('modulesCount', { count: course.modules.length }),
+                    t('certificateOfCompletion'),
+                    t('lifetimeAccess'),
                   ].map(f => (
                     <div key={f} className="flex items-center gap-2">
                       <span className="text-leaf text-xs">✓</span>
@@ -207,7 +215,7 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
           <div>
             {/* Learning outcomes */}
             <div className="bg-white rounded-2xl border border-forest/[0.08] p-8 mb-8">
-              <h2 className="font-serif text-2xl font-light text-forest mb-6">O que você vai aprender</h2>
+              <h2 className="font-serif text-2xl font-light text-forest mb-6">{t('whatYouLearn')}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {course.outcomes.map(o => (
                   <div key={o} className="flex items-start gap-3">
@@ -221,9 +229,13 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
             {/* Curriculum */}
             <div className="bg-white rounded-2xl border border-forest/[0.08] overflow-hidden">
               <div className="px-8 py-6 border-b border-forest/[0.07]">
-                <h2 className="font-serif text-2xl font-light text-forest">Conteúdo do curso</h2>
+                <h2 className="font-serif text-2xl font-light text-forest">{t('courseContent')}</h2>
                 <p className="text-forest/35 text-sm mt-1">
-                  {course.modules.length} módulos · {course.modules.reduce((s, m) => s + m.lessons.length, 0)} aulas · {course.duration}
+                  {t('courseOverview', {
+                    modules: course.modules.length,
+                    lessons: totalLessons,
+                    duration: course.duration,
+                  })}
                 </p>
               </div>
               {course.modules.map((mod, i) => (
@@ -233,7 +245,7 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
                       <span className="text-[10px] text-forest/30 font-medium w-5">{String(i + 1).padStart(2, '0')}</span>
                       <h3 className="text-forest font-medium text-sm">{mod.title}</h3>
                     </div>
-                    <span className="text-forest/30 text-[11px]">{mod.lessons.length} aulas</span>
+                    <span className="text-forest/30 text-[11px]">{mod.lessons.length} {t('lessonsSuffix')}</span>
                   </div>
                   {mod.lessons.map((lesson, j) => (
                     <div key={j} className="px-8 py-3 flex items-center gap-4 border-t border-forest/[0.04]">
@@ -249,14 +261,14 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
           {/* Instructor (sticky) */}
           <div>
             <div className="bg-white rounded-2xl border border-forest/[0.08] p-7 sticky top-24">
-              <h3 className="font-serif text-lg font-light text-forest mb-4">Instrutor</h3>
+              <h3 className="font-serif text-lg font-light text-forest mb-4">{t('instructor')}</h3>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-forest/10 flex items-center justify-center flex-shrink-0">
                   <span className="font-serif text-lg text-forest/40">F</span>
                 </div>
                 <div>
                   <p className="text-forest text-sm font-medium">{course.instructor}</p>
-                  <p className="text-forest/35 text-xs">Fauna Academy</p>
+                  <p className="text-forest/35 text-xs">{t('instructorOrg')}</p>
                 </div>
               </div>
               <p className="text-forest/55 text-sm leading-relaxed">{course.instructorBio}</p>
