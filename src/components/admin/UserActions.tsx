@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 
 type Role = 'donor' | 'organization' | 'admin'
@@ -9,6 +10,7 @@ type Role = 'donor' | 'organization' | 'admin'
 export default function UserActions({ id, role }: { id: string; role: Role }) {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const t = useTranslations('adminDash.users.roleLabels')
 
   async function setRole(next: Role) {
     setLoading(true)
@@ -19,9 +21,9 @@ export default function UserActions({ id, role }: { id: string; role: Role }) {
   }
 
   const options: { label: string; value: Role }[] = [
-    { label: 'Doador',       value: 'donor'        },
-    { label: 'Organização',  value: 'organization' },
-    { label: 'Admin',        value: 'admin'        },
+    { label: t('donor'),        value: 'donor'        },
+    { label: t('organization'), value: 'organization' },
+    { label: t('admin'),        value: 'admin'        },
   ]
 
   return (

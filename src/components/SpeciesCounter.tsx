@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations, useFormatter } from 'next-intl'
 
 const THREATENED_SPECIES = 44_016
 
@@ -40,10 +40,9 @@ function useCountUp(target: number, duration = 2800) {
 
 export default function SpeciesCounter() {
   const { value, ref } = useCountUp(THREATENED_SPECIES)
-  const { locale }     = useLanguage()
-  const formatted = new Intl.NumberFormat(
-    locale === 'en' ? 'en-US' : locale === 'es' ? 'es-ES' : 'pt-BR',
-  ).format(value)
+  const format = useFormatter()
+  const t = useTranslations('species')
+  const formatted = format.number(value)
 
   // Parallax entre -0.5 e 1.5 conforme a seção entra/sai da viewport.
   const [py, setPy] = useState(0.5)
@@ -96,7 +95,7 @@ export default function SpeciesCounter() {
 
           {/* Contador */}
           <div className="flex flex-col items-center" style={{ transform: `translateY(${(0.5 - py) * 30}px)` }}>
-            <p className="eyebrow mb-5">IUCN Red List · abr. 2026</p>
+            <p className="eyebrow mb-5">{t('eyebrow')}</p>
 
             <div
               className="font-serif text-cream tabular-nums"
@@ -113,11 +112,10 @@ export default function SpeciesCounter() {
 
             <div className="mt-7 pt-7 border-t border-cream/[0.22] max-w-[760px] text-center">
               <p className="font-serif text-cream text-3xl md:text-5xl font-medium tracking-tight mb-7">
-                Espécies ameaçadas de extinção
+                {t('label')}
               </p>
               <p className="font-serif italic text-cream/[0.78] text-xl md:text-2xl leading-[1.5]">
-                “Não estamos perdendo apenas espécies. Estamos perdendo o
-                testemunho de milhões de anos de evolução.”
+                {t('quote')}
               </p>
             </div>
           </div>

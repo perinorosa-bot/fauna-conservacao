@@ -1,8 +1,11 @@
-import Link from 'next/link'
+'use client'
 
-/* CTA final — paisagem escura + headline serifado em terracota.
- * Fallback: se /cta-drone.mp4 não existir em /public, mostra a foto. */
+import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
+
 export default function CtaSection() {
+  const t = useTranslations('cta')
+
   return (
     <section
       className="relative flex items-center justify-center overflow-hidden text-center"
@@ -12,7 +15,6 @@ export default function CtaSection() {
         background: '#000',
       }}
     >
-      {/* Vídeo (se houver) ou foto */}
       <video
         autoPlay
         loop
@@ -25,7 +27,6 @@ export default function CtaSection() {
         <source src="/cta-drone.mp4" type="video/mp4" />
       </video>
 
-      {/* Gradiente */}
       <div
         className="absolute inset-0"
         style={{
@@ -45,7 +46,7 @@ export default function CtaSection() {
         }}
       >
         <p className="eyebrow mb-7" style={{ color: 'var(--sage)' }}>
-          Cada doação é uma decisão
+          {t('eyebrow')}
         </p>
 
         <h2
@@ -57,7 +58,7 @@ export default function CtaSection() {
             textShadow: '0 2px 14px rgba(0,0,0,0.4)',
           }}
         >
-          Projetos incríveis de conservação animal acontecem em todos os lugares do mundo. Com qualquer valor, você faz parte dessa história.
+          {t('headline')}
         </h2>
 
         <div className="flex gap-3 justify-center flex-wrap">
@@ -68,7 +69,7 @@ export default function CtaSection() {
                        hover:bg-[#A8431C] hover:-translate-y-px transition-all duration-200
                        shadow-[0_2px_14px_rgba(196,82,42,0.35)] hover:shadow-[0_6px_20px_rgba(196,82,42,0.45)]"
           >
-            Apoiar um projeto
+            {t('cta1')}
           </Link>
           <Link
             href="/organizacoes/cadastro"
@@ -82,7 +83,7 @@ export default function CtaSection() {
               border:               '1px solid rgba(237, 229, 208, 0.22)',
             }}
           >
-            Sou organização
+            {t('cta2')}
           </Link>
         </div>
       </div>

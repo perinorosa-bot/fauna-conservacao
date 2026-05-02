@@ -1,9 +1,13 @@
+'use client'
+
+import { useTranslations, useFormatter } from 'next-intl'
+
 type Props = {
   projectCount: number
   totalRaised: number
-  /** Países distintos onde há projetos. Se não passar, mostra valor fixo do dossiê. */
+  /** Países distintos onde há projetos. */
   countries?: number
-  /** Quantidade de apoiadores únicos. Se não passar, mostra valor fixo do dossiê. */
+  /** Quantidade de apoiadores únicos. */
   supporters?: number
 }
 
@@ -14,12 +18,18 @@ function formatRaised(amount: number): string {
 }
 
 export default function StatsBar({ projectCount, totalRaised, countries = 68, supporters = 19_400 }: Props) {
+  const t = useTranslations('stats')
+  const format = useFormatter()
+
+  const supportersLabel = supporters >= 1000
+    ? `${format.number(supporters / 1000, { maximumFractionDigits: 1 })}k`
+    : format.number(supporters)
+
   const stats = [
-    { n: String(projectCount ?? 247),                        l: 'Projetos ativos', sub: 'verificados em campo'  },
-    { n: String(countries),                                   l: 'Países',          sub: 'todos os continentes'  },
-    { n: formatRaised(totalRaised),                           l: 'Arrecadados',     sub: 'direto às organizações' },
-    { n: supporters >= 1000 ? `${(supporters / 1000).toFixed(1).replace('.', ',')}k` : String(supporters),
-      l: 'Apoiadores',     sub: 'e crescendo' },
+    { n: format.number(projectCount ?? 247),  l: t('activeProjects'), sub: t('subActiveProjects') },
+    { n: format.number(countries),             l: t('countries'),       sub: t('subCountries') },
+    { n: formatRaised(totalRaised),            l: t('raised'),          sub: t('subRaised') },
+    { n: supportersLabel,                       l: t('supporters'),      sub: t('subSupporters') },
   ]
 
   return (
@@ -31,15 +41,15 @@ export default function StatsBar({ projectCount, totalRaised, countries = 68, su
         {/* Header — eyebrow + título à esquerda, "Relatório 2026" à direita */}
         <div className="flex flex-wrap items-baseline justify-between gap-4 mb-14">
           <div>
-            <p className="eyebrow mb-3.5">A Fauna em números</p>
+            <p className="eyebrow mb-3.5">{t('eyebrow')}</p>
             <h2 className="font-serif text-forest font-light leading-[1.1]"
                 style={{ fontSize: 'clamp(48px, 6.5vw, 88px)' }}>
-              Impacto
+              {t('titleH2')}
             </h2>
           </div>
           <div className="text-right font-mono text-[10px] tracking-[0.3em] uppercase text-forest/55">
-            Relatório 2026<br/>
-            <span className="text-sage">● dados atualizados</span>
+            {t('report')}<br/>
+            <span className="text-sage">{t('dataLive')}</span>
           </div>
         </div>
 
@@ -74,7 +84,7 @@ export default function StatsBar({ projectCount, totalRaised, countries = 68, su
 
         {/* Caption inferior */}
         <div className="mt-12 pt-6 flex justify-end font-mono text-[9px] tracking-[0.28em] uppercase text-forest/45">
-          Dados atualizados a cada 24h
+          {t('captionFooter')}
         </div>
       </div>
     </section>

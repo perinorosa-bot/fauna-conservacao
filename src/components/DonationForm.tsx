@@ -3,12 +3,9 @@
 import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { useTranslations, useFormatter } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { estimateStripeFee, grossUpAmount } from '@/lib/stripe-fees'
-
-function fmtBRL(cents: number) {
-  return (cents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })
-}
 
 // Quick client-side email shape check. Server still validates.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -18,6 +15,9 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 const AMOUNTS = [10, 25, 50, 100, 250]
 
 type DonationType = 'once' | 'monthly'
+
+// Currency-display numbers go through next-intl's `useFormatter`, which picks
+// the current locale automatically (pt → pt-BR, en → en-US, es → es-ES).
 
 // ─── Inner checkout form (inside Elements) ────────────────────────────────────
 function CheckoutForm({
@@ -31,6 +31,8 @@ function CheckoutForm({
 }) {
   const stripe   = useStripe()
   const elements = useElements()
+  const t        = useTranslations('donationForm')
+  const format   = useFormatter()
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState('')
 
@@ -45,13 +47,14 @@ function CheckoutForm({
       redirect: 'if_required',
     })
     setLoading(false)
-    if (stripeError) setError(stripeError.message ?? 'Erro ao processar pagamento.')
+    if (stripeError) setError(stripeError.message ?? t('paymentError'))
     else onSuccess()
   }
 
+  const formattedAmount = format.number(amount / 100, { minimumFractionDigits: 2 })
   const label = donationType === 'monthly'
-    ? `Confirmar R$ ${(amount / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}/mês`
-    : `Confirmar doação de R$ ${(amount / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+    ? t('confirmMonthly', { amount: formattedAmount })
+    : t('confirmOnce', { amount: formattedAmount })
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -60,7 +63,7 @@ function CheckoutForm({
       <button type="submit" disabled={loading || !stripe}
               className="w-full bg-sage text-cream text-xs tracking-widests uppercase py-3.5 rounded-sm
                          hover:bg-leaf transition-colors disabled:opacity-50">
-        {loading ? 'Processando...' : label}
+        {loading ? t('processing') : label}
       </button>
     </form>
   )
@@ -74,6 +77,10 @@ export default function DonationForm({
   projectId: string
   orgHasStripe: boolean
 }) {
+  const t = useTranslations('donationForm')
+  const tFee = useTranslations('donationForm.feeBreakdown')
+  const tCommon = useTranslations('common')
+  const format = useFormatter()
   const [donationType, setDonationType] = useState<DonationType>('once')
   const [step, setStep]                 = useState<'amount' | 'info' | 'pay' | 'done'>('amount')
   const [amount, setAmount]             = useState(5000) // cents
@@ -102,8 +109,14 @@ export default function DonationForm({
     })
   }, [])
 
-  const displayAmount = amount / 100
-  const emailValid    = EMAIL_RE.test(donorEmail.trim())
+  const displayAmount       = amount / 100
+  const formattedAmount     = format.number(displayAmount, { minimumFractionDigits: 2 })
+  const formattedCharged    = format.number(chargedAmount / 100, { minimumFractionDigits: 2 })
+  const formattedReceives   = format.number(orgReceives / 100, { minimumFractionDigits: 2 })
+  const formattedFeeShown   = format.number((coverFee ? feeOnGross : feeOnBase) / 100, { minimumFractionDigits: 2 })
+  const formattedCoverDelta = format.number((grossAmount - amount) / 100, { minimumFractionDigits: 2 })
+  const formattedGross      = format.number(grossAmount / 100, { minimumFractionDigits: 2 })
+  const emailValid          = EMAIL_RE.test(donorEmail.trim())
 
   // reset to amount step whenever donation type changes
   function handleTypeChange(type: DonationType) {
@@ -134,7 +147,7 @@ export default function DonationForm({
     const data = await res.json()
     setLoading(false)
     if (!res.ok || !data.clientSecret) {
-      setError(data.error ?? 'Erro ao iniciar pagamento.')
+      setError(data.error ?? t('startError'))
       return
     }
     setClientSecret(data.clientSecret)
@@ -148,7 +161,7 @@ export default function DonationForm({
     return (
       <div className="bg-canopy/40 border border-white/[0.08] rounded-2xl p-6 text-center">
         <p className="text-cream/40 text-sm leading-relaxed">
-          Doações para este projeto estarão disponíveis em breve.
+          {t('unavailable')}
         </p>
       </div>
     )
@@ -158,11 +171,11 @@ export default function DonationForm({
     return (
       <div className="bg-canopy/40 border border-white/[0.08] rounded-2xl p-8 text-center">
         <p className="text-sage text-3xl mb-3">✓</p>
-        <p className="text-cream font-serif text-xl font-light mb-2">Obrigada pelo apoio!</p>
+        <p className="text-cream font-serif text-xl font-light mb-2">{t('thanksTitle')}</p>
         <p className="text-cream/40 text-sm">
           {donationType === 'monthly'
-            ? `Doação mensal de R$ ${fmtBRL(chargedAmount)} ativada com sucesso. A ONG receberá R$ ${fmtBRL(orgReceives)} a cada mês após a taxa de processamento.`
-            : `Sua doação de R$ ${fmtBRL(chargedAmount)} foi processada. A ONG receberá R$ ${fmtBRL(orgReceives)} após a taxa de processamento.`}
+            ? t('thanksMonthly', { charged: formattedCharged, received: formattedReceives })
+            : t('thanksOnce',    { charged: formattedCharged, received: formattedReceives })}
         </p>
       </div>
     )
@@ -181,7 +194,7 @@ export default function DonationForm({
               : 'text-cream/40 hover:text-cream/70 hover:bg-white/[0.04]'
           }`}
         >
-          Doação pontual
+          {t('tabOnce')}
         </button>
         <button
           onClick={() => handleTypeChange('monthly')}
@@ -191,7 +204,7 @@ export default function DonationForm({
               : 'text-cream/40 hover:text-cream/70 hover:bg-white/[0.04]'
           }`}
         >
-          Doação mensal
+          {t('tabMonthly')}
         </button>
       </div>
 
@@ -201,7 +214,7 @@ export default function DonationForm({
           <div className="bg-sage/10 border border-sage/20 rounded-lg px-4 py-3 mb-5 flex items-start gap-2">
             <span className="text-sage text-sm mt-0.5">♻</span>
             <p className="text-sage/80 text-xs leading-relaxed">
-              Doações mensais garantem suporte contínuo ao projeto. Cancele quando quiser.
+              {t('monthlyBadge')}
             </p>
           </div>
         )}
@@ -211,13 +224,13 @@ export default function DonationForm({
           <>
             <button onClick={() => setStep('info')}
                     className="text-cream/30 text-xs tracking-widests uppercase hover:text-cream/60 transition-colors mb-5 block">
-              ← Voltar
+              {tCommon('back')}
             </button>
             <p className="text-cream/50 text-xs tracking-widests uppercase mb-4">
               {donationType === 'monthly'
-                ? `Doação mensal · R$ ${fmtBRL(chargedAmount)}/mês`
-                : `Doação · R$ ${fmtBRL(chargedAmount)}`}
-              {coverFee && <span className="text-sage/70 normal-case ml-2">(taxa coberta)</span>}
+                ? t('stepPayHeaderMonthly', { amount: formattedCharged })
+                : t('stepPayHeaderOnce',    { amount: formattedCharged })}
+              {coverFee && <span className="text-sage/70 normal-case ml-2">{t('feeCovered')}</span>}
             </p>
             <Elements
               stripe={stripePromise}
@@ -244,50 +257,50 @@ export default function DonationForm({
           <>
             <button onClick={() => setStep('amount')}
                     className="text-cream/30 text-xs tracking-widests uppercase hover:text-cream/60 transition-colors mb-5 block">
-              ← Voltar
+              {tCommon('back')}
             </button>
             <p className="text-cream/50 text-xs tracking-widests uppercase mb-4">
               {donationType === 'monthly'
-                ? `Mensal · R$ ${displayAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}/mês`
-                : `Pontual · R$ ${displayAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}
+                ? t('stepInfoHeaderMonthly', { amount: formattedAmount })
+                : t('stepInfoHeaderOnce',    { amount: formattedAmount })}
             </p>
             <div className="flex flex-col gap-4">
               <div>
-                <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Seu nome *</label>
+                <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('nameLabel')}</label>
                 <input type="text" value={donorName} onChange={e => setDonorName(e.target.value)}
-                       placeholder="Como prefere ser chamada" className={inputClass} autoFocus />
+                       placeholder={t('namePlaceholder')} className={inputClass} autoFocus />
               </div>
               <div>
-                <label className="text-cream/50 text-xs tracking-wide block mb-1.5">E-mail *</label>
+                <label className="text-cream/50 text-xs tracking-wide block mb-1.5">{t('emailLabel')}</label>
                 <input type="email" value={donorEmail} onChange={e => setDonorEmail(e.target.value)}
-                       placeholder="voce@email.com" className={inputClass}
+                       placeholder={t('emailPlaceholder')} className={inputClass}
                        autoComplete="email" inputMode="email" />
                 <p className="text-cream/25 text-[10px] mt-1.5">
-                  Usado para enviar seu recibo e atualizações do projeto.
+                  {t('emailHint')}
                 </p>
               </div>
               <div>
                 <label className="text-cream/50 text-xs tracking-wide block mb-1.5">
-                  Mensagem <span className="text-cream/25">(opcional)</span>
+                  {t('messageLabel')} <span className="text-cream/25">{t('messageOptional')}</span>
                 </label>
                 <textarea value={message} onChange={e => setMessage(e.target.value)}
-                          placeholder="Deixe uma mensagem para a organização..."
+                          placeholder={t('messagePlaceholder')}
                           rows={3} className={`${inputClass} resize-none`} />
               </div>
 
               {/* ── Tasa Stripe + opção de cobrir ────────────────────────────── */}
               <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-4 mt-1">
                 <div className="flex justify-between text-xs text-cream/55 mb-1">
-                  <span>Sua doação</span>
-                  <span>R$ {fmtBRL(amount)}</span>
+                  <span>{tFee('yourDonation')}</span>
+                  <span>R$ {formattedAmount}</span>
                 </div>
                 <div className="flex justify-between text-xs text-cream/40 mb-2">
-                  <span>Taxa Stripe (estimada)</span>
-                  <span>− R$ {fmtBRL(coverFee ? feeOnGross : feeOnBase)}</span>
+                  <span>{tFee('stripeFee')}</span>
+                  <span>− R$ {formattedFeeShown}</span>
                 </div>
                 <div className="flex justify-between text-xs text-sage font-medium pt-2 border-t border-white/[0.06]">
-                  <span>ONG recebe</span>
-                  <span>R$ {fmtBRL(orgReceives)}{donationType === 'monthly' ? '/mês' : ''}</span>
+                  <span>{donationType === 'monthly' ? tFee('ngoReceivesMonthly') : tFee('ngoReceivesOnce')}</span>
+                  <span>R$ {formattedReceives}</span>
                 </div>
 
                 <label className="mt-3 flex items-start gap-2 cursor-pointer text-cream/70 text-xs">
@@ -298,9 +311,11 @@ export default function DonationForm({
                     className="mt-0.5 accent-sage"
                   />
                   <span>
-                    Adicionar R$ {fmtBRL(grossAmount - amount)} para que a ONG receba R$ {fmtBRL(amount)} cheios.
+                    {tFee('coverFee', { fee: formattedCoverDelta, full: formattedAmount })}
                     <span className="block text-cream/35 text-[10px] mt-0.5">
-                      Você será cobrada R$ {fmtBRL(grossAmount)}{donationType === 'monthly' ? '/mês' : ''}.
+                      {donationType === 'monthly'
+                        ? tFee('youWillBeChargedMonthly', { gross: formattedGross })
+                        : tFee('youWillBeChargedOnce',    { gross: formattedGross })}
                     </span>
                   </span>
                 </label>
@@ -311,8 +326,10 @@ export default function DonationForm({
                       className="w-full bg-sage text-cream text-xs tracking-widests uppercase py-3.5 rounded-sm
                                  hover:bg-leaf transition-colors disabled:opacity-50">
                 {loading
-                  ? 'Aguarde...'
-                  : `Continuar com R$ ${fmtBRL(chargedAmount)}${donationType === 'monthly' ? '/mês' : ''} →`}
+                  ? t('waiting')
+                  : donationType === 'monthly'
+                    ? t('continueMonthly', { amount: formattedCharged })
+                    : t('continueOnce',    { amount: formattedCharged })}
               </button>
             </div>
           </>
@@ -322,7 +339,7 @@ export default function DonationForm({
         {step === 'amount' && (
           <>
             <p className="text-cream font-serif text-lg font-light mb-5">
-              {donationType === 'monthly' ? 'Valor mensal' : 'Escolha um valor'}
+              {donationType === 'monthly' ? t('amountMonthly') : t('amountChoose')}
             </p>
 
             <div className="grid grid-cols-3 gap-2 mb-3">
@@ -337,7 +354,7 @@ export default function DonationForm({
                   R$ {a}
                 </button>
               ))}
-              <input type="number" placeholder="Outro" value={customAmount} min={5}
+              <input type="number" placeholder={t('customPlaceholder')} value={customAmount} min={5}
                      onChange={e => {
                        setCustomAmount(e.target.value)
                        const v = parseFloat(e.target.value)
@@ -349,19 +366,19 @@ export default function DonationForm({
                      }`}
               />
             </div>
-            <p className="text-cream/25 text-[10px] mb-5">Valor mínimo R$ 5</p>
+            <p className="text-cream/25 text-[10px] mb-5">{t('minAmount')}</p>
 
             <button onClick={() => setStep('info')} disabled={amount < 500}
                     className="w-full bg-sage text-cream text-xs tracking-widests uppercase py-3.5 rounded-sm
                                hover:bg-leaf transition-colors disabled:opacity-50
                                shadow-[0_2px_12px_rgba(107,142,90,0.35)]">
               {donationType === 'monthly'
-                ? `Apoiar com R$ ${displayAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}/mês →`
-                : `Apoiar com R$ ${displayAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} →`}
+                ? t('supportMonthly', { amount: formattedAmount })
+                : t('supportOnce',    { amount: formattedAmount })}
             </button>
 
             <p className="text-cream/20 text-[10px] text-center mt-3">
-              Pagamento seguro via Stripe · A taxa de processamento é descontada do valor recebido pela ONG
+              {t('secureNote')}
             </p>
           </>
         )}

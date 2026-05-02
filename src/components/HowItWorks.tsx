@@ -1,28 +1,18 @@
-const STEPS = [
-  {
-    title:  'Escolha um projeto',
-    text:   'Explore organizações verificadas, filtradas por bioma, espécie ou país. Cada ficha traz dados científicos, equipe e histórico em campo.',
-    detail: 'Verificação em três níveis: documental, financeira e técnica.',
-  },
-  {
-    title:  'Doe ou patrocine',
-    text:   'Doação única ou mensal. Pagamento via Pix, cartão de crédito, débito ou boleto. A Fauna não retém taxa — apenas a do processador de pagamento se aplica.',
-    detail: 'Pagamentos processados pela Stripe. A tarifa do processador é descontada antes da transferência à organização.',
-  },
-  {
-    title:  'Acompanhe os resultados',
-    text:   'Receba relatórios trimestrais com fotos, dados de monitoramento e métricas de impacto. Cada doação é rastreável.',
-    detail: 'Dashboard pessoal com histórico, certificados e doações.',
-  },
-]
+'use client'
+
+import { useTranslations } from 'next-intl'
+
+type Step = { title: string; text: string; detail: string }
 
 export default function HowItWorks() {
+  const hw = useTranslations('howItWorks')
+  const steps = hw.raw('steps') as Step[]
+
   return (
     <section
       id="como-funciona"
       className="relative overflow-hidden border-t border-b border-forest/10"
       style={{
-        // Gradiente claro: pergaminho no topo → creme um tom mais quente embaixo.
         background: 'linear-gradient(to bottom, var(--parchment) 0%, var(--cream) 100%)',
         color:      'var(--forest)',
         padding:    '120px 24px',
@@ -46,17 +36,17 @@ export default function HowItWorks() {
         <div className="mb-14">
           <p className="font-mono text-[10px] tracking-[0.32em] uppercase mb-3.5"
              style={{ color: 'rgba(196,82,42,0.85)' }}>
-            Sobre
+            {hw('eyebrow')}
           </p>
           <h2 className="font-serif font-light text-forest"
               style={{ fontSize: 'clamp(36px, 5vw, 56px)', lineHeight: 1.1 }}>
-            Como funciona
+            {hw('title')}
           </h2>
         </div>
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {STEPS.map((s, i) => (
+          {steps.map((s, i) => (
             <div
               key={i}
               className="relative bg-moonstone px-8 py-9 border border-forest/10

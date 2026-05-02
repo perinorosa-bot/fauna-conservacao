@@ -1,12 +1,11 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
-import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { useTranslations, useLocale } from 'next-intl'
+import { Link, usePathname, useRouter } from '@/i18n/navigation'
 import { useNavTheme } from './NavTheme'
-import type { Locale } from '@/lib/i18n/translations'
+import type { Locale } from '@/i18n/routing'
 import { createClient } from '@/lib/supabase/client'
 
 const LOCALES: { code: Locale; label: string; flag: string }[] = [
@@ -17,13 +16,18 @@ const LOCALES: { code: Locale; label: string; flag: string }[] = [
 
 const FLAG_LABELS: Record<Locale, string> = { pt: '🇧🇷', en: '🇺🇸', es: '🇪🇸' }
 
-/* ── Audience pill — perfis "Sou doador / ONG / empresa" ─── */
 type AudienceId = 'doador' | 'ong' | 'empresa'
-const AUDIENCES: { id: AudienceId; label: string; sub: string; href: string }[] = [
-  { id: 'doador',  label: 'Sou doador',  sub: 'Quero apoiar projetos',    href: '/projetos' },
-  { id: 'ong',     label: 'Sou ONG',     sub: 'Buscando financiamento',   href: '/organizacoes/cadastro' },
-  { id: 'empresa', label: 'Sou empresa', sub: 'Patrocinar conservação',   href: '/apoie' },
-]
+const AUDIENCE_HREF: Record<AudienceId, string> = {
+  doador:  '/projetos',
+  ong:     '/organizacoes/cadastro',
+  empresa: '/apoie',
+}
+const AUDIENCE_KEY: Record<AudienceId, 'donor' | 'ngo' | 'company'> = {
+  doador:  'donor',
+  ong:     'ngo',
+  empresa: 'company',
+}
+const AUDIENCE_ORDER: AudienceId[] = ['doador', 'ong', 'empresa']
 
 function useSoundscape() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -57,8 +61,13 @@ export default function Nav() {
   const [audOpen, setAudOpen]      = useState(false)
   const audRef                     = useRef<HTMLDivElement>(null)
   const { playing, toggle }        = useSoundscape()
-  const { locale, t, setLocale }   = useLanguage()
+  const t                          = useTranslations('nav')
+  const locale                     = useLocale() as Locale
   const navTheme                   = useNavTheme()
+
+  function setLocale(code: Locale) {
+    router.replace(path, { locale: code })
+  }
 
   useEffect(() => {
     const supabase = createClient()
@@ -80,7 +89,6 @@ export default function Nav() {
     return () => subscription.unsubscribe()
   }, [])
 
-  // Close lang dropdown on outside click
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (langRef.current && !langRef.current.contains(e.target as Node)) {
@@ -94,45 +102,47 @@ export default function Nav() {
     return () => document.removeEventListener('mousedown', handleClick)
   }, [])
 
-  // Persist audience selection on the device
   useEffect(() => {
     const saved = (typeof window !== 'undefined' && localStorage.getItem('fauna_audience')) as AudienceId | null
-    if (saved && AUDIENCES.some(a => a.id === saved)) setAudience(saved)
+    if (saved && AUDIENCE_ORDER.includes(saved)) setAudience(saved)
   }, [])
 
-  function selectAudience(a: typeof AUDIENCES[number]) {
-    setAudience(a.id)
+  function selectAudience(id: AudienceId) {
+    setAudience(id)
     setAudOpen(false)
-    if (typeof window !== 'undefined') localStorage.setItem('fauna_audience', a.id)
-    router.push(a.href)
+    if (typeof window !== 'undefined') localStorage.setItem('fauna_audience', id)
+    router.push(AUDIENCE_HREF[id])
   }
 
   /* Cada perfil tem ações próprias, claras e não-redundantes:
    *   doador  → ação: explorar projetos / login passwordless
    *   ong     → ação: cadastrar ou entrar no painel
    *   empresa → ação: conhecer apoio / falar com a equipe */
-  const AUDIENCE_ACTIONS = {
-    doador: {
-      primaryLabel:   'Doar agora',
-      primaryHref:    '/projetos',
-      secondaryLabel: userEmail ? 'Meu perfil' : 'Acessar conta',
-      secondaryHref:  userEmail ? '/perfil' : '/entrar',
-    },
-    ong: {
-      primaryLabel:   userEmail && userRole === 'organization' ? 'Painel da ONG' : 'Cadastrar ONG',
-      primaryHref:    userEmail && userRole === 'organization' ? '/org/painel' : '/organizacoes/cadastro',
-      secondaryLabel: 'Entrar como ONG',
-      secondaryHref:  '/org/login',
-    },
-    empresa: {
-      primaryLabel:   'Como apoiar',
+  const action = (() => {
+    if (audience === 'doador') {
+      return {
+        primaryLabel:   t('actions.donateNow'),
+        primaryHref:    '/projetos',
+        secondaryLabel: userEmail ? t('actions.myProfile') : t('actions.accessAccount'),
+        secondaryHref:  userEmail ? '/perfil' : '/entrar',
+      }
+    }
+    if (audience === 'ong') {
+      const isOrgUser = !!userEmail && userRole === 'organization'
+      return {
+        primaryLabel:   isOrgUser ? t('actions.ngoDashboard') : t('actions.registerNgo'),
+        primaryHref:    isOrgUser ? '/org/painel' : '/organizacoes/cadastro',
+        secondaryLabel: t('actions.loginAsNgo'),
+        secondaryHref:  '/org/login',
+      }
+    }
+    return {
+      primaryLabel:   t('actions.howToSupport'),
       primaryHref:    '/apoie',
-      secondaryLabel: 'Falar com a gente',
+      secondaryLabel: t('actions.talkToUs'),
       secondaryHref:  '/contato',
-    },
-  } as const
-
-  const action = AUDIENCE_ACTIONS[audience]
+    }
+  })()
 
   const isLight = navTheme === 'light' && !scrolled
 
@@ -144,21 +154,10 @@ export default function Nav() {
     return () => { clearTimeout(showTimer); window.removeEventListener('scroll', onScroll) }
   }, [])
 
-  // Colour tokens
   const logoColor    = isLight ? 'text-forest'                    : 'text-cream'
-  // Dark theme: bumped from /50 to /80 + drop-shadow halo so links stay
-  // readable on medium-green backgrounds where the nav used to disappear.
   const linkInactive = isLight
     ? 'text-forest/85 hover:text-forest'
     : 'text-cream/80 hover:text-cream drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]'
-
-  const outlineBtn = isLight
-    ? 'border border-forest/20 text-forest/60 hover:bg-forest/5 hover:text-forest hover:border-forest/40'
-    : 'border border-white/20 text-cream/70 hover:bg-white/5 hover:text-cream hover:border-white/40'
-
-  const authHref = !userEmail
-    ? '/entrar'
-    : userRole === 'organization' ? '/org/painel' : '/perfil'
 
   return (
     <nav
@@ -173,7 +172,6 @@ export default function Nav() {
       )}
       style={{
         transitionProperty: 'background, border-color, padding, opacity, transform, backdrop-filter',
-        // Glassmorphism quando scrolled — frosted glass com blur forte e saturação
         ...(scrolled && {
           background:           'rgba(11, 20, 16, 0.55)',
           backdropFilter:       'blur(20px) saturate(160%)',
@@ -182,7 +180,7 @@ export default function Nav() {
         }),
       }}
     >
-      {/* ── Logo ──────────────────────────────────────────────────────────── */}
+      {/* Logo */}
       <Link
         href="/"
         className={clsx(
@@ -195,36 +193,34 @@ export default function Nav() {
         Fauna
       </Link>
 
-      {/* ── Left nav links — mono uppercase, espaçamento 0.25em ─────────────── */}
+      {/* Left nav links */}
       <Link href="/sobre"
             className={clsx('font-mono text-[11px] font-semibold tracking-[0.25em] uppercase transition-colors duration-200 whitespace-nowrap',
               path.startsWith('/sobre') ? 'text-sage' : linkInactive)}>
-        Sobre
+        {t('about')}
       </Link>
 
       <Link href="/projetos"
             className={clsx('font-mono text-[11px] font-semibold tracking-[0.25em] uppercase transition-colors duration-200 whitespace-nowrap',
               path.startsWith('/projetos') ? 'text-sage' : linkInactive)}>
-        {t.nav.projects}
+        {t('projects')}
       </Link>
 
       <Link href="/academy"
             className={clsx('font-mono text-[11px] font-semibold tracking-[0.25em] uppercase transition-colors duration-200 whitespace-nowrap',
               path.startsWith('/academy') ? 'text-sage' : linkInactive)}>
-        Academy
+        {t('academy')}
       </Link>
 
       <a href="https://umapenca.com/fauna-conservacao" target="_blank" rel="noopener noreferrer"
          className={clsx('font-mono text-[11px] font-semibold tracking-[0.25em] uppercase transition-colors duration-200 whitespace-nowrap', linkInactive)}>
-        Nossa loja
+        {t('shop')}
       </a>
 
-      {/* ── Spacer ────────────────────────────────────────────────────────── */}
+      {/* Spacer */}
       <div className="flex-1" />
 
-      {/* ── Right side buttons ────────────────────────────────────────────── */}
-
-      {/* Audience pill — Sou doador / ONG / empresa */}
+      {/* Audience pill */}
       <div ref={audRef} className="relative hidden md:block">
         <button
           onClick={() => setAudOpen(v => !v)}
@@ -238,7 +234,7 @@ export default function Nav() {
         >
           <span className="block w-1.5 h-1.5 rounded-full bg-terra"
                 style={{ boxShadow: '0 0 8px rgba(196,82,42,0.6)' }} />
-          {AUDIENCES.find(a => a.id === audience)?.label ?? 'Sou'}
+          {t(`audience.${AUDIENCE_KEY[audience]}.label`)}
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none"
                className={clsx('transition-transform duration-200', audOpen && 'rotate-180')}>
             <path d="M1 2.5L4 5.5L7 2.5" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
@@ -255,30 +251,30 @@ export default function Nav() {
               border:               '1px solid rgba(237,229,208,0.10)',
             }}
           >
-            {AUDIENCES.map(a => (
+            {AUDIENCE_ORDER.map(id => (
               <button
-                key={a.id}
-                onClick={() => selectAudience(a)}
+                key={id}
+                onClick={() => selectAudience(id)}
                 className="block w-full text-left px-3.5 py-3 transition-colors"
                 style={{
-                  background: audience === a.id ? 'rgba(122,158,126,0.12)' : 'transparent',
-                  borderLeft: audience === a.id ? '2px solid var(--sage)' : '2px solid transparent',
+                  background: audience === id ? 'rgba(122,158,126,0.12)' : 'transparent',
+                  borderLeft: audience === id ? '2px solid var(--sage)' : '2px solid transparent',
                 }}
               >
                 <div
                   className="font-mono text-[10px] tracking-[0.2em] uppercase mb-0.5"
-                  style={{ color: audience === a.id ? 'var(--sage)' : 'var(--cream)' }}
+                  style={{ color: audience === id ? 'var(--sage)' : 'var(--cream)' }}
                 >
-                  {a.label}
+                  {t(`audience.${AUDIENCE_KEY[id]}.label`)}
                 </div>
-                <div className="text-[11px] text-cream/45">{a.sub}</div>
+                <div className="text-[11px] text-cream/45">{t(`audience.${AUDIENCE_KEY[id]}.sub`)}</div>
               </button>
             ))}
           </div>
         )}
       </div>
 
-      {/* Ação primária — varia por perfil (doador → Doar; ong → Cadastrar; empresa → Como apoiar) */}
+      {/* Ação primária */}
       <Link href={action.primaryHref}
             className="font-mono text-[10px] tracking-[0.22em] uppercase font-semibold bg-terra text-cream
                        px-5 py-2.5 rounded-[2px] hover:bg-[#A8431C] hover:-translate-y-px transition-all duration-200
@@ -286,7 +282,7 @@ export default function Nav() {
         {action.primaryLabel}
       </Link>
 
-      {/* Ação secundária — também varia por perfil */}
+      {/* Ação secundária */}
       <Link href={action.secondaryHref}
             className={clsx(
               'font-mono text-[10px] tracking-[0.22em] uppercase px-4 py-2.5 rounded-[2px] transition-all duration-200 whitespace-nowrap hidden sm:inline-flex',
@@ -297,7 +293,7 @@ export default function Nav() {
         {action.secondaryLabel}
       </Link>
 
-      {/* ── Language dropdown ─────────────────────────────────────────────── */}
+      {/* Language dropdown */}
       <div ref={langRef} className="relative hidden sm:block">
         <button
           onClick={() => setLangOpen(v => !v)}
@@ -338,10 +334,10 @@ export default function Nav() {
         )}
       </div>
 
-      {/* ── Music toggle ──────────────────────────────────────────────────── */}
+      {/* Music toggle */}
       <button
         onClick={toggle}
-        title={playing ? 'Pausar sons da natureza' : 'Tocar sons da natureza'}
+        title={playing ? t('pauseSounds') : t('playSounds')}
         className={clsx(
           'flex items-center gap-1.5 transition-all duration-200',
           playing ? 'text-sage' : isLight ? 'text-forest/40 hover:text-forest/70' : 'text-cream/40 hover:text-cream/70',

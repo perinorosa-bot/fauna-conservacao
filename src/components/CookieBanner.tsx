@@ -1,10 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 
 export default function CookieBanner() {
   const [visible, setVisible] = useState(false)
+  const t = useTranslations('cookieBanner')
 
   useEffect(() => {
     const consent = localStorage.getItem('fauna-cookie-consent')
@@ -34,7 +36,7 @@ export default function CookieBanner() {
                  px-6 py-5 shadow-[0_8px_40px_rgba(0,0,0,0.55)]
                  flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6"
       role="dialog"
-      aria-label="Consentimento de cookies"
+      aria-label={t('ariaLabel')}
     >
       {/* Icon */}
       <span className="text-xl flex-shrink-0">🍃</span>
@@ -42,10 +44,9 @@ export default function CookieBanner() {
       {/* Text */}
       <div className="flex-1 min-w-0">
         <p className="text-cream/85 text-xs leading-relaxed">
-          Usamos cookies essenciais para autenticação e para lembrar suas preferências de idioma.
-          Não usamos rastreamento ou publicidade.{' '}
+          {t('message')}{' '}
           <Link href="/cookies" className="text-sage hover:underline">
-            Saiba mais
+            {t('learnMore')}
           </Link>
         </p>
       </div>
@@ -57,14 +58,14 @@ export default function CookieBanner() {
           className="text-cream/30 text-[10px] tracking-widest uppercase px-3 py-2
                      hover:text-cream/60 transition-colors"
         >
-          Recusar
+          {t('decline')}
         </button>
         <button
           onClick={accept}
           className="bg-sage text-cream text-[10px] tracking-widest uppercase
                      px-5 py-2.5 rounded-sm hover:bg-leaf transition-colors whitespace-nowrap"
         >
-          Aceitar
+          {t('accept')}
         </button>
       </div>
     </div>

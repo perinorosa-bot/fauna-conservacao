@@ -1,33 +1,18 @@
-import Link from 'next/link'
+'use client'
+
+import { Link } from '@/i18n/navigation'
+import { useTranslations, useFormatter, useNow } from 'next-intl'
 import type { Update, Project, Organization } from '@/types'
 
 type UpdateWithProject = Update & {
   project: (Project & { organization: Organization | null }) | null
 }
 
-/* Formata tempo relativo em português ("2 dias atrás", "1 semana atrás"). */
-function timeAgo(dateString: string): string {
-  if (!dateString) return ''
-  const diff = Date.now() - new Date(dateString).getTime()
-  const sec  = Math.floor(diff / 1000)
-  const min  = Math.floor(sec  / 60)
-  const hr   = Math.floor(min  / 60)
-  const day  = Math.floor(hr   / 24)
-  const wk   = Math.floor(day  / 7)
-  const mo   = Math.floor(day  / 30)
-
-  if (mo  >= 1) return `${mo} ${mo  === 1 ? 'mês'    : 'meses'}  atrás`
-  if (wk  >= 1) return `${wk} ${wk  === 1 ? 'semana' : 'semanas'} atrás`
-  if (day >= 1) return `${day} ${day === 1 ? 'dia'    : 'dias'}    atrás`
-  if (hr  >= 1) return `${hr} ${hr  === 1 ? 'hora'   : 'horas'}    atrás`
-  if (min >= 1) return `${min} ${min === 1 ? 'minuto' : 'minutos'} atrás`
-  return 'agora há pouco'
-}
-
 export default function FeedSection({ updates }: { updates: UpdateWithProject[] }) {
+  const t = useTranslations('feed')
+  const now = useNow()
   if (!updates.length) return null
 
-  // Pega até 5 updates para o mosaico (1 grande + 4 pequenas).
   const items = updates.slice(0, 5)
 
   return (
@@ -37,10 +22,10 @@ export default function FeedSection({ updates }: { updates: UpdateWithProject[] 
       <div className="max-w-[1280px] mx-auto">
         {/* Header */}
         <div className="mb-10">
-          <p className="eyebrow mb-3.5">Em campo · Atualizações</p>
+          <p className="eyebrow mb-3.5">{t('eyebrow')}</p>
           <h2 className="font-serif text-forest font-light leading-[1.1]"
               style={{ fontSize: 'clamp(32px, 4vw, 48px)' }}>
-            O que aconteceu nas últimas semanas
+            {t('title')}
           </h2>
         </div>
 
@@ -51,7 +36,7 @@ export default function FeedSection({ updates }: { updates: UpdateWithProject[] 
                         md:[grid-auto-rows:1fr]">
           {items.map((u, i) => {
             const isFeatured = i === 0
-            return <FeedCard key={u.id} update={u} featured={isFeatured} />
+            return <FeedCard key={u.id} update={u} featured={isFeatured} now={now} />
           })}
         </div>
       </div>
@@ -59,7 +44,8 @@ export default function FeedSection({ updates }: { updates: UpdateWithProject[] 
   )
 }
 
-function FeedCard({ update, featured }: { update: UpdateWithProject; featured: boolean }) {
+function FeedCard({ update, featured, now }: { update: UpdateWithProject; featured: boolean; now: Date }) {
+  const format = useFormatter()
   const project = update.project
   const org     = project?.organization
   const href    = project ? `/projetos/${project.slug}` : '/projetos'
@@ -94,7 +80,7 @@ function FeedCard({ update, featured }: { update: UpdateWithProject; featured: b
             padding: '4px 8px',
           }}
         >
-          {timeAgo(update.created_at)}
+          {update.created_at ? format.relativeTime(new Date(update.created_at), now) : ''}
         </span>
       </div>
 
