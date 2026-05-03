@@ -1,4 +1,5 @@
 import Nav from '@/components/layout/Nav'
+import WelcomeGate from '@/components/WelcomeGate'
 import ParallaxHero from '@/components/ParallaxHero'
 import SpeciesCounter from '@/components/SpeciesCounter'
 import HowItWorksTimeline from '@/components/HowItWorksTimeline'
@@ -44,6 +45,7 @@ export default async function HomePage() {
 
   return (
     <main>
+      <WelcomeGate />
       <Nav />
       <ParallaxHero />
       <WhoWeAre />

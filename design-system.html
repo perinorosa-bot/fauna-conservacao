@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fauna · Design System</title>
+
+<style>
+/* ═══════════════════════════════════════════════════════
+   FONTE — Spathafold (oficial Fauna)
+   ═══════════════════════════════════════════════════════ */
+@font-face {
+  font-family: 'Spathafold';
+  src: url('fonts/SpathaFold.woff2') format('woff2'),
+       url('fonts/SpathaFold.woff')  format('woff'),
+       url('fonts/SpathaFold.otf')   format('opentype'),
+       url('fonts/SpathaFold.ttf')   format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TOKENS — extraídos de globals.css do projeto
+   ═══════════════════════════════════════════════════════ */
+:root {
+  --forest:    #1A3528;
+  --canopy:    #1E2E20;
+  --basalt:    #0F1A12;
+  --leaf:      #3D4A1E;
+  --sage:      #7A9E7E;
+  --mist:      #A89070;
+  --cream:     #EDE5D0;
+  --parchment: #F5EFE0;
+  --ochre:     #B5834A;
+  --prussian:  #2E5FA3;
+  --terra:     #C4522A;
+  --moonstone: #F5F5F5;
+
+  --font-sans: 'Spathafold', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --ease-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+* { box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+body {
+  margin: 0;
+  background: var(--moonstone);
+  color: var(--forest);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.5;
+  position: relative;
+  min-height: 100vh;
+}
+
+em, i, cite, var, address, dfn, .italic { font-style: normal !important; }
+
+/* Paper noise overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+  opacity: 0.038;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 250px 250px;
+}
+
+::selection { background: var(--terra); color: var(--cream); }
+
+button { font-family: var(--font-sans); }
+
+/* ─── PAGE LAYOUT ─── */
+.page {
+  max-width: 1280px;
+  margin: 40px auto;
+  padding: 80px 40px 120px;
+  border: 1px solid rgba(26,53,40,0.10);
+  border-radius: 32px;
+  background: var(--moonstone);
+}
+
+.page-header { text-align: center; margin-bottom: 80px; }
+
+.page-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.page-title {
+  font-size: 64px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--forest);
+  margin: 0 0 20px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: rgba(26,53,40,0.55);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.page-meta {
+  margin-top: 32px;
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(26,53,40,0.4);
+}
+
+/* ─── GRID ─── */
+.grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+
+.card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 32px;
+  border: 1px solid rgba(26,53,40,0.06);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.6) inset,
+    0 1px 2px rgba(26,53,40,0.02),
+    0 12px 32px -16px rgba(26,53,40,0.08);
+}
+
+.card.dark {
+  background: var(--forest);
+  border-color: rgba(237,229,208,0.08);
+  color: var(--cream);
+}
+
+.card-label {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(26,53,40,0.45);
+  font-weight: 500;
+  margin-bottom: 24px;
+  display: block;
+}
+
+.card.dark .card-label { color: rgba(237,229,208,0.55); }
+
+.col-4  { grid-column: span 4; }
+.col-5  { grid-column: span 5; }
+.col-6  { grid-column: span 6; }
+.col-7  { grid-column: span 7; }
+.col-8  { grid-column: span 8; }
+.col-12 { grid-column: span 12; }
+
+@media (max-width: 900px) {
+  .col-4, .col-5, .col-6, .col-7, .col-8 { grid-column: span 12; }
+  .page-title { font-size: 44px; }
+  .page { padding: 48px 24px 80px; }
+}
+
+/* ─── SECTION DIVIDER ─── */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 60px 0 28px;
+  grid-column: span 12;
+}
+.section-divider .num {
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: rgba(26,53,40,0.4);
+}
+.section-divider .label {
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--terra);
+  font-weight: 500;
+}
+.section-divider .rule { flex: 1; height: 1px; background: rgba(26,53,40,0.12); }
+
+/* ─── CORES ─── */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.swatch {
+  border-radius: 14px;
+  padding: 14px;
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(26,53,40,0.06);
+}
+
+.swatch-name { font-size: 12px; font-weight: 500; }
+.swatch-hex { font-family: monospace; font-size: 10px; letter-spacing: 0.05em; opacity: 0.75; }
+.swatch.light-text { color: var(--cream); }
+.swatch.dark-text  { color: var(--forest); }
+
+@media (max-width: 600px) { .color-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ─── TIPOGRAFIA ─── */
+.type-row {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(26,53,40,0.07);
+}
+.type-row:last-child { border-bottom: 0; }
+.type-row:first-child { padding-top: 0; }
+
+.type-meta {
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(26,53,40,0.45);
+  margin-bottom: 8px;
+}
+
+.type-display { font-size: 56px; font-weight: 300; letter-spacing: -0.025em; line-height: 1.05; color: var(--forest); }
+.type-h1      { font-size: 40px; font-weight: 300; letter-spacing: -0.02em;  line-height: 1.1; color: var(--forest); }
+.type-h2      { font-size: 28px; font-weight: 400; letter-spacing: -0.015em; line-height: 1.2; color: var(--forest); }
+.type-h3      { font-size: 20px; font-weight: 500; letter-spacing: -0.01em;  line-height: 1.3; color: var(--forest); }
+.type-body    { font-size: 15px; font-weight: 400; line-height: 1.65; color: rgba(26,53,40,0.7); }
+.type-small   { font-size: 13px; font-weight: 400; line-height: 1.5; color: rgba(26,53,40,0.55); }
+.type-eyebrow { font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--terra); font-weight: 500; }
+
+/* ─── BOTÕES ─── */
+.btn-grid { display: flex; flex-direction: column; gap: 16px; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border-radius: 2px;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s var(--ease-soft);
+  white-space: nowrap;
+}
+
+.btn-terra { background: var(--terra); color: var(--cream); }
+.btn-terra:hover { background: #A8431C; transform: translateY(-1px); }
+
+.btn-prussian { background: var(--prussian); color: var(--cream); }
+.btn-prussian:hover { background: #264E8A; transform: translateY(-1px); }
+
+.btn-forest { background: var(--forest); color: var(--cream); }
+.btn-forest:hover { background: #0F1A12; transform: translateY(-1px); }
+
+.btn-outline-dark {
+  background: transparent;
+  color: rgba(26,53,40,0.6);
+  border-color: rgba(26,53,40,0.25);
+}
+.btn-outline-dark:hover {
+  color: var(--forest);
+  border-color: rgba(26,53,40,0.5);
+  transform: translateY(-1px);
+}
+
+.btn-outline-light {
+  background: transparent;
+  color: rgba(237,229,208,0.6);
+  border-color: rgba(237,229,208,0.20);
+}
+.btn-outline-light:hover {
+  color: var(--cream);
+  border-color: rgba(237,229,208,0.45);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--forest);
+  padding: 8px 0;
+  letter-spacing: 0.16em;
+}
+.btn-ghost:hover { color: var(--terra); }
+
+.btn-disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-disabled:hover { transform: none; }
+
+.btn-spec {
+  font-family: monospace;
+  font-size: 9px;
+  color: rgba(26,53,40,0.4);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+/* ─── COMPONENTE DE DOAÇÃO ─── */
+.donate-card {
+  background: var(--forest);
+  border-radius: 18px;
+  padding: 24px;
+  color: var(--cream);
+}
+
+.donate-amount-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin: 16px 0;
+}
+
+.donate-pill {
+  padding: 12px 4px;
+  border: 1px solid rgba(237,229,208,0.18);
+  border-radius: 4px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--cream);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+.donate-pill:hover { border-color: rgba(237,229,208,0.4); }
+.donate-pill.active { background: var(--terra); border-color: var(--terra); }
+
+.donate-input {
+  width: 100%;
+  background: rgba(237,229,208,0.05);
+  border: 1px solid rgba(237,229,208,0.15);
+  border-radius: 4px;
+  padding: 14px 16px;
+  color: var(--cream);
+  font-family: monospace;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+  outline: none;
+}
+.donate-input::placeholder { color: rgba(237,229,208,0.3); }
+.donate-input:focus { border-color: var(--terra); }
+
+.donate-fineprint {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: rgba(237,229,208,0.45);
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+/* ─── INPUTS ─── */
+.input-stack { display: flex; flex-direction: column; gap: 14px; }
+
+.input-field {
+  width: 100%;
+  background: var(--moonstone);
+  border: 1px solid rgba(26,53,40,0.15);
+  border-radius: 4px;
+  padding: 14px 16px;
+  color: var(--forest);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.input-field::placeholder { color: rgba(26,53,40,0.35); }
+.input-field:focus { border-color: var(--terra); }
+
+.input-field.error { border-color: var(--terra); }
+
+.input-label {
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(26,53,40,0.5);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.input-help {
+  font-size: 11px;
+  color: rgba(26,53,40,0.5);
+  margin-top: 6px;
+}
+
+.input-error {
+  font-size: 11px;
+  color: var(--terra);
+  margin-top: 6px;
+}
+
+/* ─── FOOTER ─── */
+.page-footer {
+  text-align: center;
+  margin-top: 80px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(26,53,40,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.footer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: white;
+  border: 1px solid rgba(26,53,40,0.08);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(26,53,40,0.55);
+  font-weight: 500;
+}
+
+.footer-meta {
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(26,53,40,0.35);
+}
+</style>
+</head>
+<body>
+
+<main class="page">
+
+  <header class="page-header">
+    <div class="page-eyebrow">FAUNA · CONSERVAÇÃO QUE VOCÊ PODE VER</div>
+    <h1 class="page-title">Design System</h1>
+    <p class="page-subtitle">
+      Tokens, tipografia e componentes da plataforma Fauna —
+      uma identidade botânica e cinematográfica.
+    </p>
+    <div class="page-meta">v1.0 · 2026</div>
+  </header>
+
+  <div class="grid">
+
+    <!-- §01 · CORES -->
+    <div class="section-divider">
+      <span class="num">01</span>
+      <span class="label">Paleta · Forest × Cinematic</span>
+      <span class="rule"></span>
+    </div>
+
+    <section class="card col-6">
+      <span class="card-label">Neutros · Estrutura</span>
+      <div class="color-grid">
+        <div class="swatch dark-text" style="background: var(--moonstone); border: 1px solid rgba(26,53,40,0.1);">
+          <div class="swatch-name">Moonstone</div>
+          <div class="swatch-hex">#F5F5F5</div>
+        </div>
+        <div class="swatch dark-text" style="background: var(--cream);">
+          <div class="swatch-name">Cream</div>
+          <div class="swatch-hex">#EDE5D0</div>
+        </div>
+        <div class="swatch dark-text" style="background: var(--parchment);">
+          <div class="swatch-name">Parchment</div>
+          <div class="swatch-hex">#F5EFE0</div>
+        </div>
+        <div class="swatch light-text" style="background: var(--mist);">
+          <div class="swatch-name">Mist</div>
+          <div class="swatch-hex">#A89070</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card col-6">
+      <span class="card-label">Vegetal · Ecologia</span>
+      <div class="color-grid">
+        <div class="swatch light-text" style="background: var(--forest);">
+          <div class="swatch-name">Forest</div>
+          <div class="swatch-hex">#1A3528</div>
+        </div>
+        <div class="swatch light-text" style="background: var(--canopy);">
+          <div class="swatch-name">Canopy</div>
+          <div class="swatch-hex">#1E2E20</div>
+        </div>
+        <div class="swatch light-text" style="background: var(--basalt);">
+          <div class="swatch-name">Basalt</div>
+          <div class="swatch-hex">#0F1A12</div>
+        </div>
+        <div class="swatch light-text" style="background: var(--sage);">
+          <div class="swatch-name">Sage</div>
+          <div class="swatch-hex">#7A9E7E</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card col-12">
+      <span class="card-label">Acentos · Vida & Ciência</span>
+      <div class="color-grid">
+        <div class="swatch light-text" style="background: var(--terra);">
+          <div class="swatch-name">Terra · Vida/Doação</div>
+          <div class="swatch-hex">#C4522A</div>
+        </div>
+        <div class="swatch light-text" style="background: var(--prussian);">
+          <div class="swatch-name">Prussian · Ciência</div>
+          <div class="swatch-hex">#2E5FA3</div>
+        </div>
+        <div class="swatch light-text" style="background: var(--ochre);">
+          <div class="swatch-name">Ochre · Mapa</div>
+          <div class="swatch-hex">#B5834A</div>
+        </div>
+        <div class="swatch light-text" style="background: var(--leaf);">
+          <div class="swatch-name">Leaf · Ação</div>
+          <div class="swatch-hex">#3D4A1E</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- §02 · TIPOGRAFIA -->
+    <div class="section-divider">
+      <span class="num">02</span>
+      <span class="label">Tipografia · Spathafold</span>
+      <span class="rule"></span>
+    </div>
+
+    <section class="card col-8">
+      <span class="card-label">Escala</span>
+
+      <div class="type-row">
+        <div class="type-meta">Display · 56 / 300 · -2.5%</div>
+        <div class="type-display">É o planeta deles também.</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta">H1 · 40 / 300 · -2%</div>
+        <div class="type-h1">Encontre o projeto que você deseja apoiar</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta">H2 · 28 / 400 · -1.5%</div>
+        <div class="type-h2">Monitoramento de Onças-Pintadas no Pantanal Norte</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta">H3 · 20 / 500 · -1%</div>
+        <div class="type-h3">Sua doação tem nome e endereço certo</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta">Body · 15 / 400 · 1.65 line</div>
+        <div class="type-body">
+          Cada real doado vai direto para pesquisadores no campo —
+          sem intermediários, sem burocracia.
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta">Small · 13 / 400</div>
+        <div class="type-small">Verificação de identidade e credenciais em até 5 dias úteis.</div>
+      </div>
+    </section>
+
+    <section class="card col-4">
+      <span class="card-label">Eyebrow & decisões</span>
+
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <div>
+          <div class="type-meta">Eyebrow · terra · 0.32 spacing</div>
+          <div class="type-eyebrow" style="margin-top: 6px;">Conservação que você pode ver</div>
+        </div>
+
+        <div>
+          <div class="type-meta">Pesos disponíveis</div>
+          <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-weight: 300; font-size: 16px; color: var(--forest);">Light · 300</div>
+            <div style="font-weight: 400; font-size: 16px; color: var(--forest);">Regular · 400</div>
+            <div style="font-weight: 500; font-size: 16px; color: var(--forest);">Medium · 500</div>
+            <div style="font-weight: 700; font-size: 16px; color: var(--forest);">Bold · 700</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="type-meta">Decisão de design</div>
+          <div style="font-size: 12px; color: rgba(26,53,40,0.55); line-height: 1.5; margin-top: 6px;">
+            Sem itálicos em todo o site — coberto por <code style="background: rgba(26,53,40,0.06); padding: 1px 5px; border-radius: 3px; font-size: 10px; font-family: monospace;">font-style: normal !important</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- §03 · BOTÕES -->
+    <div class="section-divider">
+      <span class="num">03</span>
+      <span class="label">Botões · Ação editorial</span>
+      <span class="rule"></span>
+    </div>
+
+    <section class="card col-7">
+      <span class="card-label">Variantes em fundo claro</span>
+
+      <div class="btn-grid">
+        <div>
+          <div class="btn-row">
+            <button class="btn btn-terra">Doe agora</button>
+            <button class="btn btn-prussian">Explorar projetos</button>
+            <button class="btn btn-forest">Cadastrar projeto</button>
+          </div>
+          <div class="btn-spec">terra · prussian · forest · sólidos</div>
+        </div>
+
+        <div>
+          <div class="btn-row">
+            <button class="btn btn-outline-dark">Como funciona</button>
+            <button class="btn btn-outline-dark">Saiba mais</button>
+            <button class="btn btn-ghost">Ver todos →</button>
+          </div>
+          <div class="btn-spec">outline · ghost</div>
+        </div>
+
+        <div>
+          <div class="btn-row">
+            <button class="btn btn-terra btn-disabled">Disabled</button>
+            <button class="btn btn-outline-dark btn-disabled">Disabled</button>
+          </div>
+          <div class="btn-spec">disabled · 0.4 opacity · cursor not-allowed</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card dark col-5">
+      <span class="card-label">Em fundo escuro</span>
+
+      <div class="btn-grid">
+        <div>
+          <div class="btn-row">
+            <button class="btn btn-terra">Doe agora</button>
+            <button class="btn btn-outline-light">Como funciona</button>
+          </div>
+          <div class="btn-spec" style="color: rgba(237,229,208,0.4);">terra + outline-light</div>
+        </div>
+
+        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(237,229,208,0.1);">
+          <div class="btn-spec" style="color: rgba(237,229,208,0.5); margin-bottom: 8px;">Specs</div>
+          <div style="font-family: monospace; font-size: 10px; line-height: 1.7; color: rgba(237,229,208,0.65); letter-spacing: 0.04em;">
+            padding: 14px 28px<br>
+            radius: 2px (sm)<br>
+            font-size: 10px / weight 700<br>
+            letter-spacing: 0.16em<br>
+            text-transform: uppercase<br>
+            transition: 200ms ease-soft
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- §04 · DOAÇÃO -->
+    <div class="section-divider">
+      <span class="num">04</span>
+      <span class="label">Componente de doação</span>
+      <span class="rule"></span>
+    </div>
+
+    <section class="card col-5" style="background: rgba(26,53,40,0.04);">
+      <span class="card-label">Card de doação</span>
+
+      <div class="donate-card">
+        <div style="font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--terra); margin-bottom: 6px; font-weight: 500;">
+          Apoiar este projeto
+        </div>
+        <div style="font-size: 18px; font-weight: 400; line-height: 1.3; margin-bottom: 4px;">
+          Escolha um valor
+        </div>
+        <div style="font-size: 11px; color: rgba(237,229,208,0.5);">
+          100% vai direto ao projeto
+        </div>
+
+        <div class="donate-amount-row">
+          <button class="donate-pill">R$ 25</button>
+          <button class="donate-pill active">R$ 50</button>
+          <button class="donate-pill">R$ 100</button>
+          <button class="donate-pill">R$ 250</button>
+        </div>
+
+        <input type="text" class="donate-input" placeholder="Outro valor · R$" />
+
+        <button class="btn btn-terra" style="width: 100%; padding: 16px;">Doar agora</button>
+
+        <div class="donate-fineprint">
+          A partir de R$ 10 · Cancele quando quiser<br>
+          Taxa zero sobre doações
+        </div>
+      </div>
+    </section>
+
+    <section class="card col-7">
+      <span class="card-label">Anatomia & estados</span>
+
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+
+        <div>
+          <div class="type-meta">Pills de valor</div>
+          <div style="display: flex; gap: 8px; margin-top: 10px; padding: 16px; background: var(--forest); border-radius: 12px;">
+            <button class="donate-pill" style="flex: 1;">R$ 25</button>
+            <button class="donate-pill active" style="flex: 1;">R$ 50</button>
+            <button class="donate-pill" style="flex: 1;">R$ 100</button>
+          </div>
+          <div class="btn-spec">default · hover · active (bg terra)</div>
+        </div>
+
+        <div>
+          <div class="type-meta">Comportamento</div>
+          <ul style="font-size: 13px; color: rgba(26,53,40,0.7); line-height: 1.6; margin: 8px 0 0; padding-left: 20px;">
+            <li>4 valores pré-definidos: R$ 25, 50, 100, 250</li>
+            <li>Input livre abaixo para "outro valor"</li>
+            <li>Selecionar uma pill desativa as outras</li>
+            <li>Microcopy explícita: "100% vai direto ao projeto"</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="type-meta">Specs</div>
+          <div style="font-family: monospace; font-size: 10px; line-height: 1.7; color: rgba(26,53,40,0.6); letter-spacing: 0.04em; margin-top: 6px;">
+            container: forest bg · 18px radius · 24px padding<br>
+            pill: 4px radius · 12px padding · cream/18 border<br>
+            pill active: terra bg · cream text<br>
+            input: mono font · cream/15 border · terra on focus
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- §05 · INPUTS -->
+    <div class="section-divider">
+      <span class="num">05</span>
+      <span class="label">Inputs · Formulários</span>
+      <span class="rule"></span>
+    </div>
+
+    <section class="card col-7">
+      <span class="card-label">Campos de texto</span>
+
+      <div class="input-stack">
+        <div>
+          <div class="input-label">Nome completo</div>
+          <input type="text" class="input-field" placeholder="Como você quer ser chamado" />
+        </div>
+
+        <div>
+          <div class="input-label">E-mail</div>
+          <input type="email" class="input-field" placeholder="seu@email.com" />
+          <div class="input-help">Usaremos para enviar comprovante e atualizações</div>
+        </div>
+
+        <div>
+          <div class="input-label">CPF</div>
+          <input type="text" class="input-field error" value="000.000.000-XX" />
+          <div class="input-error">CPF inválido — verifique os dígitos</div>
+        </div>
+
+        <div>
+          <div class="input-label">Mensagem (opcional)</div>
+          <textarea class="input-field" rows="3" placeholder="Sua mensagem chega junto com a doação" style="resize: vertical; min-height: 90px;"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="card col-5">
+      <span class="card-label">Anatomia do input</span>
+
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+
+        <div>
+          <div class="type-meta">Hierarquia</div>
+          <ol style="font-size: 13px; color: rgba(26,53,40,0.7); line-height: 1.7; margin: 8px 0 0; padding-left: 20px;">
+            <li><strong style="color: var(--forest);">Label</strong> uppercase, 9px, tracking 0.24em</li>
+            <li><strong style="color: var(--forest);">Field</strong> 14px sans, padding 14×16</li>
+            <li><strong style="color: var(--forest);">Help/error</strong> 11px abaixo do field</li>
+          </ol>
+        </div>
+
+        <div>
+          <div class="type-meta">Estados</div>
+          <div style="margin-top: 8px; font-size: 13px; color: rgba(26,53,40,0.7); line-height: 1.7;">
+            <div><strong style="color: var(--forest);">Default</strong> — borda forest/15</div>
+            <div><strong style="color: var(--forest);">Focus</strong> — borda terra</div>
+            <div><strong style="color: var(--forest);">Error</strong> — borda terra + texto auxiliar terra</div>
+            <div><strong style="color: var(--forest);">Disabled</strong> — opacity 0.4</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="type-meta">Specs</div>
+          <div style="font-family: monospace; font-size: 10px; line-height: 1.7; color: rgba(26,53,40,0.6); letter-spacing: 0.04em; margin-top: 6px;">
+            background: moonstone<br>
+            border: 1px forest/15<br>
+            radius: 4px<br>
+            padding: 14px 16px<br>
+            font: spathafold 14px<br>
+            transition: border-color 200ms
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="page-footer">
+    <div class="footer-pill">
+      <span style="width: 6px; height: 6px; border-radius: 999px; background: var(--terra);"></span>
+      Fauna Design System v1.0
+    </div>
+    <div class="footer-meta">
+      © 2026 Fauna Conservation Platform
+    </div>
+  </footer>
+
+</main>
+
+</body>
+</html>

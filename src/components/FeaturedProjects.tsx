@@ -40,7 +40,7 @@ const MOCK_FEATURED: ProjectWithOrg[] = [
   {
     id: 'mock-feat-4', created_at: '2026-03-20', organization_id: '', slug: 'arara-azul',
     title: 'Arara-azul no Cerrado',
-    description: 'Conservação de ninhais ativos.',
+    description: 'Conservação da fauna em ninhais ativos.',
     full_description: '', species: 'Anodorhynchus hyacinthinus', biome: 'Cerrado',
     country: 'Brasil', lat: null, lng: null,
     cover_image_url: 'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?w=900&auto=format&fit=crop&q=80',
@@ -141,7 +141,7 @@ export default function FeaturedProjects({ projects, totalCount }: Props) {
         <div className="flex flex-wrap items-end justify-between gap-10 mb-14">
           <div>
             <p className="eyebrow mb-3.5">Em destaque · Edição abril</p>
-            <h2 className="font-serif text-forest font-light leading-[1.1]"
+            <h2 className="font-sans text-forest font-light leading-[1.1]"
                 style={{ fontSize: 'clamp(36px, 5vw, 56px)' }}>
               Projetos em destaque
             </h2>

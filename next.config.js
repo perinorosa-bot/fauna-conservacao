@@ -10,6 +10,22 @@ const nextConfig = {
       { protocol: 'https', hostname: '*.supabase.co' },
     ],
   },
+  async redirects() {
+    return [
+      // Loja interna pausada — toda visita a /loja* (incluindo sucesso/troca)
+      // vai pra Uma Penca, que é a loja oficial em uso.
+      {
+        source: '/loja/:path*',
+        destination: 'https://umapenca.com/fauna-conservacao',
+        permanent: false,
+      },
+      {
+        source: '/loja',
+        destination: 'https://umapenca.com/fauna-conservacao',
+        permanent: false,
+      },
+    ]
+  },
 }
 
 module.exports = withNextIntl(nextConfig)

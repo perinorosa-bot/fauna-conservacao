@@ -7,17 +7,17 @@ type PersonaId = 'doador' | 'ong' | 'empresa'
 
 const FLOWS: Record<PersonaId, { label: string; sub: string; steps: { title: string; desc: string }[] }> = {
   doador: {
-    label: 'Doadores',
+    label: 'Doador individual',
     sub:   'Apoie projetos que você acompanha de perto.',
     steps: [
       { title: 'Cadastre-se',         desc: 'Crie sua conta em segundos com um e-mail. Sem burocracia.' },
       { title: 'Escolha um projeto',  desc: 'Explore organizações verificadas por bioma, espécie ou país.' },
-      { title: 'Faça a doação',       desc: 'Pagamento via cartão, boleto ou Pix. 100% vai direto à organização.' },
+      { title: 'Faça a doação',       desc: 'Pagamento seguro via Stripe. A Fauna não cobra comissão sobre o valor doado.' },
       { title: 'Acompanhe',           desc: 'Receba as atualizações do projeto no seu perfil de doador.' },
     ],
   },
   ong: {
-    label: 'Organizações',
+    label: 'ONG / projeto de conservação da fauna',
     sub:   'Receba doações diretas, sem intermediários.',
     steps: [
       { title: 'Cadastre sua ONG',       desc: 'Documentação passa por verificação em três níveis pela equipe Fauna.' },
@@ -27,10 +27,10 @@ const FLOWS: Record<PersonaId, { label: string; sub: string; steps: { title: str
     ],
   },
   empresa: {
-    label: 'Empresas',
+    label: 'Doador institucional',
     sub:   'Patrocine projetos e crie conexões institucionais.',
     steps: [
-      { title: 'Escolha um projeto',  desc: 'Selecione a iniciativa de conservação alinhada à sua marca ou ESG.' },
+      { title: 'Escolha um projeto',  desc: 'Selecione a iniciativa de conservação da fauna alinhada à sua marca ou ESG.' },
       { title: 'Envie uma mensagem', desc: 'Conte pra gente o que você busca: patrocínio, parceria, ações conjuntas.' },
       { title: 'Fazemos a conexão',  desc: 'Articulamos a parceria diretamente com a organização responsável.' },
     ],
@@ -46,11 +46,7 @@ const TRANSPARENCY: Record<Exclude<PersonaId, 'empresa'>, { title: string; body:
   doador: [
     {
       title: 'Para onde vai sua doação',
-      body:  'A Fauna não cobra comissão — o valor cai direto na conta da organização. No checkout você vê a taxa de processamento do cartão (≈3,99% + R$ 0,39; menor no Pix) e pode optar por cobri-la, para a ONG receber o valor cheio.',
-    },
-    {
-      title: 'Imposto de Renda',
-      body:  'A dedutibilidade depende do registro da organização (OSCIP, CEBAS ou utilidade pública federal). A Fauna confere esses documentos no cadastro; o recibo fiscal vem direto da organização que recebeu sua doação.',
+      body:  'A Fauna não fica com nenhum centavo — sem comissão, sem mensalidade. As taxas de processamento são cobradas pelo Stripe e você pode optar por cobri-las no checkout, para a organização receber o valor cheio.',
     },
     {
       title: 'Doação mensal',
@@ -79,6 +75,13 @@ export default function HowItWorksTimeline() {
   useEffect(() => {
     const saved = (typeof window !== 'undefined' && localStorage.getItem('fauna_audience')) as PersonaId | null
     if (saved && PERSONA_ORDER.includes(saved)) setPersona(saved)
+
+    function onChange(e: Event) {
+      const id = (e as CustomEvent<PersonaId>).detail
+      if (id && PERSONA_ORDER.includes(id)) setPersona(id)
+    }
+    window.addEventListener('fauna:audience-changed', onChange)
+    return () => window.removeEventListener('fauna:audience-changed', onChange)
   }, [])
 
   const flow = FLOWS[persona]
@@ -97,34 +100,40 @@ export default function HowItWorksTimeline() {
             Como funciona
           </p>
           <h2
-            className="font-serif text-forest font-light leading-[1.05]"
+            className="font-sans text-forest font-light leading-[1.05]"
             style={{ fontSize: 'clamp(44px, 6vw, 80px)' }}
           >
-            Três caminhos para apoiar conservação
+            Três caminhos para apoiar conservação da fauna
           </h2>
         </div>
 
-        {/* Tabs por perfil — em verde forest sólido */}
-        <div
-          className="inline-flex flex-wrap gap-1 mb-12 p-1.5 rounded-[6px]"
-          style={{
-            background: 'var(--forest)',
-            border:     '1px solid rgba(237,229,208,0.12)',
-          }}
+        {/* Label de instrução — deixa explícito que as tabs são uma escolha */}
+        <p
+          className="font-sans text-forest/70 mb-5"
+          style={{ fontSize: 'clamp(18px, 1.5vw, 22px)' }}
         >
+          Eu sou…
+        </p>
+
+        {/* Tabs por perfil — três pílulas independentes */}
+        <div className="relative z-10 flex flex-wrap gap-3 mb-12">
           {PERSONA_ORDER.map(id => (
             <button
               key={id}
+              type="button"
               onClick={() => setPersona(id)}
+              aria-pressed={persona === id}
               className={clsx(
-                'font-mono tracking-[0.22em] uppercase px-5 py-3 rounded-[3px] transition-all',
+                'relative z-10 cursor-pointer font-mono tracking-[0.18em] uppercase px-7 py-4 rounded-[8px] transition-all',
                 persona === id
-                  ? 'bg-terra/85 text-cream'
-                  : 'text-cream/55 hover:text-cream hover:bg-white/[0.04]',
+                  ? 'bg-terra text-cream'
+                  : 'bg-forest text-cream/90 hover:text-cream hover:bg-forest/90 ring-1 ring-cream/30 hover:ring-cream/55',
               )}
               style={{
-                fontSize: 12,
-                boxShadow: persona === id ? '0 2px 14px rgba(196,82,42,0.35)' : 'none',
+                fontSize: 15,
+                boxShadow: persona === id
+                  ? '0 4px 18px rgba(196,82,42,0.45)'
+                  : '0 2px 10px rgba(26,53,40,0.18)',
               }}
             >
               {FLOWS[id].label}
@@ -133,7 +142,7 @@ export default function HowItWorksTimeline() {
         </div>
 
         {/* Sub-frase do perfil */}
-        <p className="font-serif text-forest/75 mb-20 max-w-[680px]"
+        <p className="font-sans text-forest/75 mb-20 max-w-[680px]"
            style={{ fontSize: 'clamp(20px, 2vw, 26px)' }}>
           {flow.sub}
         </p>
@@ -184,7 +193,7 @@ export default function HowItWorksTimeline() {
                   }}
                 >
                   <span
-                    className="font-serif text-cream font-light px-6 leading-[1.15]"
+                    className="font-sans text-cream font-light px-6 leading-[1.15]"
                     style={{
                       fontSize:   'clamp(22px, 2.4vw, 32px)',
                       textShadow: '0 2px 12px rgba(0,0,0,0.5)',
@@ -221,10 +230,15 @@ export default function HowItWorksTimeline() {
               className="font-mono uppercase tracking-[0.32em] text-terra mb-10"
               style={{ fontSize: 11 }}
             >
-              Transparência · {persona === 'doador' ? 'Doador' : 'Organização'}
+              Transparência · {persona === 'doador' ? 'Doador individual' : 'Organização'}
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-12">
+            <div
+              className={clsx(
+                'grid grid-cols-1 gap-x-12 gap-y-12',
+                TRANSPARENCY[persona].length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3',
+              )}
+            >
               {TRANSPARENCY[persona].map((item, i) => (
                 <div key={item.title} className="flex flex-col">
                   <div
@@ -233,7 +247,7 @@ export default function HowItWorksTimeline() {
                     {String(i + 1).padStart(2, '0')}
                   </div>
                   <h3
-                    className="font-serif text-forest font-light leading-[1.2] mb-4"
+                    className="font-sans text-forest font-light leading-[1.2] mb-4"
                     style={{ fontSize: 'clamp(22px, 2vw, 26px)' }}
                   >
                     {item.title}

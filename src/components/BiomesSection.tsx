@@ -132,7 +132,7 @@ export default function BiomesSection() {
             <p className="eyebrow mb-6">Biomas</p>
 
             <h2
-              className="font-serif text-cream font-light leading-[0.95] mb-3.5"
+              className="font-sans text-cream font-light leading-[0.95] mb-3.5"
               style={{
                 fontSize:      'clamp(56px, 8vw, 120px)',
                 letterSpacing: '-0.02em',
@@ -141,7 +141,7 @@ export default function BiomesSection() {
             >
               {b.name}
             </h2>
-            <p className="font-serif italic text-cream/55 mb-10" style={{ fontSize: 22 }}>
+            <p className="font-sans italic text-cream/55 mb-10" style={{ fontSize: 22 }}>
               {b.sci}
             </p>
 
@@ -153,7 +153,7 @@ export default function BiomesSection() {
             <div className="grid grid-cols-2 max-w-[520px] border-t border-cream/[0.18]">
               <div className="py-5 pr-6 border-r border-cream/[0.12]">
                 <div className="label-mono mb-2.5">Projetos ativos</div>
-                <div className="font-serif font-light text-cream leading-none" style={{ fontSize: 48 }}>
+                <div className="font-sans font-light text-cream leading-none" style={{ fontSize: 48 }}>
                   {b.projects}
                 </div>
               </div>
@@ -196,7 +196,7 @@ export default function BiomesSection() {
                     borderTop: i === 0 ? '1px solid rgba(237,229,208,0.15)' : '1px solid rgba(237,229,208,0.08)',
                   }}
                 >
-                  <div className="font-serif italic font-light text-cream" style={{ fontSize: 18 }}>
+                  <div className="font-sans italic font-light text-cream" style={{ fontSize: 18 }}>
                     {sp}
                   </div>
                   <div className="font-mono text-[9px] tracking-[0.2em] uppercase text-cream/45">
@@ -225,7 +225,7 @@ export default function BiomesSection() {
                           style={{ color: i === active ? 'var(--terra)' : 'rgba(237,229,208,0.4)' }}>
                       0{i + 1}
                     </span>
-                    <span className="font-serif font-light"
+                    <span className="font-sans font-light"
                           style={{
                             fontSize: 18,
                             color:    i === active ? 'var(--cream)' : 'rgba(237,229,208,0.75)',

@@ -13,3 +13,7 @@ tsconfig.tsbuildinfo
 
 # Playwright MCP artifacts (snapshots, console logs)
 .playwright-mcp/
+
+# Source archives (font/media zips e seus extracted/) — não devem entrar no repo
+*.zip
+_*_extracted/

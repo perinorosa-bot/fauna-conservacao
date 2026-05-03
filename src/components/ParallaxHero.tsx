@@ -48,7 +48,7 @@ export default function ParallaxHero() {
 
         <div className="max-w-2xl">
           <h1
-            className="font-serif font-light text-cream leading-[1.05] mb-7"
+            className="font-sans font-light text-cream leading-[1.05] mb-7"
             style={{ fontSize: 'clamp(44px, 7vw, 92px)', textShadow: '0 2px 32px rgba(0,0,0,0.5)' }}
           >
             {t('headline1')}<br />

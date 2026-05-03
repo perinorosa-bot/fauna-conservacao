@@ -118,7 +118,7 @@ function ProjectCard({ project }: { project: ProjectWithOrg }) {
             {project.species.split(' ')[0]}
           </span>
         )}
-        <h3 className="font-serif text-cream text-base font-light leading-snug line-clamp-2 mb-2">
+        <h3 className="font-sans text-cream text-base font-light leading-snug line-clamp-2 mb-2">
           {project.title}
         </h3>
         <p className="text-cream/45 text-[10px] truncate">

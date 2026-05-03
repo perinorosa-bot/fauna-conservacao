@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
     const { error: updErr } = await supabase
       .from('organizations')
-      .update({ verified })
+      .update({ verified, verified_at: verified ? new Date().toISOString() : null })
       .eq('id', orgId)
     if (updErr) throw updErr
 

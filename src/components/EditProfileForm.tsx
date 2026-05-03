@@ -37,28 +37,21 @@ export default function EditProfileForm({
   return (
     <form onSubmit={handleSave} className="flex items-end gap-4">
       <div className="flex-1">
-        <label className="text-cream/50 text-xs tracking-wide block mb-1.5">Nome completo</label>
+        <label className="input-label-dark">Nome completo</label>
         <input
           type="text"
           value={name}
           onChange={e => setName(e.target.value)}
           placeholder="Seu nome"
-          className="w-full bg-white/[0.06] border border-white/[0.10] rounded-sm px-4 py-3
-                     text-cream text-sm placeholder:text-cream/25 focus:outline-none
-                     focus:border-sage/50 transition-colors"
+          className="input-field-dark"
         />
       </div>
       <div className="flex flex-col gap-1 items-start">
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-leaf text-cream text-xs tracking-widest uppercase px-6 py-3 rounded-sm
-                     hover:bg-sage transition-colors disabled:opacity-50"
-        >
+        <button type="submit" disabled={loading} className="btn-primary">
           {loading ? 'Salvando...' : 'Salvar'}
         </button>
         {saved && <span className="text-sage text-[10px]">Salvo</span>}
-        {error && <span className="text-red-400 text-[10px]">{error}</span>}
+        {error && <span className="input-error-dark">{error}</span>}
       </div>
     </form>
   )

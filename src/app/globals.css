@@ -13,7 +13,6 @@
   --cream:     #EDE5D0;   /* papel envelhecido — texto / fundo claro    */
   --parchment: #F5EFE0;   /* pergaminho — fundos light                  */
   --ochre:     #B5834A;   /* ocre de mapa antigo                        */
-  --warm:      #B5834A;
   --prussian:  #2E5FA3;   /* azul prussiano — atlas botânicos / RL navy */
   --terra:     #C4522A;   /* terracota — vida / doação (accent)         */
   --moonstone: #F5F5F5;   /* cinza-pedra — substitui o branco            */
@@ -40,8 +39,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.font-serif    { font-synthesis: none; }
-.font-cormorant{ font-synthesis: none; letter-spacing: -0.01em; }
+.font-sans { font-synthesis: none; }
 
 /* ─── Sem itálicos no site (decisão de design) ─────────
    Cobre tags semânticas (em, i, cite, var, address, dfn) e a
@@ -133,10 +131,10 @@ body::after {
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--terra);
-  opacity: 0.85;
+  font-weight: 500;
 }
 .label-mono {
-  font-family: var(--font-spathafold);
+  font-family: ui-monospace, Menlo, Consolas, monospace;
   font-size: 9px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -169,12 +167,13 @@ body::after {
   /* Primary action button — terracota (doação / vida) */
   .btn-primary {
     @apply inline-flex items-center justify-center
-           px-8 py-3.5 rounded-sm
+           px-7 py-3.5 rounded-sm
            bg-terra text-cream
            font-sans font-bold text-[10px] tracking-widest uppercase
            transition-all duration-200
            hover:bg-[#A8431C] hover:-translate-y-px
-           active:translate-y-0;
+           active:translate-y-0
+           disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:bg-terra;
   }
 
   /* Alias explícito para clareza semântica */
@@ -183,46 +182,126 @@ body::after {
   /* Science/explore button — azul prussiano */
   .btn-prussian {
     @apply inline-flex items-center justify-center
-           px-8 py-3.5 rounded-sm
+           px-7 py-3.5 rounded-sm
            bg-prussian text-cream
            font-sans font-bold text-[10px] tracking-widest uppercase
            transition-all duration-200
            hover:bg-[#264E8A] hover:-translate-y-px
-           active:translate-y-0;
+           active:translate-y-0
+           disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:bg-prussian;
+  }
+
+  /* Solid forest button — used for "Cadastrar projeto" e similares */
+  .btn-forest {
+    @apply inline-flex items-center justify-center
+           px-7 py-3.5 rounded-sm
+           bg-forest text-cream
+           font-sans font-bold text-[10px] tracking-widest uppercase
+           transition-all duration-200
+           hover:bg-basalt hover:-translate-y-px
+           active:translate-y-0
+           disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:bg-forest;
   }
 
   /* Secondary action button — outline (dark bg) */
   .btn-outline {
     @apply inline-flex items-center justify-center
-           px-8 py-3.5 rounded-sm
+           px-7 py-3.5 rounded-sm
            border border-white/20 text-cream/60
            font-sans font-bold text-[10px] tracking-widest uppercase
            transition-all duration-200
            hover:text-cream hover:border-white/45 hover:-translate-y-px
-           active:translate-y-0;
+           active:translate-y-0
+           disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0;
   }
 
   /* Secondary action button — outline (light bg) */
   .btn-outline-dark {
     @apply inline-flex items-center justify-center
-           px-8 py-3.5 rounded-sm
+           px-7 py-3.5 rounded-sm
            border border-forest/25 text-forest/60
            font-sans font-bold text-[10px] tracking-widest uppercase
            transition-all duration-200
            hover:text-forest hover:border-forest/50 hover:-translate-y-px
-           active:translate-y-0;
+           active:translate-y-0
+           disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0;
   }
+
+  /* Ghost text button — link com peso editorial */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center
+           bg-transparent text-forest
+           font-sans font-bold text-[10px] tracking-widest uppercase
+           py-2 px-0
+           transition-colors duration-200
+           hover:text-terra
+           disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  /* ─── Inputs / formulários (DSS §05) ─────────────────── */
+  .input-field {
+    @apply w-full bg-moonstone text-forest
+           border border-forest/15 rounded
+           px-4 py-3.5 font-sans text-sm
+           outline-none transition-colors duration-200
+           placeholder:text-forest/35
+           focus:border-terra
+           disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  .input-field.error,
+  .input-field[aria-invalid="true"] { @apply border-terra; }
+
+  .input-label {
+    @apply block text-[9px] tracking-[0.24em] uppercase
+           text-forest/50 font-medium mb-1.5;
+  }
+
+  .input-help { @apply text-[11px] text-forest/50 mt-1.5; }
+  .input-error { @apply text-[11px] text-terra mt-1.5; }
+
+  /* ─── Inputs em fundo escuro (mesma anatomia, paleta invertida) ─── */
+  .input-field-dark {
+    @apply w-full bg-cream/[0.05] text-cream
+           border border-cream/15 rounded
+           px-4 py-3.5 font-sans text-sm
+           outline-none transition-colors duration-200
+           placeholder:text-cream/30
+           focus:border-terra focus:bg-cream/[0.08]
+           disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  .input-field-dark.error,
+  .input-field-dark[aria-invalid="true"] { @apply border-terra; }
+
+  .input-label-dark {
+    @apply block text-[9px] tracking-[0.24em] uppercase
+           text-cream/55 font-medium mb-1.5;
+  }
+
+  .input-help-dark { @apply text-[11px] text-cream/50 mt-1.5; }
+  .input-error-dark { @apply text-[11px] text-terra mt-1.5; }
 
   /* Section eyebrow label */
   .section-eyebrow {
     @apply block text-sage text-[10px] tracking-widest uppercase mb-10;
   }
 
-  /* Card (project / update) */
+  /* Card (project / update) — variante padrão dark */
   .card {
     @apply bg-white/5 border border-white/[0.07] rounded-lg overflow-hidden
            transition-all duration-300
            hover:bg-white/[0.07] hover:border-sage/20;
+  }
+
+  /* Card light — DSS §00 (fundo branco editorial) */
+  .card-light {
+    background: #FFFFFF;
+    border: 1px solid rgba(26, 53, 40, 0.06);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.6) inset,
+      0 1px 2px rgba(26, 53, 40, 0.02),
+      0 12px 32px -16px rgba(26, 53, 40, 0.08);
   }
 
   /* Inline text link style for editorial body copy */
@@ -233,7 +312,7 @@ body::after {
 
   /* Legal / editorial prose on light background */
   .prose-fauna h2 {
-    @apply font-serif text-2xl font-light text-forest mt-10 mb-4;
+    @apply font-sans text-2xl font-light text-forest mt-10 mb-4;
   }
   .prose-fauna p {
     @apply text-forest/60 text-sm leading-loose mb-5;

@@ -22,21 +22,14 @@ module.exports = {
         terra:     '#C4522A',   // terracota — vida / doação (accent)
         moonstone: '#F5F5F5',   // cinza-pedra — substitui o branco em superfícies
 
-        // Aliases mantidos pra não quebrar componentes existentes
-        warm:      '#B5834A',
-        sand:      '#EDE5D0',
-        stone:     '#A89070',
-        coffee:    '#B5834A',
-        gum:       '#7A9E7E',
-        moss:      '#3D4A1E',
+        // Alias retido — `warm` ainda referenciado em ~15 lugares
+        warm: '#B5834A',
       },
       fontFamily: {
-        // Teste tipográfico — SpathaFold em todas as famílias
-        sans:      ['var(--font-spathafold)', 'system-ui', 'sans-serif'],
-        serif:     ['var(--font-spathafold)', 'Georgia', 'serif'],
-        display:   ['var(--font-spathafold)', 'Georgia', 'serif'],
-        cormorant: ['var(--font-spathafold)', 'Georgia', 'serif'],
-        mono:      ['var(--font-spathafold)', 'ui-monospace', 'monospace'],
+        // DSS define uma única família para texto: Spathafold.
+        // mono = system monospace real (specs, hex, meta) — contraste técnico
+        sans: ['var(--font-spathafold)', 'system-ui', 'sans-serif'],
+        mono: ['ui-monospace', 'Menlo', 'Consolas', 'monospace'],
       },
     },
   },

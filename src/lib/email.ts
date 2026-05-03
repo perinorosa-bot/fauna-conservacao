@@ -68,7 +68,7 @@ function layout(title: string, body: string): string {
     ${body}
     <hr style="border: none; border-top: 1px solid #e6dfc8; margin: 32px 0 16px;" />
     <p style="font-size: 12px; color: #888;">
-      Fauna — plataforma para projetos de conservação<br/>
+      Fauna — plataforma para projetos de conservação da fauna<br/>
       <a href="${SITE_URL}" style="color: #5a7a5a;">${SITE_URL.replace(/^https?:\/\//, '')}</a>
     </p>
   </div>
@@ -95,7 +95,7 @@ type DonationEmailArgs = {
 }
 
 /**
- * Dispara dois e-mails: um para o doador (recibo) e um para a org (notificação).
+ * Dispara dois e-mails: um para o doador (confirmação) e um para a org (notificação).
  * Falhas são capturadas no Sentry — não relança.
  */
 export async function sendDonationEmails(args: DonationEmailArgs) {

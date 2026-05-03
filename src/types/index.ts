@@ -8,6 +8,7 @@ export type Organization = {
   website: string | null
   logo_url: string | null
   verified: boolean
+  verified_at: string | null
   user_id: string
 }
 

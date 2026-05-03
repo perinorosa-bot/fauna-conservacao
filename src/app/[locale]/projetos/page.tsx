@@ -14,7 +14,7 @@ const MOCK_PROJECTS: (Project & { organization: Organization | null })[] = [
     country: 'Brasil', lat: null, lng: null,
     cover_image_url: 'https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=600&auto=format&fit=crop&q=80',
     goal_amount: 120000, raised_amount: 87400, currency: 'BRL', status: 'active', tags: [],
-    organization: { id: '', created_at: '', name: 'Instituto Onça Viva', slug: '', description: '', country: 'Brasil', website: null, logo_url: null, verified: true, user_id: '' },
+    organization: { id: '', created_at: '', name: 'Instituto Onça Viva', slug: '', description: '', country: 'Brasil', website: null, logo_url: null, verified: true, verified_at: null, user_id: '' },
   },
   {
     id: 'mock-2', created_at: '', organization_id: '', slug: 'tartarugas-lencois',
@@ -24,7 +24,7 @@ const MOCK_PROJECTS: (Project & { organization: Organization | null })[] = [
     country: 'Brasil', lat: null, lng: null,
     cover_image_url: 'https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=600&auto=format&fit=crop&q=80',
     goal_amount: 65000, raised_amount: 41200, currency: 'BRL', status: 'active', tags: [],
-    organization: { id: '', created_at: '', name: 'Projeto Tamar', slug: '', description: '', country: 'Brasil', website: null, logo_url: null, verified: true, user_id: '' },
+    organization: { id: '', created_at: '', name: 'Projeto Tamar', slug: '', description: '', country: 'Brasil', website: null, logo_url: null, verified: true, verified_at: null, user_id: '' },
   },
   {
     id: 'mock-3', created_at: '', organization_id: '', slug: 'elefantes-amboseli',
@@ -34,7 +34,7 @@ const MOCK_PROJECTS: (Project & { organization: Organization | null })[] = [
     country: 'Quênia', lat: null, lng: null,
     cover_image_url: 'https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=600&auto=format&fit=crop&q=80',
     goal_amount: 200000, raised_amount: 134000, currency: 'USD', status: 'active', tags: [],
-    organization: { id: '', created_at: '', name: 'Amboseli Trust', slug: '', description: '', country: 'Quênia', website: null, logo_url: null, verified: true, user_id: '' },
+    organization: { id: '', created_at: '', name: 'Amboseli Trust', slug: '', description: '', country: 'Quênia', website: null, logo_url: null, verified: true, verified_at: null, user_id: '' },
   },
   {
     id: 'mock-4', created_at: '', organization_id: '', slug: 'wolves-yellowstone',
@@ -44,7 +44,7 @@ const MOCK_PROJECTS: (Project & { organization: Organization | null })[] = [
     country: 'EUA', lat: null, lng: null,
     cover_image_url: 'https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=600&auto=format&fit=crop&q=80',
     goal_amount: 180000, raised_amount: 95000, currency: 'USD', status: 'active', tags: [],
-    organization: { id: '', created_at: '', name: 'Yellowstone Wolf Project', slug: '', description: '', country: 'EUA', website: null, logo_url: null, verified: true, user_id: '' },
+    organization: { id: '', created_at: '', name: 'Yellowstone Wolf Project', slug: '', description: '', country: 'EUA', website: null, logo_url: null, verified: true, verified_at: null, user_id: '' },
   },
   {
     id: 'mock-5', created_at: '', organization_id: '', slug: 'coral-grande-barreira',
@@ -54,7 +54,7 @@ const MOCK_PROJECTS: (Project & { organization: Organization | null })[] = [
     country: 'Austrália', lat: null, lng: null,
     cover_image_url: 'https://images.unsplash.com/photo-1682687982501-1e58ab814714?w=600&auto=format&fit=crop&q=80',
     goal_amount: 250000, raised_amount: 178000, currency: 'AUD', status: 'active', tags: [],
-    organization: { id: '', created_at: '', name: 'Great Barrier Reef Foundation', slug: '', description: '', country: 'Austrália', website: null, logo_url: null, verified: true, user_id: '' },
+    organization: { id: '', created_at: '', name: 'Great Barrier Reef Foundation', slug: '', description: '', country: 'Austrália', website: null, logo_url: null, verified: true, verified_at: null, user_id: '' },
   },
   {
     id: 'mock-6', created_at: '', organization_id: '', slug: 'orangotangos-borneo',
@@ -64,7 +64,7 @@ const MOCK_PROJECTS: (Project & { organization: Organization | null })[] = [
     country: 'Malásia', lat: null, lng: null,
     cover_image_url: 'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=600&auto=format&fit=crop&q=80',
     goal_amount: 90000, raised_amount: 52000, currency: 'USD', status: 'active', tags: [],
-    organization: { id: '', created_at: '', name: 'Borneo Orangutan Survival', slug: '', description: '', country: 'Malásia', website: null, logo_url: null, verified: true, user_id: '' },
+    organization: { id: '', created_at: '', name: 'Borneo Orangutan Survival', slug: '', description: '', country: 'Malásia', website: null, logo_url: null, verified: true, verified_at: null, user_id: '' },
   },
   {
     id: 'mock-7', created_at: '', organization_id: '', slug: 'micos-leao-dourado',
@@ -74,7 +74,7 @@ const MOCK_PROJECTS: (Project & { organization: Organization | null })[] = [
     country: 'Brasil', lat: null, lng: null,
     cover_image_url: 'https://images.unsplash.com/photo-1540479859555-17af45c78602?w=600&auto=format&fit=crop&q=80',
     goal_amount: 75000, raised_amount: 61000, currency: 'BRL', status: 'active', tags: [],
-    organization: { id: '', created_at: '', name: 'AMLD Brasil', slug: '', description: '', country: 'Brasil', website: null, logo_url: null, verified: true, user_id: '' },
+    organization: { id: '', created_at: '', name: 'AMLD Brasil', slug: '', description: '', country: 'Brasil', website: null, logo_url: null, verified: true, verified_at: null, user_id: '' },
   },
   {
     id: 'mock-8', created_at: '', organization_id: '', slug: 'tigres-bengala',
@@ -84,7 +84,7 @@ const MOCK_PROJECTS: (Project & { organization: Organization | null })[] = [
     country: 'Índia', lat: null, lng: null,
     cover_image_url: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=600&auto=format&fit=crop&q=80',
     goal_amount: 160000, raised_amount: 104000, currency: 'USD', status: 'active', tags: [],
-    organization: { id: '', created_at: '', name: 'Wildlife Institute of India', slug: '', description: '', country: 'Índia', website: null, logo_url: null, verified: true, user_id: '' },
+    organization: { id: '', created_at: '', name: 'Wildlife Institute of India', slug: '', description: '', country: 'Índia', website: null, logo_url: null, verified: true, verified_at: null, user_id: '' },
   },
 ]
 
