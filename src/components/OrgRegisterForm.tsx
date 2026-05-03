@@ -4,12 +4,14 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
+import { applyAuthError } from '@/lib/supabase/translate-auth-error'
 import { COUNTRIES } from '@/lib/countries'
 
 export default function OrgRegisterForm() {
   const router = useRouter()
   const supabase = createClient()
   const t = useTranslations('authForms.orgRegister.form')
+  const tErr = useTranslations('authErrors')
 
   const [step, setStep]     = useState<'account' | 'confirm' | 'org'>('account')
   const [loading, setLoading] = useState(false)
@@ -79,7 +81,7 @@ export default function OrgRegisterForm() {
     })
 
     setLoading(false)
-    if (authError) { setError(authError.message); return }
+    if (authError) { setError(applyAuthError(authError, tErr)); return }
 
     if (!data.session) {
       // Supabase requires email confirmation before creating session
@@ -109,7 +111,7 @@ export default function OrgRegisterForm() {
       logo_url:    logoUrl || null,
     })
 
-    if (dbError) { setError(dbError.message); setLoading(false); return }
+    if (dbError) { setError(tErr('saveOrgFailed')); setLoading(false); return }
 
     // Set profile role to organization
     await supabase.from('profiles').update({ role: 'organization' }).eq('id', uid)
